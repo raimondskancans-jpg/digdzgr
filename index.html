@@ -118,7 +118,8 @@
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
     .page3-title { font-size: 1.3rem; font-weight: 800; color: #111111; }
     .top-right-tools { display: flex; align-items: center; gap: 6px; }
-    .icon-btn { background: #f1f5f9; border: 1px solid #cbd5e1; font-size: 1rem; cursor: pointer; padding: 5px 8px; border-radius: 10px; }
+    .icon-btn { background: #f1f5f9; border: 1px solid #cbd5e1; font-size: 1rem; cursor: pointer; padding: 5px 8px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .icon-btn svg { width: 16px; height: 16px; fill: currentColor; }
 
     .search-panel { display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 8px; margin-bottom: 8px; flex-shrink: 0; }
     .search-input-full { width: 100%; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 8px; padding: 8px; font-size: 0.82rem; outline: none; margin-bottom: 4px; }
@@ -250,9 +251,12 @@
       <div class="top-bar">
         <h2 class="page3-title">Satura rādītājs</h2>
         <div class="top-right-tools">
-          <button class="icon-btn" id="headerLockBtn">🔒</button>
-          <button class="icon-btn" onclick="showTvInfo()">📺</button>
-          <button class="icon-btn" id="searchBtn3" onclick="toggleSearch('searchBox3')">🔍</button>
+          <button class="icon-btn" id="headerLockBtn" title="Bloķēt / Pievienot">🔒</button>
+          <button class="icon-btn" id="castBtn" onclick="triggerCast()" title="Pārraidīt uz TV">
+            <!-- Cast / Pārraides ikonas simbols -->
+            <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.92-11-11-11z"/></svg>
+          </button>
+          <button class="icon-btn" id="searchBtn3" onclick="toggleSearch('searchBox3')" title="Meklēt">🔍</button>
         </div>
       </div>
 
@@ -292,9 +296,11 @@
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(5)">📖 Vārdi</span>
         <div class="top-right-tools">
-          <button class="icon-btn" id="songLockBtn">🔒</button>
-          <button class="icon-btn" onclick="showTvInfo()">📺</button>
-          <button class="icon-btn" onclick="showPage(3)">⬅ Saraksts</button>
+          <button class="icon-btn" id="songLockBtn" title="Rediģēt">🔒</button>
+          <button class="icon-btn" onclick="triggerCast()" title="Pārraidīt uz TV">
+            <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.92-11-11-11z"/></svg>
+          </button>
+          <button class="icon-btn" onclick="showPage(3)" title="Saraksts">⬅</button>
         </div>
       </div>
 
@@ -374,7 +380,7 @@
   </div>
 
   <script>
-    const APP_VERSION = "2026-v3.6"; 
+    const APP_VERSION = "2026-v3.8"; 
 
     let currentSongId = '001';
     let isEditMode = false;
@@ -486,7 +492,7 @@
           "Auksti vēji laukos pūš,\nSniega kupenas augstu aug;\nMēs ar dziesmu sargāsim\nSavu mīļo mājas soli.",
           "Februāris – sveču diena,\nGaisma nāk un tumsa atkāpjas;\nDziedot svinam gaismas svētkus,\nPrieks un laime sirdī līst.",
           "Sniegoti un balti ceļi,\nTālu skats pār druvām iet;\nTautasdziesma ceļu rāda,\nKā lai droši tālāk iem.",
-          "Vējš ap stūriem dziesmu dzied,\nSarmas sega zemi klāj;\nMēs ar dziesmu modinām\nSirdi mīļam brītiņam.",
+          "Vējs ap stūriem dziesmu dzied,\nSarmas sega zemi klāj;\nMēs ar dziesmu modinām\nSirdi mīļam brītiņam.",
           "Ziemas pēdējais jau gads,\nDrīz jau putni atgriezīsies;\nTikmēr skan vēl sena dziesma\nSiltā istabas kaktā.",
           "Sveču liesmas klusi mirgo,\nVakars nolaižas pār zemi;\nDziesma skan kā drošinājums\nPretī pavasara saultei.",
           "Sals vēl kož un vaigus sārtina,\nBet jau cerība sirdī kvēlo;\nSkandināsim dziesmas kopā,\nLīdz ar saules stariem."
@@ -504,7 +510,7 @@
           "Viss ir pilns ar jaunu spēku,\nZeme zaļot sāk un plaukst;\nTautasdziesma ceļas spārnos,\nNesot prieku ikvienam.",
           "Gaiši stari logā iespīd,\nLedus gabali pa upi peld;\nMēs ar dziesmu uzgavilējam\nPavasara pirmajiem soļiem.",
           "Siltāks kļūst ikkatru dienu,\nZeme tvaiko saules staros;\nSkan jau pirmā putnu dziesma,\nLīdz ar mūsu tautasdziesmu.",
-          "Pavasara vējš mums glāsta matus,\nPrieks un cerība mīt sirdī;\nDziedāsim un priecāsimies\nPar atmostošos dabu."
+          "Pavasara vējs mums glāsta matus,\nPrieks un cerība mīt sirdī;\nDziedāsim un priecāsimies\nPar atmostošos dabu."
         ]
       },
       3: {
@@ -575,7 +581,7 @@
           "Zelta saule lēnāk riet,\nSilti vakari un miers;\nDziesma skan no paaudzes,\nSaglabājot tēvu mantu.",
           "Labība nopļauta, sakrauti gubās,\nSaimnieki priecājas par ražu;\nTautasdziesma skan pār sētām,\nPateicoties par maizīti.",
           "Pēdējie vasaras ziedi zied,\nAgrie rīti jau ar miglu klājas;\nMēs ar dziesmu sasildāmies\nPretī rudenim ejot.",
-          "Zvaigžas krīt augusta naktīs,\nVēlēšanās klusi tiek teiktas;\nDziesma skan pie ugunskura,\nSagatavojot mūs rudenim.",
+          "Zvaigžas krīt augusta naktīs,\nVēstules un vēlēšanās klusi tiek teiktas;\nDziesma skan pie ugunskura,\nSagatavojot mūs rudenim.",
           "Āboli smaržo un bumbieri krīt,\nSkaists ir augusta dārzs;\nMēs ar dziesmu godinām\nDabas dāsnumu un spēku.",
           "Dienas kļūst īsākas, vakari garāki,\nBet dziesmas paliek tikpat skanīgas;\nSvinam ražas svētkus visi kopā\nAr smaidu un dziesmu lūpās.",
           "Silta augusta pēcpusdiena,\nBišu dūkoņa un ziedu smarža;\nTautasdziesma pavada mūs\nUz jaunajiem rudens darbiem.",
@@ -592,7 +598,7 @@
           "Rudens krāsas kokos mirdz,\nSaule zelta stariem rotājas;\nMēs ar dziesmām sagaidām\nJauno rudens cēlienu.",
           "Skolas gaitas bērniem sākas,\nGrāmatas un burtnīcas somā;\nBet vakarā pie kamīna\nSkan sena un mīļa dziesma.",
           "Septembris – ražas un dāvanu laiks,\nViss klēts kakts pilns ar labumiem;\nDziesma skan par godu zemei,\nKas mūs baro un sargā.",
-          "Vēsāks vējš pār tīrumiem pūš,\ndaba pošas mieram un klusumam;\nMēs ar dziesmu uzmundrinām\nSavu sirdi un savus draugus.",
+          "Vēsāks vējš pār tīrumiem pūš,\nDaba pošas mieram un klusumam;\nMēs ar dziesmu uzmundrinām\nSavu sirdi un savus draugus.",
           "Zelta rudens klāt ir jau,\nDabas skaistums visapkārt staro;\nTautasdziesma skan tik skaidri\nŠajā dzidrajā rudenī.",
           "Rudens lapu čaboņa zem kājām,\nGaisā jūtams pirmais saltiņš;\nDziedāsim un turēsimies kopā\nAr skaistām dziesmām sirdī."
         ]
@@ -775,6 +781,20 @@
     }, () => {
       updateMonthlyFolkSong();
     });
+
+    // Smart TV / Cast tiešais savienojums, izmantojot pārlūka Remote Playback API
+    async function triggerCast() {
+      if (window.RemotePlayback && document.createElement('video').remotePlayback) {
+        try {
+          const dummyVideo = document.createElement('video');
+          await dummyVideo.remotePlayback.prompt();
+        } catch (err) {
+          alert("📺 Pārraides logs netika atvērts vai ierīce neatbalsta tiešo savienojumu. Izmantojiet ekrāna spoguļošanu (Screen Mirroring).");
+        }
+      } else {
+        alert("📺 Lai pārraidītu uz Smart TV:\nAtveriet pārlūka izvēlni (...) un izvēlieties 'Pārraidīt' (Cast) vai izmantojiet ierīces ekrāna spoguļošanu.");
+      }
+    }
 
     function addNewSongOnly() {
       let defaultId = getNextAvailableId();
@@ -960,7 +980,7 @@
         window.open(finalUrl, '_blank');
       } else {
         const fullTitle = document.getElementById('currentSongTitle').innerText;
-        const songTitle = fullTitle.replace(/^\d+\.\s*/, '').test ? fullTitle.replace(/^\d+\.\s*/, '').trim() : '';
+        const songTitle = fullTitle.replace(/^\d+\.\s*/, '').trim();
         const encodedQuery = encodeURIComponent(songTitle);
 
         let targetUrl = "";
@@ -992,8 +1012,6 @@
       const box = document.getElementById(elementId);
       box.style.display = (box.style.display === 'block') ? 'none' : 'block';
     }
-
-    function showTvInfo() { alert("📺 TV Transliācija:\nAtveriet šo pašu saiti TV pārlūkā vai izmantojiet Screen Mirroring."); }
 
     document.getElementById('geminiMainBtn').addEventListener('click', () => {
       const currentTitles = savedSongsList.map(s => `${s.id}. ${s.title}`).join(", ");
