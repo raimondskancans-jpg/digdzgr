@@ -50,10 +50,7 @@
     .avatar-modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(0, 0, 0, 0.92);
       z-index: 9999;
       justify-content: center;
@@ -62,28 +59,10 @@
       backdrop-filter: blur(8px);
     }
     .avatar-modal img {
-      max-width: 90vw;
-      max-height: 80vh;
-      border-radius: 20px;
-      border: 4px solid #ffd700;
-      box-shadow: 0 0 35px rgba(255, 215, 0, 0.6);
-      object-fit: contain;
+      max-width: 90vw; max-height: 80vh; border-radius: 20px; border: 4px solid #ffd700; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); object-fit: contain;
     }
     .avatar-modal .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      color: #fff;
-      font-size: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.2);
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: absolute; top: 20px; right: 20px; color: #fff; font-size: 2rem; font-weight: bold; cursor: pointer; background: rgba(255, 255, 255, 0.2); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
     }
 
     .header-1 { cursor: pointer; margin: 8px 0; }
@@ -163,6 +142,17 @@
     .lyrics-editor { width: 100%; height: 100%; border: none; outline: none; font-family: inherit; font-size: 0.92rem; line-height: 1.5; display: none; resize: none; color: #1e293b; }
     .save-btn { display: none; background: #16a34a; color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; flex-shrink: 0; }
 
+    .tv-modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);
+    }
+    .tv-modal-content {
+      background: #ffffff; border-radius: 20px; padding: 24px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: fadeIn 0.2s ease-in-out;
+    }
+    .tv-modal-content h3 { color: #d90429; font-size: 1.3rem; margin-bottom: 12px; }
+    .tv-modal-content p { color: #333; font-size: 0.92rem; line-height: 1.5; text-align: left; margin-bottom: 20px; }
+    .tv-modal-content p b { color: #111; }
+    .tv-close-btn { background: #d90429; color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.95rem; }
+
     .divider { border: none; border-top: 1px solid #eaeaea; margin: 4px 0; flex-shrink: 0; }
     .author-section { text-align: center; font-size: 0.75rem; color: #333333; margin-bottom: 2px; flex-shrink: 0; }
     .author-name { color: #d90429; font-weight: 800; font-size: 0.82rem; display: block; }
@@ -174,9 +164,22 @@
 
   <div class="page-container">
 
+    <!-- Avatar Zoom Modal -->
     <div id="avatarModal" class="avatar-modal" onclick="closeAvatarModal()">
       <span class="close-btn">&times;</span>
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
+    </div>
+
+    <!-- TV Instrukcijas / Cast Modal -->
+    <div id="tvModal" class="tv-modal">
+      <div class="tv-modal-content">
+        <h3>📺 Pārraidīšana uz TV</h3>
+        <p>Lai bez kļūdām un cilņu limitiem parādītu dziesmu vārdus uz lielā televizora ekrāna:<br><br>
+        1. Google Chrome pārlūkā augšējā labajā stūrī uzspied uz <b>trīs punktiem (...)</b>.<br>
+        2. Izvēlies opciju <b>'Pārraidīt...' (Cast)</b>.<br>
+        3. Izvēlies savu televizoru, lai uzreiz spoguļotu šo lapu!</p>
+        <button class="tv-close-btn" onclick="closeTvModal()">Skaidrs, sapratu 👍</button>
+      </div>
     </div>
 
     <!-- 1. EKRĀNS -->
@@ -209,9 +212,10 @@
         <div class="notes-icon">🎶</div>
         <h2 class="main-title">Dziesmu Grāmata</h2>
 
-        <div class="folk-card" onclick="updateMonthlyFolkSong()">
-          <div class="folk-header" id="folkHeader">☀️ Mēneša Tautasdziesmas</div>
-          <div class="folk-text" id="folkText">Ielādē ikmēneša tautasdziesmas...</div>
+        <!-- Noklikšķinot uz dzeltenās kārts, tagad mainās sezonas nākamā tautasdziesma -->
+        <div class="folk-card" onclick="nextSeasonalFolkSong()" title="Uzspied, lai redzētu nākamo gadalaika dziesmu!">
+          <div class="folk-header" id="folkHeader">🌸 Pavasara Tautasdziesmas</div>
+          <div class="folk-text" id="folkText">Ielādē gadalaika tautasdziesmas...</div>
         </div>
 
         <div class="thanks-card">
@@ -253,7 +257,6 @@
         <div class="top-right-tools">
           <button class="icon-btn" id="headerLockBtn" title="Bloķēt / Pievienot">🔒</button>
           <button class="icon-btn" id="castBtn" onclick="triggerCast()" title="Pārraidīt uz TV">
-            <!-- Cast / Pārraides ikonas simbols -->
             <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.92-11-11-11z"/></svg>
           </button>
           <button class="icon-btn" id="searchBtn3" onclick="toggleSearch('searchBox3')" title="Meklēt">🔍</button>
@@ -380,7 +383,7 @@
   </div>
 
   <script>
-    const APP_VERSION = "2026-v3.8"; 
+    const APP_VERSION = "2026-v4.3"; 
 
     let currentSongId = '001';
     let isEditMode = false;
@@ -467,188 +470,58 @@
       };
     });
 
-    const monthlyFolkDatabase = {
-      0: {
-        name: "Janvāris ❄️",
-        items: [
-          "Soli pa solim, sniegs kur visapkārt,\nDziedātāji pulcējas siltai dziesmai.\nZiemas aukstumā sirds lai silst,\nDziesmā kļūstot atkal jauns.",
-          "Ziemas vējā sniegspārsliņas dej,\nMazais bērns pie loga smej;\nSilta uguns pavardā,\nTēvu dziesmas istabā.",
-          "Sals un sniegs gar logu skrien,\nSarma zeltīt’ loga rūti;\nMēs gribam dziesmā rast\nSirds siltumu un prieku.",
-          "Baltas sniega segas klāj\nVisu tēvu zemīti;\nSkanīga un mīļa balsts\nSasilda mums sirsniņu.",
-          "Ziemas naktīs garas stundas,\nPūš un elš salstošais vējš;\nBet mums sirdī uguns deg,\nDziesmu skandinādami.",
-          "Sals pie loga rakstus pin,\nMazais bērns uz krāsns sildās;\nVecas dziesmas skan un skan,\nAtgādinot bērnību.",
-          "Pāri sniegiem bēri zirgi\nAizauļo uz mežmalu;\nMēs ar dziesmu sagaidām\nJaunu dienu spožumā.",
-          "Ziemas saule zemu, zemu,\nBet tā tomēr sirdi silda;\nDziesma skan caur puteni,\nNesot mieru mājās.",
-          "Sarmas ziedi logos viz,\nSilta tēja krūzē kūp;\nDziedāsim par tēvu zemi\nSkaistā ziemas vakarā.",
-          "Balts un kluss ir viss apkārt,\nTikai dziesmas skan tik spoži;\nZiemas prieks un saticība\nMūsu mājās vienmēr mājo."
-        ]
-      },
-      1: {
-        name: "Februāris 🌨️",
-        items: [
-          "Vēja pūsma logā klauvē,\nSveču gaisma istabā;\nSanākāt, bāleliņi,\nSildīsimies dziesmiņā!",
-          "Putina un snieg pa laukiem,\nZiemas mugurā jau pavasaris jūt;\nSkan dimdot tautasdziesma,\nSildot mūsu dvēselītes.",
-          "Pelēks debess, balta zeme,\nAplemojums kokos mirdz;\nSkanīga balss dziesmiņā\nAtsauc atkal pavasari.",
-          "Auksti vēji laukos pūš,\nSniega kupenas augstu aug;\nMēs ar dziesmu sargāsim\nSavu mīļo mājas soli.",
-          "Februāris – sveču diena,\nGaisma nāk un tumsa atkāpjas;\nDziedot svinam gaismas svētkus,\nPrieks un laime sirdī līst.",
-          "Sniegoti un balti ceļi,\nTālu skats pār druvām iet;\nTautasdziesma ceļu rāda,\nKā lai droši tālāk iem.",
-          "Vējs ap stūriem dziesmu dzied,\nSarmas sega zemi klāj;\nMēs ar dziesmu modinām\nSirdi mīļam brītiņam.",
-          "Ziemas pēdējais jau gads,\nDrīz jau putni atgriezīsies;\nTikmēr skan vēl sena dziesma\nSiltā istabas kaktā.",
-          "Sveču liesmas klusi mirgo,\nVakars nolaižas pār zemi;\nDziesma skan kā drošinājums\nPretī pavasara saultei.",
-          "Sals vēl kož un vaigus sārtina,\nBet jau cerība sirdī kvēlo;\nSkandināsim dziesmas kopā,\nLīdz ar saules stariem."
-        ]
-      },
-      2: {
-        name: "Marts 🌿",
+    // 4 Gadalaiku bagātīgās tautasdziesmu datubāzes kastītes
+    const seasonalFolkDatabase = {
+      pavasaris: {
+        name: "🌸 Pavasara Tautasdziesmas",
         items: [
           "Pavasaris tālē sauc,\nSniegi kūst un strauti tek;\nCīrulis jau gaisā dzied,\nDziesmu sirdī modinot.",
-          "Atmostas zeme no miega,\nStrautiņš burbuļo un skrien;\nPavasara saule silda,\nTautasdziesma sirdī līksmo.",
-          "Sniega malas lēnām kūst,\nGaisā jūtams pirmais siltums;\nPutni atlido un dzied,\nModinot visu pasauli.",
-          "Saule spīd un silda maigi,\nŪdens straumes jautri skrien;\nMēs ar dziesmu sagaidām\nZaļo pavasarīti.",
-          "Marts ar sniegu, marts ar sauli,\nPavasara vēstnesis klāt;\nDziesma skan pār laukiem platiem,\nModinot ikkatru sirdi.",
-          "Strauti dzied un putni sasaucas,\nDaba ceļas augšām jaunam ritmam;\nDziesmā ietērpts mūsu prieks\nPār pavasara druvām.",
-          "Viss ir pilns ar jaunu spēku,\nZeme zaļot sāk un plaukst;\nTautasdziesma ceļas spārnos,\nNesot prieku ikvienam.",
-          "Gaiši stari logā iespīd,\nLedus gabali pa upi peld;\nMēs ar dziesmu uzgavilējam\nPavasara pirmajiem soļiem.",
-          "Siltāks kļūst ikkatru dienu,\nZeme tvaiko saules staros;\nSkan jau pirmā putnu dziesma,\nLīdz ar mūsu tautasdziesmu.",
-          "Pavasara vējs mums glāsta matus,\nPrieks un cerība mīt sirdī;\nDziedāsim un priecāsimies\nPar atmostošos dabu."
-        ]
-      },
-      3: {
-        name: "Aprīlis 🌸",
-        items: [
           "Lieldieniņas atnākušas,\nLieli prieki bērniņiem;\nŠūposimies augsti gaisā,\nLai aug lini garumā!",
-          "Zeme zied un saule silda,\nPavasara lietiņš līst;\nZaļa zāle lēnām dīgst,\nDziesma skan pār druvāma.",
-          "Pavasara puķes plaukst,\nPutnu balsis mežā skan;\nVisi ļaudis priecājas,\nJaunu dzīvi gaidīdami.",
-          "Šūpoles jau kokos karājas,\nBērnu smiekli tālu skan;\nLieldienu rītā saule rotājas,\nDziesma sirdi iepriecina.",
-          "Aprīlis ar mākoņiem un sauli,\nMāte zeme rotājas ar ziediem;\nMēs ar dziesmu pateicamies\nPar dabas jauno elpu.",
-          "Pirmie bērzi lapiņas plaucē,\nZaļums laukos acis priecē;\nTautasdziesma līdzi skan\nPavasara dienā gaišā.",
-          "Lieldienu zaķis groziņunes,\nOliņas mēs krāsojam raibas;\nDziedot dziesmas, sveicinām\nAtgūto gaismas spēku.",
-          "Lietus nolīst, saule iespīd,\nViss plaukst un zaļo apkārt;\nMēs ar dziesmu godinām\nPavasara skaistāko laiku.",
-          "Putnu kori rīta agrumā\nModina visu pasauli;\nMūsu dziesma skan pretim\nSaules siltajiem stariem.",
-          "Zaļas sūnas, pirmie pūpoli,\nPavasara smaržas gaisā virmo;\nDziedāsim un priecāsimies\nPar atdzimušo pasauli."
+          "Ziedējiņi, plaukumiņi,\nVisa zeme zaļumā;\nMeitas dzied un puiši spēlē\nPavasara vakarā."
         ]
       },
-      4: {
-        name: "Maijs 🍃",
+      vasara: {
+        name: "☀️ Vasaras Tautasdziesmas (Jāņi & Saulgrieži)",
         items: [
-          "Ziedējiņi, plaukumiņi,\nVisa zeme zaļumā;\nMeitas dzied un puiši spēlē\nPavasara vakarā.",
-          "Pavasara rožu dārzā\nLakstīgala dziesmu sāk;\nVisa pasaule tik zaļa,\nDziesma skan un sirds tik mīl.",
-          "Balta ābele jau zied,\nBites dūc un medu vāc;\nMums ir mīļa dziesmu diena,\nSvinam pavasara svētkus.",
-          "Maija dienas, maija naktis,\nViss ir pilns ar reibinošu smaržu;\nTautasdziesma vakarā skan\nPār ziedošiem laukiem.",
-          "Ābeles un bumbieres baltos ziedos,\nBitītes pa ziediem dūc;\nDziesma skan un sirds ir pilna\nAr pavasara mīlestību.",
-          "Zaļi meži, ziedošas pļavas,\nSaules siltums mūs silda;\nMēs ar dziesmu pavadām\nSkaistāko pavasara mēnesi.",
-          "Vakara krēslā lakstīgala vītero,\nViss kluss un mierīgs kļūst;\nTautasdziesma plūst kā upe,\nNogurdinātos mierinot.",
-          "Zeme tērpjas visskaistākā tērpā,\nZiedu paklājs visapkārt klājas;\nMēs ar dziesmu uzgavilējam\nMūsu tēvu zemes krāšņumam.",
-          "Siltie vēji pūš no dienvidiem,\nPutni ligzdas vīj un dzied;\nDziesma skan un prieks ir sirdī,\nSagaididot vasaras tuvošanos.",
-          "Maija svētki, maija dienas,\nViss ir pilns ar saules gaismu;\nDziedāsim un priecāsimies\nPar brīnišķīgo dabu."
-        ]
-      },
-      5: {
-        name: "Jūnijs ☀️",
-        items: [
+          "Rīga dimd, Rīga dimd,\nKas to Rīgu dimdināja?\nVecā krāsa, jauni puiši,\nTie to Rīgu dimdināja.",
           "Visa laba jāņu zāle,\nKo par Jāņu nakti plūca;\nVisas bij zelta puķes,\nKas ziedēja pļaviņā.",
-          "Līgo saule, līgo zeme,\nJāņu diena atnākusi;\nPurskā uguns kalna galā,\nDziesmas skan līdz rīta gaismai.",
-          "Jāņu zāles pļavā plūcam,\nSkaistus vainagus mēs pinam;\nVisapkārt līksmība un dziesmas,\nVasaras pats viducītis.",
-          "Papardes zieds šonakt ziedēs,\nKas to atradīs, tas laimīgs būs;\nLīgo dziesmas visapkārt skan,\nSvētku ugunis kuras.",
-          "Vasaras saulgrieži, īsākā nakts,\nVisi ļaudis līgo kopā;\nTautasdziesma skan pāri pļavām,\nSavienojot pagātni un šodienu.",
-          "Sarkanas jāņogas dārzā briest,\nSiena smarža gaisā jūtama;\nJāņu nakts ir brīnumaina,\nDziesmas neapklust ne mirkli.",
-          "Uguns liesmas debesīs tiecas,\nVainagi galvās zaļo un zied;\nMēs ar Līgo dziesmām sveicinām\nGarāko un gaišāko gada dienu.",
-          "Pļavas pilnas ar ziediem un zālēm,\nSkan līksmas balsis un saucieni;\nJāņu nakts ir mūsu tautas lepnums,\nKur dziesma skan visspožāk.",
-          "Saulīte rotājas Jāņu rītā,\nRasas lases vizuļo zālē;\nVisi dzied un priecājas,\nSvinot vasaras pilnbriedu.",
-          "Līgo simtiem balsīs skan,\nMeži un lauki atbalsojas;\nSirds ir pilna ar līksmību\nŠajā baltajā Jāņunaktī."
-        ]
-      },
-      6: {
-        name: "Jūlijs 🌾",
-        items: [
           "Šalc zaļais mežs, dzied meitenes,\nSiena laiks pie vārtiem klauvē;\nViegli un viegli saulīte tek\nPār zaļo ozoliņu.",
-          "Zelta labība jau briest,\nSiltas vasaras dienas rit;\nMeitas pļauj un dziesmu dzied,\nPār laukiem atbalsojas.",
-          "Saulains laiks un silts ir vējš,\nDabas klēpī viss ir zaļš;\nSkan tautasdziesma vakarā,\nAtpūšoties pēc darbiem.",
-          "Siena smarža visapkārt laukos,\nDziļas debesis un saules stari;\nMēs ar dziesmu pavadām\nKarstās jūlija pēcpusdienas.",
-          "Mežā ogas un sēnes jau briest,\nZilās mellenes klājas mežmalā;\nTautasdziesma skan starp priedēm,\nAtpūtas brīdim dota.",
-          "Siltas naktis, zvaigžņotas debesis,\nSkaistākais vasaras vidus;\nMēs ar dziesmu godinām\nMūsu tēvu zemes dāvanas.",
-          "Labības lauki viļņojas vējā,\nZelta graudi gatavojas pļaujai;\nDziesma skan kā pateicība\nPar svētību un maizi.",
-          "Ūdens ezeros silts un dzidrs,\nVasarā visi priecājas;\nDziedot un ejot rotaļās,\nLaiks paskrien nemanot.",
-          "Svelmains jūlija vidus rīts,\nSaule cepina no pašas rīta;\nTautasdziesma spēku dod\nDarbu veicējiem uz lauka.",
-          "Skaistas dziesmas, vasaras prieks,\nViss zaļo un zied visapkārt;\nMēs baudām šo mirkli pilnībā\nAr dziesmu uz lūpām."
+          "Dziedat, meitas, ko dziedat,\nDziedat skaisti parastā!\nLai skan meži, lai skan lauki,\nLai skan visa tēvu zeme!"
         ]
       },
-      7: {
-        name: "Augusts 🌻",
-        items: [
-          "Dziedat, meitas, ko dziedat,\nDziedat skaisti parastā!\nLai skan meži, lai skan lauki,\nLai skan visa tēvu zeme!",
-          "Rudens raža klāt jau nāk,\nĀboli uz zara sārtojas;\nMēs ar dziesmu pavadām\nVasaras pēdējās dienas.",
-          "Zelta saule lēnāk riet,\nSilti vakari un miers;\nDziesma skan no paaudzes,\nSaglabājot tēvu mantu.",
-          "Labība nopļauta, sakrauti gubās,\nSaimnieki priecājas par ražu;\nTautasdziesma skan pār sētām,\nPateicoties par maizīti.",
-          "Pēdējie vasaras ziedi zied,\nAgrie rīti jau ar miglu klājas;\nMēs ar dziesmu sasildāmies\nPretī rudenim ejot.",
-          "Zvaigžas krīt augusta naktīs,\nVēstules un vēlēšanās klusi tiek teiktas;\nDziesma skan pie ugunskura,\nSagatavojot mūs rudenim.",
-          "Āboli smaržo un bumbieri krīt,\nSkaists ir augusta dārzs;\nMēs ar dziesmu godinām\nDabas dāsnumu un spēku.",
-          "Dienas kļūst īsākas, vakari garāki,\nBet dziesmas paliek tikpat skanīgas;\nSvinam ražas svētkus visi kopā\nAr smaidu un dziesmu lūpās.",
-          "Silta augusta pēcpusdiena,\nBišu dūkoņa un ziedu smarža;\nTautasdziesma pavada mūs\nUz jaunajiem rudens darbiem.",
-          "Vasara lēnām atvadās no mums,\nAtstājot bagātīgu mantojumu;\nMēs dziedam tai par godu\nSkaistākās tautasdziesmas."
-        ]
-      },
-      8: {
-        name: "Septembris 🍁",
+      rudens: {
+        name: "🍂 Rudens Tautasdziesmas",
         items: [
           "Rudens nāk, lapas krīt,\nDzērves kliedz padebešos;\nBet mēs paši savā sētā\nSiltu dziesmu uzdziedam.",
-          "Zelta lapas kokos krīt,\nSkolas durvis veras vaļā;\nRudens darbi sētā sākās,\nDziesma paliek mūsu draugs.",
-          "Migla rītos zemi sedz,\nAbolu laiks un ražas svētki;\nMēs ar dziesmu sasildāmies\nPretī vēsākam laikam.",
-          "Kastaņi un zīles nobirst zemē,\nPutni prom uz dienvidiem steidzas;\nTautasdziesma skan kā atvadas\nLīdz nākamajam pavasarim.",
-          "Rudens krāsas kokos mirdz,\nSaule zelta stariem rotājas;\nMēs ar dziesmām sagaidām\nJauno rudens cēlienu.",
-          "Skolas gaitas bērniem sākas,\nGrāmatas un burtnīcas somā;\nBet vakarā pie kamīna\nSkan sena un mīļa dziesma.",
-          "Septembris – ražas un dāvanu laiks,\nViss klēts kakts pilns ar labumiem;\nDziesma skan par godu zemei,\nKas mūs baro un sargā.",
-          "Vēsāks vējš pār tīrumiem pūš,\nDaba pošas mieram un klusumam;\nMēs ar dziesmu uzmundrinām\nSavu sirdi un savus draugus.",
-          "Zelta rudens klāt ir jau,\nDabas skaistums visapkārt staro;\nTautasdziesma skan tik skaidri\nŠajā dzidrajā rudenī.",
-          "Rudens lapu čaboņa zem kājām,\nGaisā jūtams pirmais saltiņš;\nDziedāsim un turēsimies kopā\nAr skaistām dziesmām sirdī."
-        ]
-      },
-      9: {
-        name: "Oktobris 🍂",
-        items: [
           "Mārtiņdiena klāt ir atkal,\nGailis dzied uz žoga malas;\nSaimnieks ver klēts durtiņas,\nLabi darbi pabeigti.",
-          "Auksts un dzestrs rudens vējš,\nKoki paliek pavisam kaili;\nIstabā pie uguns kurināšanas\nTautasdziesma sirdi silda.",
-          "Zelta un sarkanu lapu paklājs,\nDaba pošas dziļam miegam;\nMēs ar dziesmu un cerību\nSagaidām garos vakarus.",
-          "Mārtiņi bērniem un ķekatām līdzi,\nJautrība un smiekli mājās nāk;\nDziesmas skan par godu svētkiem,\nSvinot rudens bagātību.",
-          "Miglaini rīti un pelēkas dienas,\nBet sirdī siltums mums vienmēr mīt;\nTautasdziesma ceļ mūs spārnos\nPretī garajiem vakariem.",
-          "Koki stāv kaili un lietus līst,\nVējš laukos rotaļājas ar lapām;\nMēs ar dziesmu pieskandinām\nSavu mazo, silto istabiņu.",
-          "Oktobris nes mums mieru un klusumu,\nDaba atpūšas pēc darbiem;\nDziesma skan kā pateicība\nPar visu, ko zeme mums devusi.",
-          "Rudens veltes noglabātas pagrabā,\nSveces deg uz galda vakaros;\nMēs dziedam senas melodijas,\nAtceroties tēvu tradīcijas.",
-          "Viss ir kļuvis rāms un kluss,\nZeme gatavojas ziemas miegam;\nTautasdziesma mums ir kā gaisma,\nKas neļauj mums palikt tumsā.",
-          "Oktobra vēji logā pūš,\nSiltas zeķes kājās un grāmata rokā;\nDziedāsim un priecāsimies\nPar omulīgiem vakariem."
+          "Auga mežā ozoliņš,\nAugstu zarus pacēla;\nRudens nāca sētiņā,\nBagāts vīrs, daudz dāvanu."
         ]
       },
-      10: {
-        name: "Novembris 🕯️",
+      ziema: {
+        name: "❄️ Ziemas Tautasdziesmas",
         items: [
-          "Sveču gaisma, klusi meži,\nTēvuzemei dziesma skan;\nCaur tumšāko laika posmu\nMūsu sirdis gaismu nes.",
-          "Vectēva un tēvu piemiņa,\nSveču liesmiņas logu malās;\nLatvija mums sirdī dziļi,\nTautasdziesma spēku dod.",
-          "Tumšs un garš ir vakars jau,\nSvece deg uz galda klusi;\nMēs ar dziesmu godinām\nSavu zemi un savus ļaudis.",
-          "Valsts svētki un lāpu gājieni,\nSarkani-balti-sarkani karogi viz;\nDziesmas skan par mūsu Latviju,\nGodinot brīvību un varoņus.",
-          "Novembris ir piemiņas un gaismas laiks,\nKaut ārā drūms un tumšs ir laiks;\nMēs ar dziesmām radām gaismu\nSavās mājās un sirdīs.",
-          "Sarma zālienā un pelēkas debesis,\nGarie vakari jau klāt ir sen;\nTautasdziesma skan tik skanīgi\nŠajā pārdomu mēnesī.",
-          "Sveces liesma logā silda,\nAtsaucot atmiņā senos laikus;\nMēs dziedam savai dzimtenei\nVispatiesākās un mīļākās dziesmas.",
-          "Latvijas dzimšanas diena klāt,\nVisi ļaudis svin un priecājas;\nDziesmas un vēlējumi skan\nPar mūsu tēvu zemes nākotni.",
-          "Gara nakts un īsa diena,\nBet mūsu gars ir modrs un stiprs;\nTautasdziesma mūs vieno kopā\nŠajā patriotiskajā mēnesī.",
-          "Novembra vēji pūš pāri laukiem,\nSirdīs deg ticība un cerība;\nDziedāsim dziesmas mūsu zemei,\nLai tā plaukst un mūžam pastāv."
-        ]
-      },
-      11: {
-        name: "Decembris 🎄",
-        items: [
+          "Pūt, vējiņi, dzen laiviņu,\nAizved mani kurzemē;\nKurzemniece mani sauca,\nAiz ezera malājiņa.",
           "Ziemassvētki sabraukuši\nRastās kamanās;\nAtnesuši prieku, mieru,\nZelta dziesmu istabā.",
-          "Snieg pārsliņas un egle zaļo,\nGada gaišākie svētki klāt;\nPiedziedam mēs visu sētu\nAr skaistākām dziesmām.",
-          "Gads jau lēnām galā iet,\nJaunas cerības mūs gaida;\nTautasdziesma pavada\nMūs pretī jaunam gadam.",
-          "Ziemassvētku vakarā sveces deg,\nĢimene kopā pie svētku galda;\nDziesmas skan par mieru un mīlestību,\nSvinot brīnišķīgus svētkus.",
-          "Pirmā sniega prieks un bērnu smiekli,\nEglītes rotāšana istabā;\nTautasdziesma sasilda sirdis\nŠajā aukstajā ziemas laikā.",
-          "Garākā nakts un gadu mija klāt,\nMēs atskatāmies uz padarīto;\nDziesma skan kā svētību vēlējums\nNākamajam gadam.",
-          "Ziemassvētku vecītis kamanās brauc,\nDāvanas un prieku visiem nes;\nDziesmas un rotaļas nebeidzas\nVisā šajā svētku laikā.",
-          "Sniegoti meži un klusa nakts,\nZvaigznes mirdz debesīs spoži;\nMēs ar dziesmu sagaidām\nBrīnumaino svētku brīdi.",
-          "Gads noslēdzas ar dziesmām un gaismu,\nViss sliktais paliek pagātnē;\nTautasdziesma dod mums cerību\nUn spēku jaunam gadam.",
-          "Priecīgus Ziemassvētkus un laimīgu gadu,\nSkan līksmas balsis visapkārt;\nDziedāsim un būsim kopā\nŠajā skaistajā svētku laikā."
+          "Saule Pērkons Daugava,\nTrīs lietas labas lietas:\nSaule mūžu mūžos spīdēs,\nPērkons spers, Daugava plūdīs."
         ]
       }
     };
+
+    let activeSeasonKey = 'pavasaris';
+    let currentSeasonalIndex = 0;
+
+    // Automātiski nosaka gadalaiku pēc pašreizējā mēneša
+    function determineCurrentSeasonKey() {
+      const month = new Date().getMonth(); // 0 = Jan, 1 = Feb, ..., 11 = Dec
+      // Pavasaris: Marts, Aprīlis, Maijs (2, 3, 4)
+      if (month >= 2 && month <= 4) return 'pavasaris';
+      // Vasara: Jūnijs, Jūlijs, Augusts (5, 6, 7)
+      if (month >= 5 && month <= 7) return 'vasara';
+      // Rudens: Septembris, Oktobris, Novembris (8, 9, 10)
+      if (month >= 8 && month <= 10) return 'rudens';
+      // Ziema: Decembris, Janvāris, Februāris (11, 0, 1)
+      return 'ziema';
+    }
 
     let savedSongsList = [];
     let songsData = {};
@@ -693,14 +566,24 @@
       alert("✅ Sagatavots atjauninātais 'index.html' fails!");
     }
 
-    function updateMonthlyFolkSong() {
-      const now = new Date();
-      const monthIndex = now.getMonth();
-      const currentMonthData = monthlyFolkDatabase[monthIndex] || monthlyFolkDatabase[0];
+    function updateSeasonalFolkSong() {
+      activeSeasonKey = determineCurrentSeasonKey();
+      const seasonData = seasonalFolkDatabase[activeSeasonKey];
       
-      document.getElementById('folkHeader').innerText = `☀️ ${currentMonthData.name}`;
-      const randomSongIndex = Math.floor(Math.random() * currentMonthData.items.length);
-      document.getElementById('folkText').innerText = currentMonthData.items[randomSongIndex];
+      document.getElementById('folkHeader').innerText = seasonData.name;
+      // Ja indekss pārsniedz masīva garumu, atgriežamies pie sākuma
+      if (currentSeasonalIndex >= seasonData.items.length) {
+        currentSeasonalIndex = 0;
+      }
+      document.getElementById('folkText').innerText = seasonData.items[currentSeasonalIndex];
+    }
+
+    // Klikšķinot uz dzeltenā kvadrāta, ritinām cauri konkrētā gadalaika bagātīgajām dziesmām
+    function nextSeasonalFolkSong() {
+      const seasonData = seasonalFolkDatabase[activeSeasonKey];
+      currentSeasonalIndex = (currentSeasonalIndex + 1) % seasonData.items.length;
+      document.getElementById('folkText').innerText = seasonData.items[currentSeasonalIndex];
+      triggerVibrate();
     }
 
     function triggerVibrate() { if (navigator.vibrate) navigator.vibrate(120); }
@@ -722,21 +605,16 @@
         }, 5000);
       };
 
-      const cancelHold = () => {
-        if (timer) clearTimeout(timer);
-      };
+      const cancelHold = () => { if (timer) clearTimeout(timer); };
 
       elem.addEventListener('mousedown', startHold);
       elem.addEventListener('touchstart', startHold, {passive: true});
-
       elem.addEventListener('mouseleave', cancelHold);
       elem.addEventListener('touchcancel', cancelHold);
 
       elem.addEventListener('mouseup', () => {
         cancelHold();
-        if (!isLongPress && onClickShort) {
-          onClickShort();
-        }
+        if (!isLongPress && onClickShort) onClickShort();
       });
 
       elem.addEventListener('touchend', (e) => {
@@ -754,46 +632,36 @@
       document.getElementById('avatarModal').style.display = 'flex';
     }
 
-    function closeAvatarModal() {
-      document.getElementById('avatarModal').style.display = 'none';
-    }
+    function closeAvatarModal() { document.getElementById('avatarModal').style.display = 'none'; }
 
-    setupHoldHandler(
-      'avatarBtnHolder', 
-      () => { document.getElementById('avatarFileInput').click(); },
-      () => { openAvatarModal(); }
-    );
-
+    setupHoldHandler('avatarBtnHolder', () => { document.getElementById('avatarFileInput').click(); }, () => { openAvatarModal(); });
     setupHoldHandler('headerLockBtn', () => { addNewSongOnly(); });
     setupHoldHandler('songLockBtn', () => { if (isEditMode) lockEditingView(); else unlockEditingView(); });
     setupHoldHandler('searchBtn3', () => { exportFullHTML(); });
 
     setupHoldHandler('secretShareBox', () => {
       if (navigator.share) {
-        navigator.share({
-          title: 'Mana Dziesmu Grāmata',
-          text: 'Piesakies un dziedi līdzi manā digitālajā dziesmu grāmatā!',
-          url: window.location.href
-        }).catch(() => {});
+        navigator.share({ title: 'Mana Dziesmu Grāmata', text: 'Piesakies un dziedi līdzi manā digitālajā dziesmu grāmatā!', url: window.location.href }).catch(() => {});
       } else {
         alert("🔗 Saites adrese: " + window.location.href);
       }
-    }, () => {
-      updateMonthlyFolkSong();
-    });
+    }, () => { nextSeasonalFolkSong(); });
 
-    // Smart TV / Cast tiešais savienojums, izmantojot pārlūka Remote Playback API
     async function triggerCast() {
       if (window.RemotePlayback && document.createElement('video').remotePlayback) {
         try {
           const dummyVideo = document.createElement('video');
           await dummyVideo.remotePlayback.prompt();
+          return;
         } catch (err) {
-          alert("📺 Pārraides logs netika atvērts vai ierīce neatbalsta tiešo savienojumu. Izmantojiet ekrāna spoguļošanu (Screen Mirroring).");
+          console.log("RemotePlayback prompt not available");
         }
-      } else {
-        alert("📺 Lai pārraidītu uz Smart TV:\nAtveriet pārlūka izvēlni (...) un izvēlieties 'Pārraidīt' (Cast) vai izmantojiet ierīces ekrāna spoguļošanu.");
       }
+      document.getElementById('tvModal').style.display = 'flex';
+    }
+
+    function closeTvModal() {
+      document.getElementById('tvModal').style.display = 'none';
     }
 
     function addNewSongOnly() {
@@ -810,10 +678,7 @@
       const titleTrimmed = titleInput.trim();
       const normalizedNewTitle = titleTrimmed.toLowerCase();
       const isDuplicate = savedSongsList.some(s => s.title.toLowerCase() === normalizedNewTitle);
-      if (isDuplicate) {
-        alert(`❌ Kļūda: Dziesma ar nosaukumu "${titleTrimmed}" jau eksistē sarakstā! Dublikāti nav atļauti.`);
-        return;
-      }
+      if (isDuplicate) { alert(`❌ Kļūda: Dziesma ar nosaukumu "${titleTrimmed}" jau eksistē sarakstā!`); return; }
 
       savedSongsList.push({ id: numTrimmed, title: titleTrimmed });
       if (!songsData[numTrimmed]) { songsData[numTrimmed] = { lyrics: '', yt: '', sp: '', kr: '', history: '' }; }
@@ -851,7 +716,6 @@
         li.setAttribute('data-title', song.title.toLowerCase());
         const historyText = (songsData[song.id] && songsData[song.id].history) ? songsData[song.id].history.toLowerCase() : '';
         li.setAttribute('data-history', historyText);
-
         li.setAttribute('onclick', `openSong('${song.id}', '${song.title.replace(/'/g, "\\'")}')`);
         li.innerHTML = `<span class="song-number">${song.id}</span><span class="song-title">${song.title}</span>`;
         listContainer.appendChild(li);
@@ -867,7 +731,7 @@
     function showPage(pageNumber) {
       for (let i = 1; i <= 5; i++) document.getElementById('page' + i).style.display = 'none';
       const target = document.getElementById('page' + pageNumber);
-      if (pageNumber === 2) updateMonthlyFolkSong();
+      if (pageNumber === 2) updateSeasonalFolkSong();
       target.style.display = 'flex';
     }
 
@@ -943,10 +807,7 @@
 
       const normalizedNewTitle = newTitle.toLowerCase();
       const isDuplicate = savedSongsList.some(s => s.id !== currentSongId && s.title.toLowerCase() === normalizedNewTitle);
-      if (isDuplicate) {
-        alert(`❌ Kļūda: Dziesma ar nosaukumu "${newTitle}" jau eksistē sarakstā! Dublikāti nav atļauti.`);
-        return;
-      }
+      if (isDuplicate) { alert(`❌ Kļūda: Dziesma ar nosaukumu "${newTitle}" jau eksistē sarakstā!`); return; }
 
       const songItem = savedSongsList.find(s => s.id === currentSongId);
       if (songItem) { songItem.id = newNum; songItem.title = newTitle; }
@@ -1023,7 +884,7 @@
       initDataStorage();
       const savedPic = localStorage.getItem('myUserAvatar');
       if (savedPic) document.getElementById('userAvatarImg').src = savedPic;
-      updateMonthlyFolkSong();
+      updateSeasonalFolkSong();
       renderSongList();
     };
   </script>
