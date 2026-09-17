@@ -247,7 +247,7 @@
         <div class="notes-icon">🎶</div>
         <h2 class="main-title">Dziesmu Grāmata</h2>
 
-        <div class="folk-card" onclick="nextSeasonalFolkSong()" title="Uzspied nākamo tautasdziesmu!">
+        <div class="folk-card" id="folkCardBox" onclick="nextSeasonalFolkSong()" title="Uzspied nākamo tautasdziesmu!">
           <div class="folk-header" id="folkHeader">🌸 Pavasara Tautasdziesmas</div>
           <div class="folk-text" id="folkText">Ielādē gadalaika tautasdziesmas...</div>
         </div>
@@ -546,7 +546,7 @@
       } catch(e) {}
     }
 
-    // Atslēdziņa (🔑) – turēt tieši 5 sekundes
+    // Atslēdziņa (🔑) – turēt tieši 5 sekundes klusām
     setupHoldHandler('keyVaultBtn', () => { openHistoryVault(); }, () => {});
 
     function openHistoryVault() {
@@ -666,15 +666,18 @@
     function updateSeasonalFolkSong() {
       activeSeasonKey = determineCurrentSeasonKey();
       const seasonData = seasonalFolkDatabase[activeSeasonKey];
-      document.getElementById('folkHeader').innerText = seasonData.name;
+      const headerEl = document.getElementById('folkHeader');
+      const textEl = document.getElementById('folkText');
+      if (headerEl) headerEl.innerText = seasonData.name;
       if (currentSeasonalIndex >= seasonData.items.length) currentSeasonalIndex = 0;
-      document.getElementById('folkText').innerText = seasonData.items[currentSeasonalIndex];
+      if (textEl) textEl.innerText = seasonData.items[currentSeasonalIndex];
     }
 
     function nextSeasonalFolkSong() {
       const seasonData = seasonalFolkDatabase[activeSeasonKey];
       currentSeasonalIndex = (currentSeasonalIndex + 1) % seasonData.items.length;
-      document.getElementById('folkText').innerText = seasonData.items[currentSeasonalIndex];
+      const textEl = document.getElementById('folkText');
+      if (textEl) textEl.innerText = seasonData.items[currentSeasonalIndex];
       triggerVibrate();
     }
 
