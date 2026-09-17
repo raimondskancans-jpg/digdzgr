@@ -37,7 +37,7 @@
       flex-direction: column;
     }
 
-    /* 1. EKRĀNS (Tavs oriģinālais pilnais teksts) */
+    /* 1. EKRĀNS */
     #page1 {
       display: flex;
       justify-content: space-between;
@@ -197,7 +197,7 @@
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
         <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub & AI: <br><b>raimondskancans_dziesmugramata_data_2026</b></p>
-        <button id="aiCopyBtn" class="ai-context-btn" onclick="copyAiContextToClipboard()" style="background: #3b82f6; color: #ffffff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; margin-bottom: 6px;">📋 Kopēt AI kontekstu un datus</button>
+        <button id="aiCopyBtn" class="ai-context-btn" onclick="copyAiContextToClipboard()" style="background: #3b82f6; color: #ffffff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; margin-bottom: 6px;">📋 Kopēt grāmatas stāvokli un kontekstu AI sarunai</button>
         <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt drošo datu failu</button>
         <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:4px;">Aizvērt</button>
@@ -217,7 +217,7 @@
       </div>
     </div>
 
-    <!-- 1. EKRĀNS: Tavs pilnais, oriģinālais sākuma teksts -->
+    <!-- 1. EKRĀNS -->
     <div id="page1" class="screen" style="display: flex;">
       <div class="avatar-wrapper">
         <div class="user-avatar-container" id="avatarBtnHolder">
@@ -241,7 +241,7 @@
       </button>
     </div>
 
-    <!-- 2. EKRĀNS: Galvenā izvēlne -->
+    <!-- 2. EKRĀNS -->
     <div id="page2" class="screen">
       <div>
         <div class="notes-icon">🎶</div>
@@ -254,7 +254,7 @@
 
         <div class="thanks-card">
           <div class="thanks-title">📖 Pateicība & Avots</div>
-          Liela daļa dziesmu balstīta uz <strong>"Mārtiņa dziesmu grāmata"</strong> (sastādītājs <strong>Mārtiņš Zandbergs</strong>, 1990. gads). Paldies draugam <strong>Andrim Ūdrim</strong> par atbalstu melodiju apdarē!
+          Liela daļa dziesmu tekstu un tradīciju šajā digitālajā krājumā balstīta uz <strong>"Mārtiņa dziesmu grāmata"</strong> (sastādītājs <strong>Mārtiņš Zandbergs</strong>, 1990. gads). Izsakām sirsnīgu pateicību par šajā izdevumā apkopoto un saglabāto apjomīgo dziesmu pūru, kā arī draugam <strong>Andrim Ūdrim</strong> par atbalstu grāmatas sagatavošanā un muzikālo pieredzi melodiju apdarē!
         </div>
 
         <div class="secure-share-box-wrapper">
@@ -289,7 +289,7 @@
       </div>
     </div>
 
-    <!-- 3. EKRĀNS: Satura rādītājs -->
+    <!-- 3. EKRĀNS -->
     <div id="page3" class="screen">
       <div class="top-bar">
         <h2 class="page3-title">Satura rādītājs</h2>
@@ -334,7 +334,7 @@
       </div>
     </div>
 
-    <!-- 4. EKRĀNS: Saites un akordi -->
+    <!-- 4. EKRĀNS -->
     <div id="page4" class="screen">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(5)">📖 Vārdi</span>
@@ -386,7 +386,7 @@
       </div>
     </div>
 
-    <!-- 5. EKRĀNS: Dziesmas vārdi -->
+    <!-- 5. EKRĀNS -->
     <div id="page5" class="screen">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ</span>
@@ -546,7 +546,7 @@
       } catch(e) {}
     }
 
-    // Atslēdziņa (🔑) – turēt tieši 5 sekundes bez liekiem norādījumiem uz klikšķi
+    // Atslēdziņa (🔑) – turēt tieši 5 sekundes
     setupHoldHandler('keyVaultBtn', () => { openHistoryVault(); }, () => {});
 
     function openHistoryVault() {
@@ -579,11 +579,13 @@
 
     function copyAiContextToClipboard() {
       const totalSongs = savedSongsList.length;
-      const sampleTitles = savedSongsList.slice(0, 10).map(s => `${s.id}. ${s.title}`).join(", ");
-      const contextText = `Mani dati par digitālo dziesmu grāmatu (Raimonda Kancāna Dziesmu Grāmata 2026):
+      const sampleTitles = savedSongsList.slice(0, 15).map(s => `${s.id}. ${s.title}`).join(", ");
+      const contextText = `[RAIMONDA KANCĀNA DIGITALĀ DZIESMU GRĀMATA - AI KONTEKSTS UN DATI]
 - Unikālā atslēga / ID: raimondskancans_dziesmugramata_data_2026
+- Autors: Raimonds Kancāns (2026)
 - Kopējais dziesmu skaits: ${totalSongs} dziesmas.
-- Sākotnējās dziesmas: ${sampleTitles}...`;
+- Sākotnējās dziesmas paraugam: ${sampleTitles}...
+- Mērķis: Ērta vide kopīgai dziedāšanai vairākos ekrānos, balstīta uz Mārtiņa Zandberga 1990. gada dziesmu grāmatu un Andra Ūdra aranžējumiem. Šis ir pastāvīgs un stabils projekts.`;
 
       navigator.clipboard.writeText(contextText).then(() => {
         const btn = document.getElementById('aiCopyBtn');
