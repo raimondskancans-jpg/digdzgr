@@ -37,6 +37,7 @@
       flex-direction: column;
     }
 
+    /* 1. EKRĀNS (Tavs oriģinālais pilnais teksts) */
     #page1 {
       display: flex;
       justify-content: space-between;
@@ -91,6 +92,7 @@
 
     .touch-btn { width: 100%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.25); color: #ffffff; padding: 16px 16px; border-radius: 18px; font-size: 0.95rem; font-weight: 800; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px; flex-shrink: 0; }
 
+    /* 2. EKRĀNS */
     #page2 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); text-align: center; color: #222222; justify-content: space-between; overflow-y: auto; display: none; flex-direction: column; }
     .notes-icon { font-size: 2rem; margin-bottom: 2px; }
     .main-title { font-size: 1.4rem; font-weight: 900; color: #111111; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
@@ -110,6 +112,7 @@
     .gemini-card-btn { background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-bottom: 6px; cursor: pointer; }
     .red-btn { background: #d90429; color: #ffffff; border: none; width: 100%; padding: 12px; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; }
 
+    /* 3. EKRĀNS */
     #page3 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
     .page3-title { font-size: 1.3rem; font-weight: 800; color: #111111; }
@@ -130,6 +133,7 @@
     .song-number { color: #d90429; font-weight: 800; width: 42px; flex-shrink: 0; }
     .song-title { color: #222222; font-weight: 600; }
 
+    /* 4. EKRĀNS */
     #page4 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .nav-words { color: #d90429; font-weight: 800; font-size: 0.88rem; cursor: pointer; background: #fff0f3; padding: 5px 10px; border-radius: 8px; }
     .song-header-title { font-size: 1.2rem; font-weight: 800; color: #111; margin: 6px 0; }
@@ -153,6 +157,7 @@
     .song-history-text { line-height: 1.5; font-weight: 500; white-space: pre-line; font-size: 0.9rem; color: #334155; flex: 1; overflow-y: auto; }
     .song-history-editor { width: 100%; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; display: none; resize: none; margin-top: 4px; font-family: inherit; }
 
+    /* 5. EKRĀNS */
     #page5 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .lyrics-full-container { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; flex: 1; overflow-y: auto; margin: 6px 0; }
     .lyrics-text { font-size: 0.98rem; line-height: 1.55; color: #1e293b; white-space: pre-wrap; font-weight: 500; }
@@ -187,14 +192,15 @@
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <!-- Drošības Vēstures Arhīvs (Pieturot atslēdziņu 🔑 5s) -->
+    <!-- Raimonda Drošības Arhīvs (Atslēdziņa 🔑) -->
     <div id="historyModal" class="history-modal">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
-        <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga: <b>raimondskancans_dziesmugramata_data_2026</b><br>Uzspied uz jebkura ieraksta, lai atvērtu un apskatītu iekšējo saturu un labojumus!</p>
+        <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub & AI: <br><b>raimondskancans_dziesmugramata_data_2026</b></p>
+        <button id="aiCopyBtn" class="ai-context-btn" onclick="copyAiContextToClipboard()" style="background: #3b82f6; color: #ffffff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; margin-bottom: 6px;">📋 Kopēt AI kontekstu un datus</button>
         <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt drošo datu failu</button>
-        <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:6px;">Aizvērt</button>
+        <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:4px;">Aizvērt</button>
       </div>
       <span class="close-btn" onclick="closeHistoryModal()">&times;</span>
     </div>
@@ -203,15 +209,15 @@
     <div id="tvModal" class="tv-modal">
       <div class="tv-modal-content">
         <h3>📺 Pārraidīšana uz TV</h3>
-        <p>Lai bez kļūdām un cilņu limitiem parādītu dziesmu vārdus uz lielā televizora ekrāna:<br><br>
-        1. Google Chrome pārlūkā augšējā labajā stūrī uzspied uz <b>trīs punktiem (...)</b>.<br>
+        <p>Lai bez kļūdām parādītu dziesmu vārdus uz TV:<br><br>
+        1. Google Chrome augšējā labajā stūrī uzspied uz <b>trīs punktiem (...)</b>.<br>
         2. Izvēlies opciju <b>'Pārraidīt...' (Cast)</b>.<br>
-        3. Izvēlies savu televizoru, lai uzreiz spoguļotu šo lapu!</p>
+        3. Izvēlies savu televizoru!</p>
         <button class="tv-close-btn" onclick="closeTvModal()">Skaidrs, sapratu 👍</button>
       </div>
     </div>
 
-    <!-- 1. EKRĀNS -->
+    <!-- 1. EKRĀNS: Tavs pilnais, oriģinālais sākuma teksts -->
     <div id="page1" class="screen" style="display: flex;">
       <div class="avatar-wrapper">
         <div class="user-avatar-container" id="avatarBtnHolder">
@@ -235,20 +241,20 @@
       </button>
     </div>
 
-    <!-- 2. EKRĀNS -->
+    <!-- 2. EKRĀNS: Galvenā izvēlne -->
     <div id="page2" class="screen">
       <div>
         <div class="notes-icon">🎶</div>
         <h2 class="main-title">Dziesmu Grāmata</h2>
 
-        <div class="folk-card" onclick="nextSeasonalFolkSong()" title="Uzspied, lai redzētu nākamo gadalaika dziesmu!">
+        <div class="folk-card" onclick="nextSeasonalFolkSong()" title="Uzspied nākamo tautasdziesmu!">
           <div class="folk-header" id="folkHeader">🌸 Pavasara Tautasdziesmas</div>
           <div class="folk-text" id="folkText">Ielādē gadalaika tautasdziesmas...</div>
         </div>
 
         <div class="thanks-card">
           <div class="thanks-title">📖 Pateicība & Avots</div>
-          Liela daļa dziesmu tekstu un tradīciju šajā digitālajā krājumā balstīta uz <strong>"Mārtiņa dziesmu grāmata"</strong> (sastādītājs <strong>Mārtiņš Zandbergs</strong>, 1990. gads). Izsakām sirsnīgu pateicību par šajā izdevumā apkopoto un saglabāto apjomīgo dziesmu pūru, kā arī draugam <strong>Andrim Ūdrim</strong> par atbalstu grāmatas sagatavošanā un muzikālo pieredzi melodiju apdarē!
+          Liela daļa dziesmu balstīta uz <strong>"Mārtiņa dziesmu grāmata"</strong> (sastādītājs <strong>Mārtiņš Zandbergs</strong>, 1990. gads). Paldies draugam <strong>Andrim Ūdrim</strong> par atbalstu melodiju apdarē!
         </div>
 
         <div class="secure-share-box-wrapper">
@@ -283,7 +289,7 @@
       </div>
     </div>
 
-    <!-- 3. EKRĀNS -->
+    <!-- 3. EKRĀNS: Satura rādītājs -->
     <div id="page3" class="screen">
       <div class="top-bar">
         <h2 class="page3-title">Satura rādītājs</h2>
@@ -298,13 +304,13 @@
       </div>
 
       <div id="searchBox3" class="search-panel">
-        <input type="text" id="songSearchInput" class="search-input-full" placeholder="🔍 Meklēt pēc nosaukuma, žanra vai norādēm..." onkeyup="filterSongsList()">
+        <input type="text" id="songSearchInput" class="search-input-full" placeholder="🔍 Meklēt pēc nosaukuma, žanra..." onkeyup="filterSongsList()">
         <div class="horizontal-slider">
           <div class="search-card">
-            <div class="category-title">🥳 Pasākumi & Noskaņa</div>
+            <div class="category-title">🥳 Pasākumi</div>
             <div class="sub-slider">
               <button class="tag-btn" onclick="filterTag('galda')">🍷 Galda dziesmas</button>
-              <button class="tag-btn" onclick="filterTag('ballīte')">🎉 Latviešu ballīte</button>
+              <button class="tag-btn" onclick="filterTag('ballīte')">🎉 Ballīte</button>
             </div>
           </div>
           <div class="search-card">
@@ -328,7 +334,7 @@
       </div>
     </div>
 
-    <!-- 4. EKRĀNS -->
+    <!-- 4. EKRĀNS: Saites un akordi -->
     <div id="page4" class="screen">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(5)">📖 Vārdi</span>
@@ -345,31 +351,20 @@
 
       <div id="editTitleBox" class="edit-title-box">
         <input type="text" id="editNumInput" class="edit-input edit-num" placeholder="001">
-        <input type="text" id="editTitleInput" class="edit-input edit-name" placeholder="Dziesmas nosaukums">
+        <input type="text" id="editTitleInput" class="edit-input edit-name" placeholder="Nosaukums">
       </div>
 
       <div class="platforms-box">
         <div class="platform-row">
-          <div class="platform-badge bg-yt" onclick="playOrSearch('yt')">
-            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            YouTube ▶
-          </div>
+          <div class="platform-badge bg-yt" onclick="playOrSearch('yt')">YouTube ▶</div>
           <input type="text" id="ytUrlInput" class="platform-input" placeholder="YouTube URL...">
         </div>
-
         <div class="platform-row">
-          <div class="platform-badge bg-sp" onclick="playOrSearch('sp')">
-            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.18-.1.2-1.02-.18-.12-.6.18-1.2.78-1.38 4.26-1.26 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.56.3z"/></svg>
-            Spotify ▶
-          </div>
+          <div class="platform-badge bg-sp" onclick="playOrSearch('sp')">Spotify ▶</div>
           <input type="text" id="spUrlInput" class="platform-input" placeholder="Spotify URL...">
         </div>
-
         <div class="platform-row">
-          <div class="platform-badge bg-kr" onclick="playOrSearch('kr')">
-            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-            Karaoke ▶
-          </div>
+          <div class="platform-badge bg-kr" onclick="playOrSearch('kr')">Karaoke ▶</div>
           <input type="text" id="krUrlInput" class="platform-input" placeholder="Karaoke URL...">
         </div>
       </div>
@@ -377,7 +372,7 @@
       <div class="song-info-combined-box">
         <div class="song-info-header">📜 Izcelsme, piezīmes & akordi:</div>
         <div id="songHistoryDisplay" class="song-history-text">Nav pievienotas norādes vai akordi.</div>
-        <textarea id="songHistoryEditor" class="song-history-editor" placeholder="Šeit ielīmē informāciju par dziesmas izcelsmi, akordiem un vēsturi..."></textarea>
+        <textarea id="songHistoryEditor" class="song-history-editor" placeholder="Ielīmē akordus un vēsturi..."></textarea>
       </div>
 
       <button id="saveBtn" class="save-btn" onclick="saveSongData()">Saglabāt izmaiņas 💾</button>
@@ -391,16 +386,16 @@
       </div>
     </div>
 
-    <!-- 5. EKRĀNS -->
+    <!-- 5. EKRĀNS: Dziesmas vārdi -->
     <div id="page5" class="screen">
       <div class="top-bar">
-        <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ uz dziesmu</span>
+        <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ</span>
         <h3 id="lyricsHeaderTitle" style="font-size: 0.95rem; font-weight: 700;">Vārdi</h3>
       </div>
 
       <div class="lyrics-full-container">
         <div id="lyricsText" class="lyrics-text"></div>
-        <textarea id="lyricsEditor" class="lyrics-editor" placeholder="Šeit ielīmē dziesmu vārdus..."></textarea>
+        <textarea id="lyricsEditor" class="lyrics-editor" placeholder="Ielīmē dziesmu vārdus..."></textarea>
       </div>
 
       <button id="saveBtnLyrics" class="save-btn" onclick="saveSongData()">Saglabāt izmaiņas 💾</button>
@@ -499,7 +494,7 @@
     const defaultSongsData = {
       '001': {
         lyrics: "Vēl tu rozes plūc nenotvīkdama,\nVēl tu matos spraud tās bez nolūka.\n\nVēl tu uzsmaidi visai pasaulei,\nVēl tu nezini sava skaistuma.\n\nPaies laiciņš īss, un tu nosarksi,\nBirzes maliņā ziedus meklējot.\n\nUn tu plūksi tos vienam vienīgam,\nUn tu smaidīsi vienam vienīgam.\n\nKarsti slavēs viņš tavu skaistumu,\nBet es staigāšu kā pa rudeni.",
-        history: "Tonalitāte: Es-dur (Es major)\nAutori: Mūzika: Emīls Dārziņš | Vārdi: Rūdolfs Blaumanis",
+        history: "Tonalitāte: Es-dur\nAutori: Mūzika: Emīls Dārziņš | Vārdi: Rūdolfs Blaumanis",
         yt: "", sp: "", kr: ""
       }
     };
@@ -518,37 +513,29 @@
       };
       actionHistoryLog.unshift(entry);
       if (actionHistoryLog.length > 50) actionHistoryLog.pop();
-      try {
-        localStorage.setItem(APP_KEY_UNIQUE + "_log", JSON.stringify(actionHistoryLog));
-      } catch(e) {}
+      try { localStorage.setItem(APP_KEY_UNIQUE + "_log", JSON.stringify(actionHistoryLog)); } catch(e) {}
     }
 
     function initDataStorage() {
-      let oldList = localStorage.getItem('mySongBookList');
-      let oldData = localStorage.getItem('mySongBookData');
       let savedLog = localStorage.getItem(APP_KEY_UNIQUE + "_log");
+      if (savedLog) { try { actionHistoryLog = JSON.parse(savedLog); } catch(e) {} }
 
-      if (savedLog) {
-        try { actionHistoryLog = JSON.parse(savedLog); } catch(e) {}
-      }
+      let storedList = localStorage.getItem('mySongBookList');
+      let storedData = localStorage.getItem('mySongBookData');
 
-      if (oldList && oldData) {
+      if (storedList && storedData) {
         try {
-          savedSongsList = JSON.parse(oldList);
-          songsData = JSON.parse(oldData);
+          savedSongsList = JSON.parse(storedList);
+          songsData = JSON.parse(storedData);
         } catch(e) {
-          songsData = JSON.parse(JSON.stringify(defaultSongsData));
           savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
+          songsData = JSON.parse(JSON.stringify(defaultSongsData));
         }
       } else {
-        songsData = JSON.parse(JSON.stringify(defaultSongsData));
         savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
+        songsData = JSON.parse(JSON.stringify(defaultSongsData));
       }
-
       saveAllToLocalStorage();
-      if (actionHistoryLog.length === 0) {
-        logUserAction("Lietotne veiksmīgi ielādēta un dati sinhronizēti.", "Sākotnējā sistēmas palaišana un datu sinhronizācija.");
-      }
     }
 
     function saveAllToLocalStorage() {
@@ -556,12 +543,11 @@
         localStorage.setItem('mySongBookList', JSON.stringify(savedSongsList));
         localStorage.setItem('mySongBookData', JSON.stringify(songsData));
         localStorage.setItem(APP_KEY_UNIQUE, JSON.stringify({ list: savedSongsList, data: songsData }));
-      } catch(e) { alert("⚠️ Pārlūka atmiņa pilna."); }
+      } catch(e) {}
     }
 
-    setupHoldHandler('keyVaultBtn', () => {
-      openHistoryVault();
-    }, () => {});
+    // Atslēdziņa (🔑) – turēt tieši 5 sekundes bez liekiem norādījumiem uz klikšķi
+    setupHoldHandler('keyVaultBtn', () => { openHistoryVault(); }, () => {});
 
     function openHistoryVault() {
       const display = document.getElementById('historyLogDisplay');
@@ -574,7 +560,7 @@
             <div class="history-item-card" onclick="toggleHistoryDetails(${index})">
               <div class="history-item-time">⏱️ ${item.time}</div>
               <div class="history-item-desc">📝 ${item.action}</div>
-              <div id="histDetails_${index}" class="history-item-details"><b>Iekšējais saturs / Izmaiņas:</b><br>${item.details}</div>
+              <div id="histDetails_${index}" class="history-item-details"><b>Detaļas:</b><br>${item.details}</div>
             </div>
           `;
         });
@@ -586,50 +572,53 @@
 
     function toggleHistoryDetails(index) {
       const el = document.getElementById(`histDetails_${index}`);
-      if (el) {
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-      }
+      if (el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 
-    function closeHistoryModal() {
-      document.getElementById('historyModal').style.display = 'none';
+    function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
+
+    function copyAiContextToClipboard() {
+      const totalSongs = savedSongsList.length;
+      const sampleTitles = savedSongsList.slice(0, 10).map(s => `${s.id}. ${s.title}`).join(", ");
+      const contextText = `Mani dati par digitālo dziesmu grāmatu (Raimonda Kancāna Dziesmu Grāmata 2026):
+- Unikālā atslēga / ID: raimondskancans_dziesmugramata_data_2026
+- Kopējais dziesmu skaits: ${totalSongs} dziesmas.
+- Sākotnējās dziesmas: ${sampleTitles}...`;
+
+      navigator.clipboard.writeText(contextText).then(() => {
+        const btn = document.getElementById('aiCopyBtn');
+        if (btn) {
+          const originalText = btn.innerText;
+          btn.innerText = "✅ Nokopēts priekš AI!";
+          btn.style.background = "#16a34a";
+          setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "#3b82f6";
+          }, 2500);
+        }
+      }).catch(() => {});
     }
 
     function exportDataFileNow() {
       let activeScreenNum = 1;
       for (let i = 1; i <= 5; i++) {
         const p = document.getElementById('page' + i);
-        if (p && p.style.display === 'flex') {
-          activeScreenNum = i;
-          break;
-        }
+        if (p && p.style.display === 'flex') { activeScreenNum = i; break; }
       }
-
       showPage(1);
 
-      const currentListJson = JSON.stringify(savedSongsList);
-      const currentDataJson = JSON.stringify(songsData);
-      const userAvatar = localStorage.getItem('myUserAvatar') || 'https://via.placeholder.com/150';
-
-      let fullHtml = document.documentElement.outerHTML;
-      fullHtml = fullHtml.replace(/let savedSongsList = \[[\s\S]*?\];/, `let savedSongsList = ${currentListJson};`);
-      fullHtml = fullHtml.replace(/let songsData = \{[\s\S]*?\};/, `let songsData = ${currentDataJson};`);
-      fullHtml = fullHtml.replace(/id="userAvatarImg"[^>]*src="[^"]*"/, `id="userAvatarImg" src="${userAvatar}"`);
-
-      showPage(activeScreenNum);
-
-      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'raimonds-dziesmu-gramata-sakt-no-1-ekrana.html';
+      a.download = 'raimonds-dziesmu-gramata.html';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      logUserAction("Izveidota rezerves kopija failā", "Lejupielādēta pilna faila kopija visiem 5 ekrāniem ar pirmo ekrānu kā sākuma skatu.");
-      alert("Rezerves kopija veiksmīgi lejupielādēta! Atverot šo failu, tas vienmēr sagaidīs tevi 1. ekrānā.");
+      showPage(activeScreenNum);
+      alert("Rezerves kopija lejupielādēta!");
     }
 
     const seasonalFolkDatabase = {
@@ -637,35 +626,26 @@
         name: "🌸 Pavasara Tautasdziesmas",
         items: [
           "Pavasaris tālē sauc,\nSniegi kūst un strauti tek;\nCīrulis jau gaisā dzied,\nDziesmu sirdī modinot.",
-          "Lieldieniņas atnākušas,\nLieli prieki bērniņiem;\nŠūposimies augsti gaisā,\nLai aug lini garumā!",
-          "Ziedējiņi, plaukumiņi,\nVisa zeme zaļumā;\nMeitas dzied un puiši spēlē\nPavasara vakarā.",
-          "Šūpojies, māsiņ, augstā ābelē,\nLai aug garas linu vārpar;\nSaulīte rotājas sidraba rotā,\nPavasara rītā."
+          "Lieldieniņas atnākušas,\nLieli prieki bērniņiem;\nŠūposimies augsti gaisā,\nLai aug lini garumā!"
         ]
       },
       vasara: {
-        name: "☀️ Vasaras Tautasdziesmas (Jāņi & Saulgrieži)",
+        name: "☀️ Vasaras Tautasdziesmas (Jāņi)",
         items: [
           "Rīga dimd, Rīga dimd,\nKas to Rīgu dimdināja?\nVecā krāsa, jauni puiši,\nTie to Rīgu dimdināja.",
-          "Visa laba jāņu zāle,\nKo par Jāņu nakti plūca;\nVisas bij zelta puķes,\nKas ziedēja pļaviņā.",
-          "Šalc zaļais mežs, dzied meitenes,\nSiena laiks pie vārtiem klauvē;\nViegli un viegli saulīte tek\nPār zaļo ozoliņu.",
-          "Dziedat, meitas, ko dziedat,\nDziedat skaisti parastā!\nLai skan meži, lai skan lauki,\nLai skan visa tēvu zeme!"
+          "Visa laba jāņu zāle,\nKo par Jāņu nakti plūca."
         ]
       },
       rudens: {
         name: "🍂 Rudens Tautasdziesmas",
         items: [
-          "Rudens nāk, lapas krīt,\nDzērves kliedz padebešos;\nBet mēs paši savā sētā\nSiltu dziesmu uzdziedam.",
-          "Mārtiņdiena klāt ir atkal,\nGailis dzied uz žoga malas;\nSaimnieks ver klēts durtiņas,\nLabi darbi pabeigti.",
-          "Auga mežā ozoliņš,\nAugstu zarus pacēla;\nRudens nāca sētiņā,\nBagāts vīrs, daudz dāvanu.",
-          "Apakš ozola saknītes\nAtradušu tautu dāvanu;\nAiznesīšu klēts kambarī,\nLai glabājas drošībā."
+          "Rudens nāk, lapas krīt,\nDzērves kliedz padebešos;\nBet mēs paši savā sētā\nSiltu dziesmu uzdziedam."
         ]
       },
       ziema: {
         name: "❄️ Ziemas Tautasdziesmas",
         items: [
-          "Pūt, vējiņi, dzen laiviņu,\nAizved mani kurzemē;\nKurzemniece mani sauca,\nAiz ezera malājiņa.",
-          "Ziemassvētki sabraukuši\nRastās kamanās;\nAtnesuši prieku, mieru,\nZelta dziesmu istabā.",
-          "Saule Pērkons Daugava,\nTrīs lietas labas lietas:\nSaule mūžu mūžos spīdēs,\nPērkons spers, Daugava plūdīs."
+          "Pūt, vējiņi, dzen laiviņu,\nAizved mani kurzemē;\nKurzemniece mani sauca."
         ]
       }
     };
@@ -706,11 +686,7 @@
       elem.addEventListener('contextmenu', (e) => e.preventDefault());
       const startHold = () => {
         isLongPress = false;
-        timer = setTimeout(() => {
-          isLongPress = true;
-          triggerVibrate();
-          onLongHold();
-        }, 5000);
+        timer = setTimeout(() => { isLongPress = true; triggerVibrate(); onLongHold(); }, 5000);
       };
       const cancelHold = () => { if (timer) clearTimeout(timer); };
       elem.addEventListener('mousedown', startHold);
@@ -721,36 +697,21 @@
       elem.addEventListener('touchend', (e) => { cancelHold(); if (!isLongPress && onClickShort) { e.preventDefault(); onClickShort(); } });
     }
 
-    setupHoldHandler('searchBtn3', () => {
-      exportDataFileNow();
-    }, () => {
-      toggleSearch('searchBox3');
-    });
+    setupHoldHandler('searchBtn3', () => { exportDataFileNow(); }, () => { toggleSearch('searchBox3'); });
+    setupHoldHandler('avatarBtnHolder', () => { document.getElementById('avatarFileInput').click(); }, () => { openAvatarModal(); });
+    setupHoldHandler('headerLockBtn', () => { addNewSongOnly(); });
+    setupHoldHandler('songLockBtn', () => { if (isEditMode) lockEditingView(); else unlockEditingView(); });
+    setupHoldHandler('secureShareBoxHolder', () => {
+      document.getElementById('shareBoxText').innerText = PUBLIC_SITE_URL;
+      navigator.clipboard.writeText(PUBLIC_SITE_URL).catch(() => {});
+      document.getElementById('shareActionBtn').style.display = 'flex';
+    }, () => {});
 
     function openAvatarModal() {
       document.getElementById('zoomedAvatarImg').src = document.getElementById('userAvatarImg').src;
       document.getElementById('avatarModal').style.display = 'flex';
     }
     function closeAvatarModal() { document.getElementById('avatarModal').style.display = 'none'; }
-
-    setupHoldHandler('avatarBtnHolder', () => {
-      document.getElementById('avatarFileInput').click();
-    }, () => { openAvatarModal(); });
-
-    setupHoldHandler('headerLockBtn', () => {
-      addNewSongOnly();
-    });
-
-    setupHoldHandler('songLockBtn', () => {
-      if (isEditMode) lockEditingView();
-      else unlockEditingView();
-    });
-
-    setupHoldHandler('secureShareBoxHolder', () => {
-      document.getElementById('shareBoxText').innerText = PUBLIC_SITE_URL;
-      navigator.clipboard.writeText(PUBLIC_SITE_URL).catch(() => {});
-      document.getElementById('shareActionBtn').style.display = 'flex';
-    }, () => {});
 
     function sharePublicLink() {
       if (navigator.share) {
@@ -791,8 +752,8 @@
 
       saveAllToLocalStorage();
       renderSongList();
-      logUserAction(`Pievienota jauna dziesma: #${numTrimmed} ${titleTrimmed}`, `Dziesmas numurs: ${numTrimmed}\nNosaukums: ${titleTrimmed}`);
-      alert(`✅ Dziesma "${titleTrimmed}" (#${numTrimmed}) pievienota un saglabāta!`);
+      logUserAction(`Pievienota dziesma: #${numTrimmed} ${titleTrimmed}`);
+      alert(`✅ Dziesma "${titleTrimmed}" (#${numTrimmed}) pievienota!`);
     }
 
     function openRandomSong() {
@@ -806,10 +767,7 @@
       const reader = new FileReader();
       reader.onload = function() {
         document.getElementById('userAvatarImg').src = reader.result;
-        try { 
-          localStorage.setItem('myUserAvatar', reader.result); 
-          logUserAction("Nomainīta profila bilde", "Lietotājs atjaunināja lietotnes profila attēlu.");
-        } catch(e) {}
+        try { localStorage.setItem('myUserAvatar', reader.result); } catch(e) {}
       };
       if (event.target.files && event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
@@ -930,7 +888,7 @@
       songsData[currentSongId].kr = krVal;
 
       saveAllToLocalStorage();
-      logUserAction(`Labojumi dziesmai #${currentSongId} ${newTitle}`, `Numurs: ${newNum}\nNosaukums: ${newTitle}\nSaites (YT/SP/KR): ${ytVal || '-'} / ${spVal || '-'} / ${krVal || '-'}\n\nVēsture / Akordi:\n${historyVal || '-'}\n\nVārdi:\n${lyricsVal || '-'}`);
+      logUserAction(`Saglabāti labojumi dziesmai #${currentSongId} ${newTitle}`);
 
       document.getElementById('currentSongTitle').innerText = currentSongId + ". " + newTitle;
       document.getElementById('lyricsHeaderTitle').innerText = currentSongId + ". " + newTitle;
@@ -939,7 +897,7 @@
 
       renderSongList();
       lockEditingView();
-      alert("✅ Izmaiņas droši saglabātas un reģistrētas ar pilnu iekšējo saturu arhīvā!");
+      alert("✅ Izmaiņas droši saglabātas!");
     }
 
     function playOrSearch(platformType) {
@@ -987,8 +945,8 @@
 
     document.getElementById('geminiMainBtn').addEventListener('click', () => {
       const currentTitles = savedSongsList.map(s => `${s.id}. ${s.title}`).join(", ");
-      const promptText = `Tu esi mans personīgais Dziesmu Grāmata asistents. Šeit ir mans dziesmu saraksts: [${currentTitles}]. Palīdzi izvēlēties dziesmas svētkiem!`;
-      window.open("https://gemini.google.com/?q=" + encodeURIComponent(promptText),'_blank');
+      const promptText = `Mana dziesmu grāmata (Atslēga: raimondskancans_dziesmugramata_data_2026): [${currentTitles}]. Palīdzi izvēlēties dziesmas!`;
+      window.open("https://gemini.google.com/?q=" + encodeURIComponent(promptText), '_blank');
     });
 
     window.onload = function() {
