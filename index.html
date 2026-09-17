@@ -665,18 +665,22 @@
       }
       showPage(1);
 
-      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
+      // Automātiskās lejupielādes mehānisms ar fiksēto nosaukumu raimonds-dziesmu-gramata.html
+      const htmlContent = document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
+      
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'raimonds-dziesmu-gramata.html';
+      a.download = "raimonds-dziesmu-gramata.html"; // Fiksētais nosaukums
+      
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
       showPage(activeScreenNum);
-      alert("Rezerves kopija lejupielādēta!");
+      alert("Pilnais datu fails ar fiksēto nosaukumu 'raimonds-dziesmu-gramata.html' ir veiksmīgi lejupielādēts!");
     }
 
     const seasonalFolkDatabase = {
@@ -929,7 +933,6 @@
 
       saveAllToLocalStorage();
 
-      // Tagad detalizēti ierakstām izmaiņas un saites vēsturē
       let detailsSummary = `Dziesma: #${currentSongId} ${newTitle}\n`;
       if (ytVal) detailsSummary += `YouTube: ${ytVal}\n`;
       if (spVal) detailsSummary += `Spotify: ${spVal}\n`;
