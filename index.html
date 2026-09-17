@@ -97,7 +97,8 @@
     .notes-icon { font-size: 2rem; margin-bottom: 2px; }
     .main-title { font-size: 1.4rem; font-weight: 900; color: #111111; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
 
-    .folk-card { background: linear-gradient(135deg, #fff9db 0%, #fff3bf 100%); border: 1.5px solid #ffe066; border-radius: 16px; padding: 12px 10px; margin: 6px 0; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-height: 150px; overflow-y: auto; cursor: pointer; }
+    .folk-card { background: linear-gradient(135deg, #fff9db 0%, #fff3bf 100%); border: 1.5px solid #ffe066; border-radius: 16px; padding: 12px 10px; margin: 6px 0; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-height: 160px; overflow-y: auto; cursor: pointer; transition: transform 0.1s ease; }
+    .folk-card:active { transform: scale(0.98); }
     .folk-header { font-size: 0.8rem; font-weight: 800; color: #d9480f; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
     .folk-text { font-size: 0.88rem; font-style: italic; color: #2b2c34; line-height: 1.4; font-weight: 600; white-space: pre-line; }
 
@@ -200,6 +201,7 @@
         <button id="aiCopyBtn" class="ai-context-btn" onclick="copyAiContextToClipboard()" style="background: #3b82f6; color: #ffffff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; margin-bottom: 6px;">📋 Kopēt grāmatas stāvokli un kontekstu AI sarunai</button>
         <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt drošo datu failu</button>
+        <button style="background:#64748b; color:white; border:none; width:100%; padding:10px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:4px;" onclick="clearHistoryLog()">🗑️ Notīrīt vēsturi</button>
         <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:4px;">Aizvērt</button>
       </div>
       <span class="close-btn" onclick="closeHistoryModal()">&times;</span>
@@ -247,7 +249,7 @@
         <div class="notes-icon">🎶</div>
         <h2 class="main-title">Dziesmu Grāmata</h2>
 
-        <div class="folk-card" id="folkCardBox" onclick="nextSeasonalFolkSong()" title="Uzspied nākamo tautasdziesmu!">
+        <div class="folk-card" onclick="nextSeasonalFolkSong()" title="Uzspied, lai mainītu tautasdziesmu!">
           <div class="folk-header" id="folkHeader">🌸 Pavasara Tautasdziesmas</div>
           <div class="folk-text" id="folkText">Ielādē gadalaika tautasdziesmas...</div>
         </div>
@@ -516,6 +518,14 @@
       try { localStorage.setItem(APP_KEY_UNIQUE + "_log", JSON.stringify(actionHistoryLog)); } catch(e) {}
     }
 
+    function clearHistoryLog() {
+      if (confirm("Vai tiešām vēlies notīrīt visu darbību vēsturi?")) {
+        actionHistoryLog = [];
+        try { localStorage.removeItem(APP_KEY_UNIQUE + "_log"); } catch(e) {}
+        openHistoryVault();
+      }
+    }
+
     function initDataStorage() {
       let savedLog = localStorage.getItem(APP_KEY_UNIQUE + "_log");
       if (savedLog) { try { actionHistoryLog = JSON.parse(savedLog); } catch(e) {} }
@@ -546,8 +556,54 @@
       } catch(e) {}
     }
 
-    // Atslēdziņa (🔑) – turēt tieši 5 sekundes klusām
+    function setupHoldHandler(elemId, onLongHold, onClickShort) {
+      const elem = document.getElementById(elemId);
+      if (!elem) return;
+      let timer = null;
+      let isLongPress = false;
+      
+      const startHold = () => {
+        isLongPress = false;
+        timer = setTimeout(() => {
+          isLongPress = true;
+          triggerVibrate();
+          onLongHold();
+        }, 5000);
+      };
+
+      const cancelHold = () => {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      };
+
+      elem.addEventListener('mousedown', startHold);
+      elem.addEventListener('touchstart', startHold, {passive: true});
+      
+      elem.addEventListener('mouseup', () => {
+        cancelHold();
+        if (!isLongPress && onClickShort) onClickShort();
+      });
+      elem.addEventListener('touchend', () => {
+        cancelHold();
+        if (!isLongPress && onClickShort) onClickShort();
+      });
+
+      elem.addEventListener('mouseleave', cancelHold);
+      elem.addEventListener('touchcancel', cancelHold);
+    }
+
     setupHoldHandler('keyVaultBtn', () => { openHistoryVault(); }, () => {});
+    setupHoldHandler('headerLockBtn', () => { addNewSongOnly(); }, () => {});
+    setupHoldHandler('songLockBtn', () => { if (isEditMode) lockEditingView(); else unlockEditingView(); }, () => {});
+    setupHoldHandler('searchBtn3', () => { exportDataFileNow(); }, () => { toggleSearch('searchBox3'); });
+    setupHoldHandler('avatarBtnHolder', () => { document.getElementById('avatarFileInput').click(); }, () => { openAvatarModal(); });
+    setupHoldHandler('secureShareBoxHolder', () => {
+      document.getElementById('shareBoxText').innerText = PUBLIC_SITE_URL;
+      navigator.clipboard.writeText(PUBLIC_SITE_URL).catch(() => {});
+      document.getElementById('shareActionBtn').style.display = 'flex';
+    }, () => {});
 
     function openHistoryVault() {
       const display = document.getElementById('historyLogDisplay');
@@ -560,7 +616,7 @@
             <div class="history-item-card" onclick="toggleHistoryDetails(${index})">
               <div class="history-item-time">⏱️ ${item.time}</div>
               <div class="history-item-desc">📝 ${item.action}</div>
-              <div id="histDetails_${index}" class="history-item-details"><b>Detaļas:</b><br>${item.details}</div>
+              <div id="histDetails_${index}" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>${item.details}</div>
             </div>
           `;
         });
@@ -628,26 +684,34 @@
         name: "🌸 Pavasara Tautasdziesmas",
         items: [
           "Pavasaris tālē sauc,\nSniegi kūst un strauti tek;\nCīrulis jau gaisā dzied,\nDziesmu sirdī modinot.",
-          "Lieldieniņas atnākušas,\nLieli prieki bērniņiem;\nŠūposimies augsti gaisā,\nLai aug lini garumā!"
+          "Lieldieniņas atnākušas,\nLieli prieki bērniņiem;\nŠūposimies augsti gaisā,\nLai aug lini garumā!",
+          "Šūpojies, tautumeita,\nAugstos bērzu zarosos;\nNāks pavasars, ziedēs lejas,\nBūs līgošanas dieniņa.",
+          "Nāc nākdama, pavasara diena,\nTu ilgi gaidīta no mums!\nTu atvedi siltas dienas,\nZaļas lapas kokiem rotā."
         ]
       },
       vasara: {
         name: "☀️ Vasaras Tautasdziesmas (Jāņi)",
         items: [
           "Rīga dimd, Rīga dimd,\nKas to Rīgu dimdināja?\nVecā krāsa, jauni puiši,\nTie to Rīgu dimdināja.",
-          "Visa laba jāņu zāle,\nKo par Jāņu nakti plūca."
+          "Visa laba jāņu zāle,\nKo par Jāņu nakti plūca;\nVisas puķes zelta puķes,\nJāņu zāles visvairāk.",
+          "Līgo saule, līgo mēness,\nLīgo pati tautu meita;\nVisi Jāņi papardēs,\nJāņu māte vainagā.",
+          "Sanāciet, Jāņa bērni,\nJāņu nakti līgoties;\nJāņu nakts ir vismīļākā,\nVisu garo gadiņu."
         ]
       },
       rudens: {
         name: "🍂 Rudens Tautasdziesmas",
         items: [
-          "Rudens nāk, lapas krīt,\nDzērves kliedz padebešos;\nBet mēs paši savā sētā\nSiltu dziesmu uzdziedam."
+          "Rudens nāk, lapas krīt,\nDzērves kliedz padebešos;\nBet mēs paši savā sētā\nSiltu dziesmu uzdziedam.",
+          "Aiz kalniņa dzelten's mēness,\nKas to mēnesi uzcēla?\nRudens darbi padarīti,\nLaiks ir dziesmu daudzināt.",
+          "Es redzēju rudens salnu\nPār visiem druvas loku;\nNu ir bagāts saimes galds,\nGatavs rudens devums."
         ]
       },
       ziema: {
         name: "❄️ Ziemas Tautasdziesmas",
         items: [
-          "Pūt, vējiņi, dzen laiviņu,\nAizved mani kurzemē;\nKurzemniece mani sauca."
+          "Pūt, vējiņi, dzen laiviņu,\nAizved mani kurzemē;\nKurzemniece mani sauca\nAr lieliem lakatiem.",
+          "Ziemas salna logus apvelk,\nSiltas dziesmas istabā;\nLiesma deg un pavards kuras,\nPulcējas visa ģimene.",
+          "Ej projām, gara ziema,\nNāc, saulīte, sildīt zemi;\nGaismas svētki atnākuši,\nAtskan tautas melodija."
         ]
       }
     };
@@ -682,35 +746,6 @@
     }
 
     function triggerVibrate() { if (navigator.vibrate) navigator.vibrate(120); }
-
-    function setupHoldHandler(elemId, onLongHold, onClickShort) {
-      const elem = document.getElementById(elemId);
-      if (!elem) return;
-      let timer = null;
-      let isLongPress = false;
-      elem.addEventListener('contextmenu', (e) => e.preventDefault());
-      const startHold = () => {
-        isLongPress = false;
-        timer = setTimeout(() => { isLongPress = true; triggerVibrate(); onLongHold(); }, 5000);
-      };
-      const cancelHold = () => { if (timer) clearTimeout(timer); };
-      elem.addEventListener('mousedown', startHold);
-      elem.addEventListener('touchstart', startHold, {passive: true});
-      elem.addEventListener('mouseleave', cancelHold);
-      elem.addEventListener('touchcancel', cancelHold);
-      elem.addEventListener('mouseup', () => { cancelHold(); if (!isLongPress && onClickShort) onClickShort(); });
-      elem.addEventListener('touchend', (e) => { cancelHold(); if (!isLongPress && onClickShort) { e.preventDefault(); onClickShort(); } });
-    }
-
-    setupHoldHandler('searchBtn3', () => { exportDataFileNow(); }, () => { toggleSearch('searchBox3'); });
-    setupHoldHandler('avatarBtnHolder', () => { document.getElementById('avatarFileInput').click(); }, () => { openAvatarModal(); });
-    setupHoldHandler('headerLockBtn', () => { addNewSongOnly(); });
-    setupHoldHandler('songLockBtn', () => { if (isEditMode) lockEditingView(); else unlockEditingView(); });
-    setupHoldHandler('secureShareBoxHolder', () => {
-      document.getElementById('shareBoxText').innerText = PUBLIC_SITE_URL;
-      navigator.clipboard.writeText(PUBLIC_SITE_URL).catch(() => {});
-      document.getElementById('shareActionBtn').style.display = 'flex';
-    }, () => {});
 
     function openAvatarModal() {
       document.getElementById('zoomedAvatarImg').src = document.getElementById('userAvatarImg').src;
@@ -757,7 +792,7 @@
 
       saveAllToLocalStorage();
       renderSongList();
-      logUserAction(`Pievienota dziesma: #${numTrimmed} ${titleTrimmed}`);
+      logUserAction(`Pievienota jauna dziesma: #${numTrimmed} ${titleTrimmed}`);
       alert(`✅ Dziesma "${titleTrimmed}" (#${numTrimmed}) pievienota!`);
     }
 
@@ -893,7 +928,16 @@
       songsData[currentSongId].kr = krVal;
 
       saveAllToLocalStorage();
-      logUserAction(`Saglabāti labojumi dziesmai #${currentSongId} ${newTitle}`);
+
+      // Tagad detalizēti ierakstām izmaiņas un saites vēsturē
+      let detailsSummary = `Dziesma: #${currentSongId} ${newTitle}\n`;
+      if (ytVal) detailsSummary += `YouTube: ${ytVal}\n`;
+      if (spVal) detailsSummary += `Spotify: ${spVal}\n`;
+      if (krVal) detailsSummary += `Karaoke: ${krVal}\n`;
+      if (historyVal) detailsSummary += `Piezīmes/Akordi: ${historyVal.substring(0, 80)}...\n`;
+      if (lyricsVal) detailsSummary += `Vārdu garums: ${lyricsVal.length} rakstzīmes.`;
+
+      logUserAction(`Labota dziesma: #${currentSongId} ${newTitle}`, detailsSummary);
 
       document.getElementById('currentSongTitle').innerText = currentSongId + ". " + newTitle;
       document.getElementById('lyricsHeaderTitle').innerText = currentSongId + ". " + newTitle;
@@ -902,7 +946,7 @@
 
       renderSongList();
       lockEditingView();
-      alert("✅ Izmaiņas droši saglabātas!");
+      alert("✅ Izmaiņas droši saglabātas un reģistrētas arhīvā!");
     }
 
     function playOrSearch(platformType) {
