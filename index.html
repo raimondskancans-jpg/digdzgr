@@ -37,6 +37,7 @@
       flex-direction: column;
     }
 
+    /* 1. EKRĀNS */
     #page1 {
       display: flex;
       justify-content: space-between;
@@ -91,7 +92,8 @@
 
     .touch-btn { width: 100%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.25); color: #ffffff; padding: 16px 16px; border-radius: 18px; font-size: 0.95rem; font-weight: 800; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px; flex-shrink: 0; }
 
-    #page2 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); text-align: center; color: #222222; justify-content: space-between; overflow-y: auto; display: none; flex-direction: column; }
+    /* 2. EKRĀNS */
+    #page2 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); text-align: center; color: #222222; justify-content: space-between; overflow-y: auto; flex-direction: column; }
     .notes-icon { font-size: 2rem; margin-bottom: 2px; }
     .main-title { font-size: 1.4rem; font-weight: 900; color: #111111; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
 
@@ -110,6 +112,7 @@
     .gemini-card-btn { background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-bottom: 6px; cursor: pointer; }
     .red-btn { background: #d90429; color: #ffffff; border: none; width: 100%; padding: 12px; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; }
 
+    /* 3. EKRĀNS */
     #page3 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
     .page3-title { font-size: 1.3rem; font-weight: 800; color: #111111; }
@@ -130,6 +133,7 @@
     .song-number { color: #d90429; font-weight: 800; width: 42px; flex-shrink: 0; }
     .song-title { color: #222222; font-weight: 600; }
 
+    /* 4. EKRĀNS */
     #page4 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .nav-words { color: #d90429; font-weight: 800; font-size: 0.88rem; cursor: pointer; background: #fff0f3; padding: 5px 10px; border-radius: 8px; }
     .song-header-title { font-size: 1.2rem; font-weight: 800; color: #111; margin: 6px 0; }
@@ -153,6 +157,7 @@
     .song-history-text { line-height: 1.5; font-weight: 500; white-space: pre-line; font-size: 0.9rem; color: #334155; flex: 1; overflow-y: auto; }
     .song-history-editor { width: 100%; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; display: none; resize: none; margin-top: 4px; font-family: inherit; }
 
+    /* 5. EKRĀNS */
     #page5 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .lyrics-full-container { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; flex: 1; overflow-y: auto; margin: 6px 0; }
     .lyrics-text { font-size: 0.98rem; line-height: 1.55; color: #1e293b; white-space: pre-wrap; font-weight: 500; }
@@ -187,7 +192,7 @@
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <!-- Drošības Vēstures Arhīvs (Pieturot atslēdziņu 🔑 5s) -->
+    <!-- Raimonda Drošības Vēstures Arhīvs (Pieturot atslēdziņu 🔑 5s) -->
     <div id="historyModal" class="history-modal">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
@@ -211,7 +216,7 @@
       </div>
     </div>
 
-    <!-- 1. EKRĀNS -->
+    <!-- 1. EKRĀNS: Sākuma lapa -->
     <div id="page1" class="screen" style="display: flex;">
       <div class="avatar-wrapper">
         <div class="user-avatar-container" id="avatarBtnHolder">
@@ -235,7 +240,7 @@
       </button>
     </div>
 
-    <!-- 2. EKRĀNS -->
+    <!-- 2. EKRĀNS: Galvenā izvēlne -->
     <div id="page2" class="screen">
       <div>
         <div class="notes-icon">🎶</div>
@@ -283,7 +288,7 @@
       </div>
     </div>
 
-    <!-- 3. EKRĀNS -->
+    <!-- 3. EKRĀNS: Satura rādītājs -->
     <div id="page3" class="screen">
       <div class="top-bar">
         <h2 class="page3-title">Satura rādītājs</h2>
@@ -328,7 +333,7 @@
       </div>
     </div>
 
-    <!-- 4. EKRĀNS -->
+    <!-- 4. EKRĀNS: Konkrētā dziesma, saites un akordi -->
     <div id="page4" class="screen">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(5)">📖 Vārdi</span>
@@ -391,7 +396,7 @@
       </div>
     </div>
 
-    <!-- 5. EKRĀNS -->
+    <!-- 5. EKRĀNS: Dziesmas pilnie vārdie -->
     <div id="page5" class="screen">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ uz dziesmu</span>
