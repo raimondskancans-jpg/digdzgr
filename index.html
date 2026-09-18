@@ -526,6 +526,7 @@
       }
     }
 
+    // Viedā datu sinhronizācija: automātiski apvieno koda jauninājumus ar vietējo atmiņu
     function initDataStorage() {
       let savedLog = localStorage.getItem(APP_KEY_UNIQUE + "_log");
       if (savedLog) { try { actionHistoryLog = JSON.parse(savedLog); } catch(e) {} }
@@ -533,17 +534,35 @@
       let storedList = localStorage.getItem('mySongBookList');
       let storedData = localStorage.getItem('mySongBookData');
 
+      let baseList = JSON.parse(JSON.stringify(defaultSongsList));
+      let baseData = JSON.parse(JSON.stringify(defaultSongsData));
+
       if (storedList && storedData) {
         try {
           savedSongsList = JSON.parse(storedList);
           songsData = JSON.parse(storedData);
+
+          // Pievieno jaunas dziesmas no koda, ja tādu vēl nav atmiņā
+          baseList.forEach(defaultSong => {
+            let exists = savedSongsList.find(s => s.id === defaultSong.id);
+            if (!exists) {
+              savedSongsList.push(defaultSong);
+            }
+          });
+
+          Object.keys(baseData).forEach(id => {
+            if (!songsData[id]) {
+              songsData[id] = baseData[id];
+            }
+          });
+
         } catch(e) {
-          savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
-          songsData = JSON.parse(JSON.stringify(defaultSongsData));
+          savedSongsList = baseList;
+          songsData = baseData;
         }
       } else {
-        savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
-        songsData = JSON.parse(JSON.stringify(defaultSongsData));
+        savedSongsList = baseList;
+        songsData = baseData;
       }
       saveAllToLocalStorage();
     }
@@ -665,14 +684,13 @@
       }
       showPage(1);
 
-      // Automātiskās lejupielādes mehānisms ar fiksēto nosaukumu raimonds-dziesmu-gramata.html
       const htmlContent = document.documentElement.outerHTML;
       const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       
       const a = document.createElement('a');
       a.href = url;
-      a.download = "raimonds-dziesmu-gramata.html"; // Fiksētais nosaukums
+      a.download = "raimonds-dziesmu-gramata.html";
       
       document.body.appendChild(a);
       a.click();
@@ -680,7 +698,7 @@
       URL.revokeObjectURL(url);
 
       showPage(activeScreenNum);
-      alert("Pilnais datu fails ar fiksēto nosaukumu 'raimonds-dziesmu-gramata.html' ir veiksmīgi lejupielādēts!");
+      alert("Pilnais datu fails ar fiksēto nosaukumu 'raimonds-dziesmu-gramata.html' ir veiksmīgi saglabāts un lejupielādēts!");
     }
 
     const seasonalFolkDatabase = {
