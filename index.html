@@ -1,1 +1,1034 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mana Dziesmu Grāmata - Raimonds Kancāns</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(180deg, #1d080e 0%, #7a121c 35%, #d12e12 70%, #f78d12 100%);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      height: 100%;
+      animation: fadeIn 0.3s ease-in-out;
+      flex-direction: column;
+    }
+
+    /* 1. EKRĀNS */
+    #page1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      user-select: none;
+      -webkit-user-select: none;
+      padding: 10px 0;
+    }
+
+    .avatar-wrapper { position: relative; display: flex; justify-content: center; align-items: center; margin-top: 5px; }
+    .user-avatar-container { width: 155px; height: 155px; border-radius: 50%; border: 4px solid #ffd700; box-shadow: 0 8px 25px rgba(0,0,0,0.6); overflow: hidden; cursor: pointer; background: #2a080c; position: relative; }
+    .user-avatar { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+    .avatar-modal, .history-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+    .avatar-modal img {
+      max-width: 90vw; max-height: 80vh; border-radius: 20px; border: 4px solid #ffd700; box-shadow: 0 0 35px rgba(255, 215, 0, 0.6); object-fit: contain;
+    }
+    .close-btn {
+      position: absolute; top: 20px; right: 20px; color: #fff; font-size: 2rem; font-weight: bold; cursor: pointer; background: rgba(255, 255, 255, 0.2); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    }
+
+    .history-modal-content {
+      background: #ffffff; width: 100%; max-width: 400px; max-height: 85vh; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #222; text-align: left;
+    }
+    .history-list { flex: 1; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; margin: 10px 0; background: #f8fafc; font-size: 0.82rem; }
+    .history-item-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; margin-bottom: 6px; cursor: pointer; transition: background 0.2s; }
+    .history-item-card:hover { background: #f1f5f9; }
+    .history-item-time { font-size: 0.72rem; color: #d90429; font-weight: 800; margin-bottom: 2px; }
+    .history-item-desc { font-weight: 700; color: #0f172a; font-size: 0.82rem; }
+    .history-item-details { font-size: 0.78rem; color: #334155; margin-top: 4px; white-space: pre-wrap; background: #f8fafc; padding: 4px; border-radius: 4px; border-left: 3px solid #d90429; display: none; }
+
+    .header-1 { cursor: pointer; margin: 8px 0; }
+    .header-1 h1 { color: #ffffff; font-size: 1.9rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); line-height: 1.15; margin-bottom: 4px; }
+    .header-1 .subtitle { color: #ffd700; font-size: 0.95rem; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+
+    .intro-card { background: rgba(0, 0, 0, 0.38); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 20px; padding: 18px 20px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); margin: 6px 0; cursor: pointer; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; overflow-y: auto; }
+    .intro-card p { color: rgba(255, 255, 255, 0.95); font-size: 0.92rem; line-height: 1.5; margin-bottom: 12px; }
+    .intro-card p:last-child { margin-bottom: 0; }
+    .intro-card .highlight { color: #ffd700; font-weight: bold; }
+
+    .touch-btn { width: 100%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.25); color: #ffffff; padding: 16px 16px; border-radius: 18px; font-size: 0.95rem; font-weight: 800; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px; flex-shrink: 0; }
+
+    /* 2. EKRĀNS */
+    #page2 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); text-align: center; color: #222222; justify-content: space-between; overflow-y: auto; display: none; flex-direction: column; }
+    .notes-icon { font-size: 2rem; margin-bottom: 2px; }
+    .main-title { font-size: 1.4rem; font-weight: 900; color: #111111; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+
+    .folk-card { background: linear-gradient(135deg, #fff9db 0%, #fff3bf 100%); border: 1.5px solid #ffe066; border-radius: 16px; padding: 12px 10px; margin: 6px 0; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-height: 160px; overflow-y: auto; cursor: pointer; transition: transform 0.1s ease; }
+    .folk-card:active { transform: scale(0.98); }
+    .folk-header { font-size: 0.8rem; font-weight: 800; color: #d9480f; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+    .folk-text { font-size: 0.88rem; font-style: italic; color: #2b2c34; line-height: 1.4; font-weight: 600; white-space: pre-line; }
+
+    .thanks-card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 10px; margin: 4px 0; text-align: left; font-size: 0.78rem; line-height: 1.35; color: #334155; }
+    .thanks-title { font-weight: 800; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; font-size: 0.82rem; }
+
+    .secure-share-box-wrapper { display: flex; gap: 6px; align-items: center; margin: 6px 0; }
+    .secure-share-box { flex: 1; background: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px; text-align: center; font-size: 0.85rem; color: #1e293b; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; user-select: none; -webkit-user-select: none; word-break: break-all; }
+    .share-action-btn { display: none; background: #3b82f6; color: white; border: none; border-radius: 12px; padding: 10px 14px; font-size: 1.1rem; cursor: pointer; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+
+    .random-song-btn { background: #22c55e; color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-bottom: 6px; cursor: pointer; }
+    .gemini-card-btn { background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-bottom: 6px; cursor: pointer; }
+    .red-btn { background: #d90429; color: #ffffff; border: none; width: 100%; padding: 12px; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; }
+
+    /* 3. EKRĀNS */
+    #page3 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
+    .page3-title { font-size: 1.3rem; font-weight: 800; color: #111111; }
+    .top-right-tools { display: flex; align-items: center; gap: 6px; }
+    .icon-btn { background: #f1f5f9; border: 1px solid #cbd5e1; font-size: 1rem; cursor: pointer; padding: 5px 8px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .icon-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .search-panel { display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 8px; margin-bottom: 8px; flex-shrink: 0; }
+    .search-input-full { width: 100%; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 8px; padding: 8px; font-size: 0.82rem; outline: none; margin-bottom: 4px; }
+    .horizontal-slider { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+    .search-card { flex: 0 0 85%; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; }
+    .category-title { font-size: 0.72rem; font-weight: 800; color: #0f172a; margin-bottom: 3px; }
+    .sub-slider { display: flex; gap: 4px; overflow-x: auto; }
+    .tag-btn { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 3px 6px; border-radius: 12px; font-size: 0.68rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
+
+    .song-list { list-style: none; padding: 0; margin-bottom: 6px; flex: 1; overflow-y: auto; border: 1px solid #f1f5f9; border-radius: 10px; background: #ffffff; }
+    .song-item { display: flex; align-items: center; padding: 10px 8px; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; cursor: pointer; }
+    .song-number { color: #d90429; font-weight: 800; width: 42px; flex-shrink: 0; }
+    .song-title { color: #222222; font-weight: 600; }
+
+    /* 4. EKRĀNS */
+    #page4 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
+    .nav-words { color: #d90429; font-weight: 800; font-size: 0.88rem; cursor: pointer; background: #fff0f3; padding: 5px 10px; border-radius: 8px; }
+    .song-header-title { font-size: 1.2rem; font-weight: 800; color: #111; margin: 6px 0; }
+    .edit-title-box { display: none; gap: 6px; margin-bottom: 6px; }
+    .edit-input { border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px; font-size: 0.85rem; outline: none; }
+    .edit-num { width: 55px; font-weight: bold; }
+    .edit-name { flex: 1; font-weight: 600; }
+
+    .platforms-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; margin-bottom: 8px; flex-shrink: 0; }
+    .platform-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .platform-row:last-child { margin-bottom: 0; }
+    .platform-badge { width: 95px; height: 28px; font-size: 0.7rem; font-weight: 800; border-radius: 6px; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0; cursor: pointer; }
+    .platform-badge svg { width: 13px; height: 13px; fill: currentColor; }
+    .bg-yt { background: #FF0000; }
+    .bg-sp { background: #1DB954; }
+    .bg-kr { background: #7c3aed; }
+    .platform-input { flex: 1; border: 1px solid #cbd5e1; border-radius: 6px; padding: 3px 6px; font-size: 0.7rem; outline: none; display: none; }
+
+    .song-info-combined-box { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 12px; margin-bottom: 8px; flex: 1; display: flex; flex-direction: column; overflow-y: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+    .song-info-header { font-weight: 800; color: #0f172a; margin-bottom: 6px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; font-size: 0.85rem; flex-shrink: 0; }
+    .song-history-text { line-height: 1.5; font-weight: 500; white-space: pre-line; font-size: 0.9rem; color: #334155; flex: 1; overflow-y: auto; }
+    .song-history-editor { width: 100%; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; display: none; resize: none; margin-top: 4px; font-family: inherit; }
+
+    /* 5. EKRĀNS */
+    #page5 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
+    .lyrics-full-container { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; flex: 1; overflow-y: auto; margin: 6px 0; }
+    .lyrics-text { font-size: 0.98rem; line-height: 1.55; color: #1e293b; white-space: pre-wrap; font-weight: 500; }
+    .lyrics-editor { width: 100%; height: 100%; border: none; outline: none; font-family: inherit; font-size: 0.92rem; line-height: 1.5; display: none; resize: none; color: #1e293b; }
+    .save-btn { display: none; background: #16a34a; color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; flex-shrink: 0; }
+
+    .tv-modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);
+    }
+    .tv-modal-content {
+      background: #ffffff; border-radius: 20px; padding: 24px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: fadeIn 0.2s ease-in-out;
+    }
+    .tv-modal-content h3 { color: #d90429; font-size: 1.3rem; margin-bottom: 12px; }
+    .tv-modal-content p { color: #333; font-size: 0.92rem; line-height: 1.5; text-align: left; margin-bottom: 20px; }
+    .tv-modal-content p b { color: #111; }
+    .tv-close-btn { background: #d90429; color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.95rem; }
+
+    .divider { border: none; border-top: 1px solid #eaeaea; margin: 4px 0; flex-shrink: 0; }
+    .author-section { text-align: center; font-size: 0.75rem; color: #333333; margin-bottom: 2px; flex-shrink: 0; }
+    .author-name { color: #d90429; font-weight: 800; font-size: 0.82rem; display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+
+    <!-- Avatar Zoom Modal -->
+    <div id="avatarModal" class="avatar-modal" onclick="closeAvatarModal()">
+      <span class="close-btn">&times;</span>
+      <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
+    </div>
+
+    <!-- Raimonda Drošības Arhīvs (Atslēdziņa 🔑) -->
+    <div id="historyModal" class="history-modal">
+      <div class="history-modal-content">
+        <h3>🔑 Raimonda Drošības Arhīvs</h3>
+        <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub & AI: <br><b>raimondskancans_dziesmugramata_data_2026</b></p>
+        <button id="aiCopyBtn" class="ai-context-btn" onclick="copyAiContextToClipboard()" style="background: #3b82f6; color: #ffffff; border: none; width: 100%; padding: 10px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; cursor: pointer; margin-bottom: 6px;">📋 Kopēt grāmatas stāvokli un kontekstu AI sarunai</button>
+        <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
+        <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt drošo datu failu</button>
+        <button style="background:#64748b; color:white; border:none; width:100%; padding:10px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:4px;" onclick="clearHistoryLog()">🗑️ Notīrīt vēsturi</button>
+        <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:4px;">Aizvērt</button>
+      </div>
+      <span class="close-btn" onclick="closeHistoryModal()">&times;</span>
+    </div>
+
+    <!-- TV Instrukcijas Modal -->
+    <div id="tvModal" class="tv-modal">
+      <div class="tv-modal-content">
+        <h3>📺 Pārraidīšana uz TV</h3>
+        <p>Lai bez kļūdām parādītu dziesmu vārdus uz TV:<br><br>
+        1. Google Chrome augšējā labajā stūrī uzspied uz <b>trīs punktiem (...)</b>.<br>
+        2. Izvēlies opciju <b>'Pārraidīt...' (Cast)</b>.<br>
+        3. Izvēlies savu televizoru!</p>
+        <button class="tv-close-btn" onclick="closeTvModal()">Skaidrs, sapratu 👍</button>
+      </div>
+    </div>
+
+    <!-- 1. EKRĀNS -->
+    <div id="page1" class="screen" style="display: flex;">
+      <div class="avatar-wrapper">
+        <div class="user-avatar-container" id="avatarBtnHolder">
+          <img src="https://via.placeholder.com/150" alt="Profils" id="userAvatarImg" class="user-avatar">
+        </div>
+      </div>
+      <input type="file" id="avatarFileInput" style="display:none" accept="image/*" onchange="uploadAvatar(event)">
+
+      <div class="header-1" onclick="showPage(2)">
+        <h1>MANA DZIESMU<br>GRĀMATA</h1>
+        <div class="subtitle">AR GEMINI AI</div>
+      </div>
+
+      <div class="intro-card" onclick="showPage(2)">
+        <p>Iedvesmojoties no Jāņa Stikuta (fishing.lv) blogera ilgstošās pieredzes un aizrautības, radās doma izveidot modernu digitālo dziesmu grāmatu, apkopojot tieši manas izvēlētās un sirdij tuvās dziesmas.</p>
+        <p>Šī grāmata savu tapšanu sāk <span class="highlight">2026. gadā</span> ar mērķi radīt ērtu vidi kopīgai dziedāšanai. Tā veidota, lai, izmantojot mūsdienu viedierīču ekrāna kopīgošanas iespējas, dziesmu vārdus varētu ērti lasīt vairākos ekrānos vienlaikus.</p>
+      </div>
+
+      <button class="touch-btn" onclick="showPage(3)">
+        TOUCH SCREEN — ATVĒRT SATURA RĀDĪTĀJU ➔
+      </button>
+    </div>
+
+    <!-- 2. EKRĀNS -->
+    <div id="page2" class="screen">
+      <div>
+        <div class="notes-icon">🎶</div>
+        <h2 class="main-title">Dziesmu Grāmata</h2>
+
+        <div class="folk-card" onclick="nextSeasonalFolkSong()" title="Uzspied, lai mainītu tautasdziesmu!">
+          <div class="folk-header" id="folkHeader">🌸 Pavasara Tautasdziesmas</div>
+          <div class="folk-text" id="folkText">Ielādē gadalaika tautasdziesmas...</div>
+        </div>
+
+        <div class="thanks-card">
+          <div class="thanks-title">📖 Pateicība & Avots</div>
+          Liela daļa dziesmu tekstu un tradīciju šajā digitālajā krājumā balstīta uz <strong>"Mārtiņa dziesmu grāmata"</strong> (sastādītājs <strong>Mārtiņš Zandbergs</strong>, 1990. gads). Izsakām sirsnīgu pateicību par šajā izdevumā apkopoto un saglabāto apjomīgo dziesmu pūru, kā arī draugam <strong>Andrim Ūdrim</strong> par atbalstu grāmatas sagatavošanā un muzikālo pieredzi melodiju apdarē!
+        </div>
+
+        <div class="secure-share-box-wrapper">
+          <div class="secure-share-box" id="secureShareBoxHolder" title="Pieturi 5 sekundes!">
+            🌐 🔗 <span id="shareBoxText">...</span>
+          </div>
+          <button class="share-action-btn" id="shareActionBtn" onclick="sharePublicLink()" title="Kopīgot saiti">
+            📤
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <button class="random-song-btn" onclick="openRandomSong()">
+          🎲 Ko dziedāsim šodien? (Nejauša dziesma)
+        </button>
+
+        <button class="gemini-card-btn" id="geminiMainBtn">
+          <span>✨</span> Gemini Dziesmu Asistents
+        </button>
+
+        <button class="red-btn" onclick="showPage(3)">📖 Atvērt satura rādītāju</button>
+      </div>
+
+      <div>
+        <hr class="divider">
+        <div class="author-section">
+          Grāmatu izveidoja un dziesmas izvēlējās
+          <span class="author-name">Raimonds Kancāns</span>
+          <span class="year">2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. EKRĀNS -->
+    <div id="page3" class="screen">
+      <div class="top-bar">
+        <h2 class="page3-title">Satura rādītājs</h2>
+        <div class="top-right-tools">
+          <button class="icon-btn" id="keyVaultBtn" title="Raimonda Drošības Arhīvs (Pieturi 5s)">🔑</button>
+          <button class="icon-btn" id="headerLockBtn" title="Pieturi 5 sekundes, lai pievienotu">🔒</button>
+          <button class="icon-btn" id="castBtn" onclick="triggerCast()" title="Pārraidīt uz TV">
+            <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.92-11-11-11z"/></svg>
+          </button>
+          <button class="icon-btn" id="searchBtn3" title="Meklēt (Pieturi 5s rezerves kopijai)">🔍</button>
+        </div>
+      </div>
+
+      <div id="searchBox3" class="search-panel">
+        <input type="text" id="songSearchInput" class="search-input-full" placeholder="🔍 Meklēt pēc nosaukuma, žanra..." onkeyup="filterSongsList()">
+        <div class="horizontal-slider">
+          <div class="search-card">
+            <div class="category-title">🥳 Pasākumi</div>
+            <div class="sub-slider">
+              <button class="tag-btn" onclick="filterTag('galda')">🍷 Galda dziesmas</button>
+              <button class="tag-btn" onclick="filterTag('ballīte')">🎉 Ballīte</button>
+            </div>
+          </div>
+          <div class="search-card">
+            <div class="category-title">🎸 Žanri</div>
+            <div class="sub-slider">
+              <button class="tag-btn" onclick="filterTag('šlāgeris')">🪗 Šlāgeris</button>
+              <button class="tag-btn" onclick="filterTag('tautas')">🎻 Tautasdziesmas</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="song-list" id="songList"></ul>
+
+      <hr class="divider">
+
+      <div class="author-section">
+        Grāmatu izveidoja un dziesmas izvēlējās
+        <span class="author-name">Raimonds Kancāns</span>
+        <span class="year">2026</span>
+      </div>
+    </div>
+
+    <!-- 4. EKRĀNS -->
+    <div id="page4" class="screen">
+      <div class="top-bar">
+        <span class="nav-words" onclick="showPage(5)">📖 Vārdi</span>
+        <div class="top-right-tools">
+          <button class="icon-btn" id="songLockBtn" title="Pieturi 5 sekundes, lai rediģētu">🔒</button>
+          <button class="icon-btn" onclick="triggerCast()" title="Pārraidīt uz TV">
+            <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.92-11-11-11z"/></svg>
+          </button>
+          <button class="icon-btn" onclick="showPage(3)" title="Saraksts">⬅</button>
+        </div>
+      </div>
+
+      <h2 id="currentSongTitle" class="song-header-title">001. Dziesmas nosaukums</h2>
+
+      <div id="editTitleBox" class="edit-title-box">
+        <input type="text" id="editNumInput" class="edit-input edit-num" placeholder="001">
+        <input type="text" id="editTitleInput" class="edit-input edit-name" placeholder="Nosaukums">
+      </div>
+
+      <div class="platforms-box">
+        <div class="platform-row">
+          <div class="platform-badge bg-yt" onclick="playOrSearch('yt')">YouTube ▶</div>
+          <input type="text" id="ytUrlInput" class="platform-input" placeholder="YouTube URL...">
+        </div>
+        <div class="platform-row">
+          <div class="platform-badge bg-sp" onclick="playOrSearch('sp')">Spotify ▶</div>
+          <input type="text" id="spUrlInput" class="platform-input" placeholder="Spotify URL...">
+        </div>
+        <div class="platform-row">
+          <div class="platform-badge bg-kr" onclick="playOrSearch('kr')">Karaoke ▶</div>
+          <input type="text" id="krUrlInput" class="platform-input" placeholder="Karaoke URL...">
+        </div>
+      </div>
+
+      <div class="song-info-combined-box">
+        <div class="song-info-header">📜 Izcelsme, piezīmes & akordi:</div>
+        <div id="songHistoryDisplay" class="song-history-text">Nav pievienotas norādes vai akordi.</div>
+        <textarea id="songHistoryEditor" class="song-history-editor" placeholder="Ielīmē akordus un vēsturi..."></textarea>
+      </div>
+
+      <button id="saveBtn" class="save-btn" onclick="saveSongData()">Saglabāt izmaiņas 💾</button>
+
+      <hr class="divider">
+
+      <div class="author-section">
+        Grāmatu izveidoja un dziesmas izvēlējās
+        <span class="author-name">Raimonds Kancāns</span>
+        <span class="year">2026</span>
+      </div>
+    </div>
+
+    <!-- 5. EKRĀNS -->
+    <div id="page5" class="screen">
+      <div class="top-bar">
+        <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ</span>
+        <h3 id="lyricsHeaderTitle" style="font-size: 0.95rem; font-weight: 700;">Vārdi</h3>
+      </div>
+
+      <div class="lyrics-full-container">
+        <div id="lyricsText" class="lyrics-text"></div>
+        <textarea id="lyricsEditor" class="lyrics-editor" placeholder="Ielīmē dziesmu vārdus..."></textarea>
+      </div>
+
+      <button id="saveBtnLyrics" class="save-btn" onclick="saveSongData()">Saglabāt izmaiņas 💾</button>
+
+      <hr class="divider">
+
+      <div class="author-section">
+        Grāmatu izveidoja un dziesmas izvēlējās
+        <span class="author-name">Raimonds Kancāns</span>
+        <span class="year">2026</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const APP_KEY_UNIQUE = "raimondskancans_dziesmugramata_data_2026";
+    let currentSongId = '001';
+    let isEditMode = false;
+    const PUBLIC_SITE_URL = "https://raimondskancans-jpg.github.io/digdzgr/";
+
+    const defaultSongsList = [
+      { id: '001', title: 'Vēl tu rozes plūc' },
+      { id: '002', title: 'Gaujas laivinieks' },
+      { id: '003', title: 'Vecpiebalgas ūdensrozes' },
+      { id: '004', title: 'Dažu skaistu ziedu' },
+      { id: '005', title: 'Vēstule no Sorento' },
+      { id: '006', title: 'Ķemermiestiņā' },
+      { id: '007', title: 'Sazatiku puisīti' },
+      { id: '008', title: 'Es katru sestdien’s vakarau' },
+      { id: '009', title: 'Še, kur līgo priežu meži' },
+      { id: '010', title: 'Nezviedz, bērais kumeliņ' },
+      { id: '011', title: 'Mazs bij tēva novadiņš' },
+      { id: '012', title: 'Projām jāiet' },
+      { id: '013', title: 'Atgriezies' },
+      { id: '014', title: 'Dzīvīte' },
+      { id: '015', title: 'Mīļā meitiņ, atver logu' },
+      { id: '016', title: 'Es uzkāpu kalniņā' },
+      { id: '017', title: 'Lakstīgalas naktī' },
+      { id: '018', title: 'Kam ziedi, mežābele' },
+      { id: '019', title: 'Uz kalna stāv vientulis ozols' },
+      { id: '020', title: 'Es zinu, visi mani nievā' },
+      { id: '021', title: 'Nodzisa vakara blāzma' },
+      { id: '022', title: 'Dziesma par sevi' },
+      { id: '023', title: 'Es zinu, ka vienreiz man dārziņš būs' },
+      { id: '024', title: 'Debess tumša, mākoņaina' },
+      { id: '025', title: 'Vēstule no tāluma' },
+      { id: '026', title: 'Kā var aizmirst' },
+      { id: '027', title: 'Sen tas bij' },
+      { id: '028', title: 'Tumšajā naktī' },
+      { id: '029', title: 'Ak vai, cik žēl' },
+      { id: '030', title: 'Ugunskurs' },
+      { id: '031', title: 'Čigāniete' },
+      { id: '032', title: 'Atceries, meitenīt' },
+      { id: '033', title: 'Virši zili, virši sārti' },
+      { id: '034', title: 'Zilniece' },
+      { id: '035', title: 'Tōli dzeivoj muna meilō' },
+      { id: '036', title: 'Draugs, nejautā' },
+      { id: '037', title: 'Jaunība' },
+      { id: '038', title: 'Es nenācu šai vietā' },
+      { id: '039', title: 'Carpe dem' },
+      { id: '040', title: 'Meža būdiņa' },
+      { id: '041', title: 'Vaidava' },
+      { id: '042', title: 'Krizantēmas' },
+      { id: '043', title: 'Lēna vēsmiņa' },
+      { id: '044', title: 'Lai iedzeram' },
+      { id: '045', title: 'Dzert un dziedāt' },
+      { id: '046', title: 'Alus ezeriņš' },
+      { id: '047', title: 'Māmiņ, mīļo māmiņ' },
+      { id: '048', title: 'Es dzērājs vīriņš' },
+      { id: '049', title: 'Čiepiņa' },
+      { id: '050', title: 'Ziedi, ziedi, rudzu vārpa' },
+      { id: '051', title: 'Pie Dzintara jūras' },
+      { id: '052', title: 'Es dziļi glāzē ieskatījos' },
+      { id: '053', title: 'Bēdu manu lielo bēdu' },
+      { id: '054', title: 'Šalc zaļais mežs' },
+      { id: '055', title: 'Maziņš biju mīlulītis' },
+      { id: '056', title: 'Div’ dzelteni kumeliņi' },
+      { id: '057', title: 'Iedzer, vecais, granapipku' },
+      { id: '058', title: 'Puiši, puiši, kas tie puiši' },
+      { id: '059', title: 'Cīrul’s augstu gaisā' },
+      { id: '060', title: 'Mazā kaija' },
+      { id: '061', title: 'Mātei meita' },
+      { id: '062', title: 'Es savai līgavai' },
+      { id: '063', title: 'Reiz bija puķīte' },
+      { id: '064', title: 'To tik zina es un viņš' },
+      { id: '065', title: 'Ak, pavasar\'' },
+      { id: '066', title: 'Pidriķis' },
+      { id: '067', title: 'Lai meiča atsaucas' },
+      { id: '068', title: 'Ciemiņami cūka zuda' },
+      { id: '069', title: 'Mēnešu jubilejas dziesma' },
+      { id: '070', title: 'Tumša, tumša tā eglīte' },
+      { id: '071', title: '71. dziesma (Jaunā dziesma)' }
+    ];
+
+    const defaultSongsData = {
+      '001': {
+        lyrics: "Vēl tu rozes plūc nenotvīkdama,\nVēl tu matos spraud tās bez nolūka.\n\nVēl tu uzsmaidi visai pasaulei,\nVēl tu nezini sava skaistuma.\n\nPaies laiciņš īss, un tu nosarksi,\nBirzes maliņā ziedus meklējot.\n\nUn tu plūksi tos vienam vienīgam,\nUn tu smaidīsi vienam vienīgam.\n\nKarsti slavēs viņš tavu skaistumu,\nBet es staigāšu kā pa rudeni.",
+        history: "Tonalitāte: Es-dur\nAutori: Mūzika: Emīls Dārziņš | Vārdi: Rūdolfs Blaumanis",
+        yt: "", sp: "", kr: ""
+      }
+    };
+
+    let savedSongsList = [];
+    let songsData = {};
+    let actionHistoryLog = [];
+
+    function logUserAction(actionText, detailsContent = "") {
+      const timeStr = new Date().toLocaleTimeString('lv-LV');
+      const dateStr = new Date().toLocaleDateString('lv-LV');
+      const entry = {
+        time: `${dateStr} ${timeStr}`,
+        action: actionText,
+        details: detailsContent || "Nav papildus detaļu."
+      };
+      actionHistoryLog.unshift(entry);
+      if (actionHistoryLog.length > 50) actionHistoryLog.pop();
+      try { localStorage.setItem(APP_KEY_UNIQUE + "_log", JSON.stringify(actionHistoryLog)); } catch(e) {}
+    }
+
+    function clearHistoryLog() {
+      if (confirm("Vai tiešām vēlies notīrīt visu darbību vēsturi?")) {
+        actionHistoryLog = [];
+        try { localStorage.removeItem(APP_KEY_UNIQUE + "_log"); } catch(e) {}
+        openHistoryVault();
+      }
+    }
+
+    // Viedā datu sinhronizācija: automātiski apvieno koda jauninājumus ar vietējo atmiņu
+    function initDataStorage() {
+      let savedLog = localStorage.getItem(APP_KEY_UNIQUE + "_log");
+      if (savedLog) { try { actionHistoryLog = JSON.parse(savedLog); } catch(e) {} }
+
+      let storedList = localStorage.getItem('mySongBookList');
+      let storedData = localStorage.getItem('mySongBookData');
+
+      let baseList = JSON.parse(JSON.stringify(defaultSongsList));
+      let baseData = JSON.parse(JSON.stringify(defaultSongsData));
+
+      if (storedList && storedData) {
+        try {
+          savedSongsList = JSON.parse(storedList);
+          songsData = JSON.parse(storedData);
+
+          // Pievieno jaunas dziesmas no koda, ja tādu vēl nav atmiņā
+          baseList.forEach(defaultSong => {
+            let exists = savedSongsList.find(s => s.id === defaultSong.id);
+            if (!exists) {
+              savedSongsList.push(defaultSong);
+            }
+          });
+
+          Object.keys(baseData).forEach(id => {
+            if (!songsData[id]) {
+              songsData[id] = baseData[id];
+            }
+          });
+
+        } catch(e) {
+          savedSongsList = baseList;
+          songsData = baseData;
+        }
+      } else {
+        savedSongsList = baseList;
+        songsData = baseData;
+      }
+      saveAllToLocalStorage();
+    }
+
+    function saveAllToLocalStorage() {
+      try {
+        localStorage.setItem('mySongBookList', JSON.stringify(savedSongsList));
+        localStorage.setItem('mySongBookData', JSON.stringify(songsData));
+        localStorage.setItem(APP_KEY_UNIQUE, JSON.stringify({ list: savedSongsList, data: songsData }));
+      } catch(e) {}
+    }
+
+    function setupHoldHandler(elemId, onLongHold, onClickShort) {
+      const elem = document.getElementById(elemId);
+      if (!elem) return;
+      let timer = null;
+      let isLongPress = false;
+      
+      const startHold = () => {
+        isLongPress = false;
+        timer = setTimeout(() => {
+          isLongPress = true;
+          triggerVibrate();
+          onLongHold();
+        }, 5000);
+      };
+
+      const cancelHold = () => {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      };
+
+      elem.addEventListener('mousedown', startHold);
+      elem.addEventListener('touchstart', startHold, {passive: true});
+      
+      elem.addEventListener('mouseup', () => {
+        cancelHold();
+        if (!isLongPress && onClickShort) onClickShort();
+      });
+      elem.addEventListener('touchend', () => {
+        cancelHold();
+        if (!isLongPress && onClickShort) onClickShort();
+      });
+
+      elem.addEventListener('mouseleave', cancelHold);
+      elem.addEventListener('touchcancel', cancelHold);
+    }
+
+    setupHoldHandler('keyVaultBtn', () => { openHistoryVault(); }, () => {});
+    setupHoldHandler('headerLockBtn', () => { addNewSongOnly(); }, () => {});
+    setupHoldHandler('songLockBtn', () => { if (isEditMode) lockEditingView(); else unlockEditingView(); }, () => {});
+    setupHoldHandler('searchBtn3', () => { exportDataFileNow(); }, () => { toggleSearch('searchBox3'); });
+    setupHoldHandler('avatarBtnHolder', () => { document.getElementById('avatarFileInput').click(); }, () => { openAvatarModal(); });
+    setupHoldHandler('secureShareBoxHolder', () => {
+      document.getElementById('shareBoxText').innerText = PUBLIC_SITE_URL;
+      navigator.clipboard.writeText(PUBLIC_SITE_URL).catch(() => {});
+      document.getElementById('shareActionBtn').style.display = 'flex';
+    }, () => {});
+
+    function openHistoryVault() {
+      const display = document.getElementById('historyLogDisplay');
+      if (actionHistoryLog.length === 0) {
+        display.innerHTML = "Nav reģistrētu darbību.";
+      } else {
+        let htmlCards = "";
+        actionHistoryLog.forEach((item, index) => {
+          htmlCards += `
+            <div class="history-item-card" onclick="toggleHistoryDetails(${index})">
+              <div class="history-item-time">⏱️ ${item.time}</div>
+              <div class="history-item-desc">📝 ${item.action}</div>
+              <div id="histDetails_${index}" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>${item.details}</div>
+            </div>
+          `;
+        });
+        display.innerHTML = htmlCards;
+      }
+      document.getElementById('historyModal').style.display = 'flex';
+      triggerVibrate();
+    }
+
+    function toggleHistoryDetails(index) {
+      const el = document.getElementById(`histDetails_${index}`);
+      if (el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
+
+    function copyAiContextToClipboard() {
+      const totalSongs = savedSongsList.length;
+      const sampleTitles = savedSongsList.slice(0, 15).map(s => `${s.id}. ${s.title}`).join(", ");
+      const contextText = `[RAIMONDA KANCĀNA DIGITALĀ DZIESMU GRĀMATA - AI KONTEKSTS UN DATI]
+- Unikālā atslēga / ID: raimondskancans_dziesmugramata_data_2026
+- Autors: Raimonds Kancāns (2026)
+- Kopējais dziesmu skaits: ${totalSongs} dziesmas.
+- Sākotnējās dziesmas paraugam: ${sampleTitles}...
+- Mērķis: Ērta vide kopīgai dziedāšanai vairākos ekrānos, balstīta uz Mārtiņa Zandberga 1990. gada dziesmu grāmatu un Andra Ūdra aranžējumiem. Šis ir pastāvīgs un stabils projekts.`;
+
+      navigator.clipboard.writeText(contextText).then(() => {
+        const btn = document.getElementById('aiCopyBtn');
+        if (btn) {
+          const originalText = btn.innerText;
+          btn.innerText = "✅ Nokopēts priekš AI!";
+          btn.style.background = "#16a34a";
+          setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "#3b82f6";
+          }, 2500);
+        }
+      }).catch(() => {});
+    }
+
+    function exportDataFileNow() {
+      let activeScreenNum = 1;
+      for (let i = 1; i <= 5; i++) {
+        const p = document.getElementById('page' + i);
+        if (p && p.style.display === 'flex') { activeScreenNum = i; break; }
+      }
+      showPage(1);
+
+      const htmlContent = document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "raimonds-dziesmu-gramata.html";
+      
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showPage(activeScreenNum);
+      alert("Pilnais datu fails ar fiksēto nosaukumu 'raimonds-dziesmu-gramata.html' ir veiksmīgi saglabāts un lejupielādēts!");
+    }
+
+    const seasonalFolkDatabase = {
+      pavasaris: {
+        name: "🌸 Pavasara Tautasdziesmas",
+        items: [
+          "Pavasaris tālē sauc,\nSniegi kūst un strauti tek;\nCīrulis jau gaisā dzied,\nDziesmu sirdī modinot.",
+          "Lieldieniņas atnākušas,\nLieli prieki bērniņiem;\nŠūposimies augsti gaisā,\nLai aug lini garumā!",
+          "Šūpojies, tautumeita,\nAugstos bērzu zarosos;\nNāks pavasars, ziedēs lejas,\nBūs līgošanas dieniņa.",
+          "Nāc nākdama, pavasara diena,\nTu ilgi gaidīta no mums!\nTu atvedi siltas dienas,\nZaļas lapas kokiem rotā."
+        ]
+      },
+      vasara: {
+        name: "☀️ Vasaras Tautasdziesmas (Jāņi)",
+        items: [
+          "Rīga dimd, Rīga dimd,\nKas to Rīgu dimdināja?\nVecā krāsa, jauni puiši,\nTie to Rīgu dimdināja.",
+          "Visa laba jāņu zāle,\nKo par Jāņu nakti plūca;\nVisas puķes zelta puķes,\nJāņu zāles visvairāk.",
+          "Līgo saule, līgo mēness,\nLīgo pati tautu meita;\nVisi Jāņi papardēs,\nJāņu māte vainagā.",
+          "Sanāciet, Jāņa bērni,\nJāņu nakti līgoties;\nJāņu nakts ir vismīļākā,\nVisu garo gadiņu."
+        ]
+      },
+      rudens: {
+        name: "🍂 Rudens Tautasdziesmas",
+        items: [
+          "Rudens nāk, lapas krīt,\nDzērves kliedz padebešos;\nBet mēs paši savā sētā\nSiltu dziesmu uzdziedam.",
+          "Aiz kalniņa dzelten's mēness,\nKas to mēnesi uzcēla?\nRudens darbi padarīti,\nLaiks ir dziesmu daudzināt.",
+          "Es redzēju rudens salnu\nPār visiem druvas loku;\nNu ir bagāts saimes galds,\nGatavs rudens devums."
+        ]
+      },
+      ziema: {
+        name: "❄️ Ziemas Tautasdziesmas",
+        items: [
+          "Pūt, vējiņi, dzen laiviņu,\nAizved mani kurzemē;\nKurzemniece mani sauca\nAr lieliem lakatiem.",
+          "Ziemas salna logus apvelk,\nSiltas dziesmas istabā;\nLiesma deg un pavards kuras,\nPulcējas visa ģimene.",
+          "Ej projām, gara ziema,\nNāc, saulīte, sildīt zemi;\nGaismas svētki atnākuši,\nAtskan tautas melodija."
+        ]
+      }
+    };
+
+    let activeSeasonKey = 'pavasaris';
+    let currentSeasonalIndex = 0;
+
+    function determineCurrentSeasonKey() {
+      const month = new Date().getMonth();
+      if (month >= 2 && month <= 4) return 'pavasaris';
+      if (month >= 5 && month <= 7) return 'vasara';
+      if (month >= 8 && month <= 10) return 'rudens';
+      return 'ziema';
+    }
+
+    function updateSeasonalFolkSong() {
+      activeSeasonKey = determineCurrentSeasonKey();
+      const seasonData = seasonalFolkDatabase[activeSeasonKey];
+      const headerEl = document.getElementById('folkHeader');
+      const textEl = document.getElementById('folkText');
+      if (headerEl) headerEl.innerText = seasonData.name;
+      if (currentSeasonalIndex >= seasonData.items.length) currentSeasonalIndex = 0;
+      if (textEl) textEl.innerText = seasonData.items[currentSeasonalIndex];
+    }
+
+    function nextSeasonalFolkSong() {
+      const seasonData = seasonalFolkDatabase[activeSeasonKey];
+      currentSeasonalIndex = (currentSeasonalIndex + 1) % seasonData.items.length;
+      const textEl = document.getElementById('folkText');
+      if (textEl) textEl.innerText = seasonData.items[currentSeasonalIndex];
+      triggerVibrate();
+    }
+
+    function triggerVibrate() { if (navigator.vibrate) navigator.vibrate(120); }
+
+    function openAvatarModal() {
+      document.getElementById('zoomedAvatarImg').src = document.getElementById('userAvatarImg').src;
+      document.getElementById('avatarModal').style.display = 'flex';
+    }
+    function closeAvatarModal() { document.getElementById('avatarModal').style.display = 'none'; }
+
+    function sharePublicLink() {
+      if (navigator.share) {
+        navigator.share({ title: 'Mana Dziesmu Grāmata', text: 'Dziedi līdzi!', url: PUBLIC_SITE_URL }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(PUBLIC_SITE_URL).then(() => {
+          document.getElementById('shareBoxText').innerText = "✅ Nokopēts!";
+          setTimeout(() => { document.getElementById('shareBoxText').innerText = PUBLIC_SITE_URL; }, 2500);
+        });
+      }
+    }
+
+    async function triggerCast() {
+      if (window.RemotePlayback && document.createElement('video').remotePlayback) {
+        try {
+          const dummyVideo = document.createElement('video');
+          await dummyVideo.remotePlayback.prompt();
+          return;
+        } catch (err) {}
+      }
+      document.getElementById('tvModal').style.display = 'flex';
+    }
+    function closeTvModal() { document.getElementById('tvModal').style.display = 'none'; }
+
+    function addNewSongOnly() {
+      let defaultId = getNextAvailableId();
+      const numInput = prompt("Ievadi jaunās dziesmas NUMURU:", defaultId);
+      if (!numInput || numInput.trim() === "") return;
+      const numTrimmed = numInput.trim();
+      if (savedSongsList.some(s => s.id === numTrimmed)) { alert(`❌ Numurs #${numTrimmed} jau pastāv!`); return; }
+
+      const titleInput = prompt(`Ievadi dziesmas NOSAUKUMU numuram #${numTrimmed}:`);
+      if (!titleInput || titleInput.trim() === "") return;
+      const titleTrimmed = titleInput.trim();
+
+      savedSongsList.push({ id: numTrimmed, title: titleTrimmed });
+      if (!songsData[numTrimmed]) { songsData[numTrimmed] = { lyrics: '', yt: '', sp: '', kr: '', history: '' }; }
+
+      saveAllToLocalStorage();
+      renderSongList();
+      logUserAction(`Pievienota jauna dziesma: #${numTrimmed} ${titleTrimmed}`);
+      alert(`✅ Dziesma "${titleTrimmed}" (#${numTrimmed}) pievienota!`);
+    }
+
+    function openRandomSong() {
+      if (savedSongsList.length === 0) return;
+      const randomIndex = Math.floor(Math.random() * savedSongsList.length);
+      const song = savedSongsList[randomIndex];
+      openSong(song.id, song.title);
+    }
+
+    function uploadAvatar(event) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById('userAvatarImg').src = reader.result;
+        try { localStorage.setItem('myUserAvatar', reader.result); } catch(e) {}
+      };
+      if (event.target.files && event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function renderSongList() {
+      const listContainer = document.getElementById('songList');
+      listContainer.innerHTML = '';
+      savedSongsList.sort((a, b) => a.id.localeCompare(b.id, undefined, {numeric: true}));
+
+      savedSongsList.forEach(song => {
+        const li = document.createElement('li');
+        li.className = 'song-item';
+        li.setAttribute('data-id', song.id);
+        li.setAttribute('data-title', song.title.toLowerCase());
+        const historyText = (songsData[song.id] && songsData[song.id].history) ? songsData[song.id].history.toLowerCase() : '';
+        li.setAttribute('data-history', historyText);
+        li.setAttribute('onclick', `openSong('${song.id}', '${song.title.replace(/'/g, "\\'")}')`);
+        li.innerHTML = `<span class="song-number">${song.id}</span><span class="song-title">${song.title}</span>`;
+        listContainer.appendChild(li);
+      });
+    }
+
+    function getNextAvailableId() {
+      let maxId = 0;
+      savedSongsList.forEach(s => { const num = parseInt(s.id, 10); if (!isNaN(num) && num > maxId) maxId = num; });
+      return String(maxId + 1).padStart(3, '0');
+    }
+
+    function showPage(pageNumber) {
+      for (let i = 1; i <= 5; i++) {
+        const p = document.getElementById('page' + i);
+        if (p) p.style.display = 'none';
+      }
+      const target = document.getElementById('page' + pageNumber);
+      if (target) target.style.display = 'flex';
+
+      if (pageNumber === 2) {
+        updateSeasonalFolkSong();
+        document.getElementById('shareBoxText').innerText = "...";
+        document.getElementById('shareActionBtn').style.display = 'none';
+      }
+    }
+
+    function openSong(num, title) {
+      currentSongId = num;
+      document.getElementById('currentSongTitle').innerText = num + ". " + title;
+      document.getElementById('lyricsHeaderTitle').innerText = num + ". " + title;
+      document.getElementById('editNumInput').value = num;
+      document.getElementById('editTitleInput').value = title;
+
+      lockEditingView();
+
+      const song = songsData[num] || { lyrics: '', yt: '', sp: '', kr: '', history: '' };
+      document.getElementById('lyricsText').innerText = song.lyrics || "Teksts vēl nav pievienots.";
+      document.getElementById('lyricsEditor').value = song.lyrics || "";
+      document.getElementById('songHistoryDisplay').innerText = song.history || "Nav pievienotas norādes vai akordi.";
+      document.getElementById('songHistoryEditor').value = song.history || "";
+      document.getElementById('ytUrlInput').value = song.yt || "";
+      document.getElementById('spUrlInput').value = song.sp || "";
+      document.getElementById('krUrlInput').value = song.kr || "";
+
+      showPage(4);
+    }
+
+    function unlockEditingView() {
+      isEditMode = true;
+      document.getElementById('currentSongTitle').style.display = 'none';
+      document.getElementById('editTitleBox').style.display = 'flex';
+      document.getElementById('saveBtn').style.display = 'block';
+      document.getElementById('saveBtnLyrics').style.display = 'block';
+      document.getElementById('songHistoryDisplay').style.display = 'none';
+      document.getElementById('songHistoryEditor').style.display = 'block';
+      document.querySelectorAll('.platform-input').forEach(i => i.style.display = 'block');
+      document.getElementById('lyricsText').style.display = 'none';
+      document.getElementById('lyricsEditor').style.display = 'block';
+      document.getElementById('songLockBtn').innerText = '🔓';
+    }
+
+    function lockEditingView() {
+      isEditMode = false;
+      document.getElementById('currentSongTitle').style.display = 'block';
+      document.getElementById('editTitleBox').style.display = 'none';
+      document.getElementById('saveBtn').style.display = 'none';
+      document.getElementById('saveBtnLyrics').style.display = 'none';
+      document.getElementById('songHistoryDisplay').style.display = 'block';
+      document.getElementById('songHistoryEditor').style.display = 'none';
+      document.querySelectorAll('.platform-input').forEach(i => i.style.display = 'none');
+      document.getElementById('lyricsText').style.display = 'block';
+      document.getElementById('lyricsEditor').style.display = 'none';
+      document.getElementById('songLockBtn').innerText = '🔒';
+    }
+
+    function saveSongData() {
+      const newNum = document.getElementById('editNumInput').value.trim();
+      const newTitle = document.getElementById('editTitleInput').value.trim();
+      const lyricsVal = document.getElementById('lyricsEditor').value;
+      const historyVal = document.getElementById('songHistoryEditor').value;
+      const ytVal = document.getElementById('ytUrlInput').value.trim();
+      const spVal = document.getElementById('spUrlInput').value.trim();
+      const krVal = document.getElementById('krUrlInput').value.trim();
+
+      if (!newNum || !newTitle) { alert("Numurs un nosaukums nevar būt tukšs!"); return; }
+
+      const songItem = savedSongsList.find(s => s.id === currentSongId);
+      if (songItem) { songItem.id = newNum; songItem.title = newTitle; }
+
+      if (currentSongId !== newNum && songsData[currentSongId]) {
+        songsData[newNum] = songsData[currentSongId];
+        delete songsData[currentSongId];
+      }
+
+      currentSongId = newNum;
+      if (!songsData[currentSongId]) songsData[currentSongId] = {};
+      songsData[currentSongId].lyrics = lyricsVal;
+      songsData[currentSongId].history = historyVal;
+      songsData[currentSongId].yt = ytVal;
+      songsData[currentSongId].sp = spVal;
+      songsData[currentSongId].kr = krVal;
+
+      saveAllToLocalStorage();
+
+      let detailsSummary = `Dziesma: #${currentSongId} ${newTitle}\n`;
+      if (ytVal) detailsSummary += `YouTube: ${ytVal}\n`;
+      if (spVal) detailsSummary += `Spotify: ${spVal}\n`;
+      if (krVal) detailsSummary += `Karaoke: ${krVal}\n`;
+      if (historyVal) detailsSummary += `Piezīmes/Akordi: ${historyVal.substring(0, 80)}...\n`;
+      if (lyricsVal) detailsSummary += `Vārdu garums: ${lyricsVal.length} rakstzīmes.`;
+
+      logUserAction(`Labota dziesma: #${currentSongId} ${newTitle}`, detailsSummary);
+
+      document.getElementById('currentSongTitle').innerText = currentSongId + ". " + newTitle;
+      document.getElementById('lyricsHeaderTitle').innerText = currentSongId + ". " + newTitle;
+      document.getElementById('lyricsText').innerText = lyricsVal || "Teksts vēl nav pievienots.";
+      document.getElementById('songHistoryDisplay').innerText = historyVal || "Nav pievienotas norādes vai akordi.";
+
+      renderSongList();
+      lockEditingView();
+      alert("✅ Izmaiņas droši saglabātas un reģistrētas arhīvā!");
+    }
+
+    function playOrSearch(platformType) {
+      let savedUrl = "";
+      if (platformType === 'yt') savedUrl = document.getElementById('ytUrlInput').value.trim();
+      if (platformType === 'sp') savedUrl = document.getElementById('spUrlInput').value.trim();
+      if (platformType === 'kr') savedUrl = document.getElementById('krUrlInput').value.trim();
+
+      if (savedUrl !== "") {
+        let finalUrl = savedUrl;
+        if (!/^https?:\/\//i.test(finalUrl)) finalUrl = 'https://' + finalUrl;
+        window.open(finalUrl, '_blank');
+      } else {
+        const fullTitle = document.getElementById('currentSongTitle').innerText;
+        const songTitle = fullTitle.replace(/^\d+\.\s*/, '').trim();
+        const encodedQuery = encodeURIComponent(songTitle);
+        let targetUrl = "";
+        if (platformType === 'yt') targetUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
+        if (platformType === 'sp') targetUrl = `https://open.spotify.com/search/${encodedQuery}`;
+        if (platformType === 'kr') targetUrl = `https://www.youtube.com/results?search_query=${encodedQuery}+karaoke`;
+        if (targetUrl) window.open(targetUrl, '_blank');
+      }
+    }
+
+    function filterSongsList() {
+      const q = document.getElementById('songSearchInput').value.toLowerCase().trim();
+      document.querySelectorAll('#songList .song-item').forEach(item => {
+        const title = item.getAttribute('data-title') || '';
+        const id = item.getAttribute('data-id') || '';
+        const history = item.getAttribute('data-history') || '';
+        if (title.includes(q) || id.includes(q) || history.includes(q)) item.style.display = 'flex';
+        else item.style.display = 'none';
+      });
+    }
+
+    function filterTag(tagName) {
+      document.getElementById('songSearchInput').value = tagName;
+      filterSongsList();
+    }
+
+    function toggleSearch(elementId) {
+      const box = document.getElementById(elementId);
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    document.getElementById('geminiMainBtn').addEventListener('click', () => {
+      const currentTitles = savedSongsList.map(s => `${s.id}. ${s.title}`).join(", ");
+      const promptText = `Mana dziesmu grāmata (Atslēga: raimondskancans_dziesmugramata_data_2026): [${currentTitles}]. Palīdzi izvēlēties dziesmas!`;
+      window.open("https://gemini.google.com/?q=" + encodeURIComponent(promptText), '_blank');
+    });
+
+    window.onload = function() {
+      initDataStorage();
+      const savedPic = localStorage.getItem('myUserAvatar');
+      if (savedPic) document.getElementById('userAvatarImg').src = savedPic;
+      updateSeasonalFolkSong();
+      renderSongList();
+      document.getElementById('shareBoxText').innerText = "...";
+      document.getElementById('shareActionBtn').style.display = 'none';
+    };
+  </script>
+
+</body>
+</html>
