@@ -615,10 +615,6 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     let isEditMode = false;
     const PUBLIC_SITE_URL = "https://raimondskancans-jpg.github.io/digdzgr/";
 
-    // Eksportējamā faila iebūvētais stāvoklis. Parasti null; to aizpilda eksporta funkcija.
-    window.__EMBEDDED_SONGBOOK_STATE = null;
-    window.__EMBEDDED_SONGBOOK_VERSION = "";
-
     const defaultSongsList = [
       { id: '001', title: 'Vēl tu rozes plūc' },
       { id: '002', title: 'Gaujas laivinieks' },
@@ -728,24 +724,23 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
     // Viedā datu sinhronizācija: automātiski apvieno koda jauninājumus ar vietējo atmiņu
     function initDataStorage() {
+      // Ja fails ir eksportēts, tā aktuālie dati atrodas pašā HTML failā.
+      // Tie ir avots, lai GitHub versija nesāktu ar veciem localStorage datiem.
+      if (typeof EMBEDDED_SONGBOOK_LIST !== 'undefined' && typeof EMBEDDED_SONGBOOK_DATA !== 'undefined') {
+        savedSongsList = JSON.parse(JSON.stringify(EMBEDDED_SONGBOOK_LIST));
+        songsData = JSON.parse(JSON.stringify(EMBEDDED_SONGBOOK_DATA));
+        if (typeof EMBEDDED_SONGBOOK_LOG !== 'undefined') {
+          actionHistoryLog = JSON.parse(JSON.stringify(EMBEDDED_SONGBOOK_LOG));
+        }
+        saveAllToLocalStorage();
+        return;
+      }
+
       let savedLog = localStorage.getItem(APP_KEY_UNIQUE + "_log");
       if (savedLog) { try { actionHistoryLog = JSON.parse(savedLog); } catch(e) {} }
 
       let storedList = localStorage.getItem('mySongBookList');
       let storedData = localStorage.getItem('mySongBookData');
-      let storedEmbeddedVersion = localStorage.getItem(APP_KEY_UNIQUE + "_embedded_version") || "";
-
-      // Ja GitHub/lejupielādētais fails satur jaunāku iebūvēto stāvokli, tas kļūst par jauno pamatu.
-      // Tas novērš vecās localStorage atmiņas pārrakstīšanu pāri jaunajiem dziesmu tekstiem.
-      const embeddedState = window.__EMBEDDED_SONGBOOK_STATE;
-      const embeddedVersion = window.__EMBEDDED_SONGBOOK_VERSION || "";
-      if (embeddedState && embeddedVersion && embeddedVersion !== storedEmbeddedVersion) {
-        savedSongsList = JSON.parse(JSON.stringify(embeddedState.list || []));
-        songsData = JSON.parse(JSON.stringify(embeddedState.data || {}));
-        try { localStorage.setItem(APP_KEY_UNIQUE + "_embedded_version", embeddedVersion); } catch(e) {}
-        saveAllToLocalStorage();
-        return;
-      }
 
       let baseList = JSON.parse(JSON.stringify(defaultSongsList));
       let baseData = JSON.parse(JSON.stringify(defaultSongsData));
@@ -895,34 +890,29 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
         const p = document.getElementById('page' + i);
         if (p && p.style.display === 'flex') { activeScreenNum = i; break; }
       }
-      showPage(1);
 
-      // SVARĪGI: outerHTML pats par sevi nesatur localStorage datus.
-      // Tāpēc eksportā iebūvējam pašreizējo dziesmu sarakstu un VISUS pašreizējos tekstus.
-      // < tiek aizvietots ar \u003c, lai pat teksts ar HTML fragmentiem nevarētu aizvērt script bloku.
-      const exportState = JSON.stringify({ list: savedSongsList, data: songsData })
-        .replace(/</g, '\\u003c');
-      const exportVersion = String(Date.now());
+      // Fiksē pašreizējos datus PAŠĀ HTML failā, nevis tikai localStorage.
+      // Tas ir svarīgi GitHub: jaunā ierīce nevar piekļūt šī telefona localStorage.
+      const embeddedList = JSON.stringify(savedSongsList).replace(/<\/script/gi, '<\\/script');
+      const embeddedData = JSON.stringify(songsData).replace(/<\/script/gi, '<\\/script');
+      const embeddedLog = JSON.stringify(actionHistoryLog).replace(/<\/script/gi, '<\\/script');
+
       let htmlContent = document.documentElement.outerHTML;
-      htmlContent = htmlContent.replace(
-        'window.__EMBEDDED_SONGBOOK_STATE = null;\n    window.__EMBEDDED_SONGBOOK_VERSION = "";',
-        'window.__EMBEDDED_SONGBOOK_STATE = ' + exportState + ';\n    window.__EMBEDDED_SONGBOOK_VERSION = "' + exportVersion + '";'
-      );
+      const bootstrap = `\n<script id="embeddedSongData">\nconst EMBEDDED_SONGBOOK_LIST = ${embeddedList};\nconst EMBEDDED_SONGBOOK_DATA = ${embeddedData};\nconst EMBEDDED_SONGBOOK_LOG = ${embeddedLog};\n</script>\n`;
+      htmlContent = htmlContent.replace('</head>', bootstrap + '</head>');
 
       const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
       const url = URL.createObjectURL(blob);
-      
       const a = document.createElement('a');
       a.href = url;
       a.download = "raimonds-dziesmu-gramata.html";
-      
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
       showPage(activeScreenNum);
-      alert("Pilnais datu fails ar fiksēto nosaukumu 'raimonds-dziesmu-gramata.html' ir veiksmīgi saglabāts un lejupielādēts!");
+      alert("✅ Jaunākie dziesmu teksti un dati ir iebūvēti pašā HTML failā. Šo failu var izmantot GitHub.");
     }
 
     const seasonalFolkDatabase = {
@@ -1146,25 +1136,6 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       document.getElementById('songLockBtn').innerText = '🔒';
     }
 
-    let autoSaveTimer = null;
-    function autoSaveLyricsDraft() {
-      if (!isEditMode || !currentSongId || !songsData[currentSongId]) return;
-      const lyricsVal = document.getElementById('lyricsEditor').value;
-      const oldLyrics = songsData[currentSongId].lyrics || '';
-      // Tukšs teksts nekad netiek automātiski saglabāts pāri esošam tekstam.
-      // Tas pasargā no nejaušas izdzēšanas; tukšumu var apstiprināt ar "Saglabāt izmaiņas".
-      if (!lyricsVal.trim() && oldLyrics.trim()) return;
-      clearTimeout(autoSaveTimer);
-      autoSaveTimer = setTimeout(() => {
-        songsData[currentSongId].lyrics = lyricsVal;
-        songsData[currentSongId].history = document.getElementById('songHistoryEditor').value;
-        songsData[currentSongId].yt = document.getElementById('ytUrlInput').value.trim();
-        songsData[currentSongId].sp = document.getElementById('spUrlInput').value.trim();
-        songsData[currentSongId].kr = document.getElementById('krUrlInput').value.trim();
-        saveAllToLocalStorage();
-      }, 350);
-    }
-
     function saveSongData() {
       const newNum = document.getElementById('editNumInput').value.trim();
       const newTitle = document.getElementById('editTitleInput').value.trim();
@@ -1175,12 +1146,6 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       const krVal = document.getElementById('krUrlInput').value.trim();
 
       if (!newNum || !newTitle) { alert("Numurs un nosaukums nevar būt tukšs!"); return; }
-
-      const previousLyrics = (songsData[currentSongId] && songsData[currentSongId].lyrics) || '';
-      if (previousLyrics.trim() && !lyricsVal.trim()) {
-        const ok = confirm("Dziesmai jau ir saglabāts teksts. Vai tiešām vēlies to pilnībā izdzēst?");
-        if (!ok) return;
-      }
 
       const songItem = savedSongsList.find(s => s.id === currentSongId);
       if (songItem) { songItem.id = newNum; songItem.title = newTitle; }
@@ -1276,12 +1241,6 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       renderSongList();
       document.getElementById('shareBoxText').innerText = "...";
       document.getElementById('shareActionBtn').style.display = 'none';
-
-      // Dziesmu teksti un piezīmes tiek saglabātas automātiski arī bez pogas nospiešanas.
-      ['lyricsEditor','songHistoryEditor','ytUrlInput','spUrlInput','krUrlInput'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('input', autoSaveLyricsDraft);
-      });
     };
   </script>
 
