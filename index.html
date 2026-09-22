@@ -198,37 +198,13 @@
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <div id="historyModal" class="history-modal" style="display: flex;">
+    <div id="historyModal" class="history-modal">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
         <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub &amp; AI: <br>
           <code style="background:#f1f5f9; padding:2px 4px; border-radius:4px; font-weight:bold; word-break:break-all;">raimondskancans_dziesmugramata_data_2026</code>
         </p>
-        <div id="historyLogDisplay" class="history-list">
-            <div class="history-item-card" onclick="toggleHistoryDetails(0)">
-              <div class="history-item-time">⏱️ 22.09.2026. 22:01:34</div>
-              <div class="history-item-desc">📝 Labota dziesma: #053 Bēdu manu lielo bēdu</div>
-              <div id="histDetails_0" class="history-item-details" style="display: block;"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #053 Bēdu manu lielo bēdu
-YouTube: https://www.facebook.com/share/v/1DNGL4HxAC/
-</div>
-            </div>
-          
-            <div class="history-item-card" onclick="toggleHistoryDetails(1)">
-              <div class="history-item-time">⏱️ 22.09.2026. 13:18:49</div>
-              <div class="history-item-desc">📝 Labota dziesma: #007 Sazatiku puisīti</div>
-              <div id="histDetails_1" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #007 Sazatiku puisīti
-Spotify: https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=27HYv70qSwyQQ0NIHwK8Zg&amp;utm_source=copy-link
-</div>
-            </div>
-          
-            <div class="history-item-card" onclick="toggleHistoryDetails(2)">
-              <div class="history-item-time">⏱️ 22.09.2026. 12:39:47</div>
-              <div class="history-item-desc">📝 Labota dziesma: #006 Ķemermiestiņā</div>
-              <div id="histDetails_2" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #006 Ķemermiestiņā
-Spotify: https://open.spotify.com/track/6rRS9d35NXSVObdHmEGPx0?si=7W-nykofT364xqJ01BEqjg&amp;utm_source=copy-link
-</div>
-            </div>
-          </div>
+        <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt pilnu HTML kodu</button>
         <button style="background:#64748b; color:white; border:none; width:100%; padding:10px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:4px;" onclick="clearHistoryLog()">🗑️ Notīrīt vēsturi</button>
         <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:6px;">Aizvērt</button>
@@ -575,9 +551,9 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
         </div>
       </div>
 
-      <h2 id="currentSongTitle" class="song-header-title">001. Dziesmas nosaukums</h2>
+      <h2 id="currentSongTitle" class="song-header-title" style="display: block;">051. Pie Dzintara jūras</h2>
 
-      <div id="editTitleBox" class="edit-title-box">
+      <div id="editTitleBox" class="edit-title-box" style="display: none;">
         <input type="text" id="editNumInput" class="edit-input edit-num" placeholder="001">
         <input type="text" id="editTitleInput" class="edit-input edit-name" placeholder="Nosaukums">
       </div>
@@ -585,25 +561,25 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       <div class="platforms-box">
         <div class="platform-row">
           <div class="platform-badge bg-yt" onclick="playOrSearch('yt')">YouTube ▶</div>
-          <input type="text" id="ytUrlInput" class="platform-input" placeholder="YouTube URL...">
+          <input type="text" id="ytUrlInput" class="platform-input" placeholder="YouTube URL..." style="display: none;">
         </div>
         <div class="platform-row">
           <div class="platform-badge bg-sp" onclick="playOrSearch('sp')">Spotify ▶</div>
-          <input type="text" id="spUrlInput" class="platform-input" placeholder="Spotify URL...">
+          <input type="text" id="spUrlInput" class="platform-input" placeholder="Spotify URL..." style="display: none;">
         </div>
         <div class="platform-row">
           <div class="platform-badge bg-kr" onclick="playOrSearch('kr')">Karaoke ▶</div>
-          <input type="text" id="krUrlInput" class="platform-input" placeholder="Karaoke URL...">
+          <input type="text" id="krUrlInput" class="platform-input" placeholder="Karaoke URL..." style="display: none;">
         </div>
       </div>
 
       <div class="song-info-combined-box">
         <div class="song-info-header">📜 Izcelsme, piezīmes &amp; akordi:</div>
-        <div id="songHistoryDisplay" class="song-history-text">Nav pievienotas norādes vai akordi.</div>
-        <textarea id="songHistoryEditor" class="song-history-editor" placeholder="Ielīmē akordus un vēsturi..."></textarea>
+        <div id="songHistoryDisplay" class="song-history-text" style="display: block;">Nav pievienotas norādes vai akordi.</div>
+        <textarea id="songHistoryEditor" class="song-history-editor" placeholder="Ielīmē akordus un vēsturi..." style="display: none;"></textarea>
       </div>
 
-      <button id="saveBtn" class="save-btn" onclick="saveSongData()">Saglabāt izmaiņas 💾</button>
+      <button id="saveBtn" class="save-btn" onclick="saveSongData()" style="display: none;">Saglabāt izmaiņas 💾</button>
 
       <hr class="divider">
 
@@ -618,15 +594,15 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     <div id="page5" class="screen" style="display: none;">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ</span>
-        <h3 id="lyricsHeaderTitle" style="font-size: 0.95rem; font-weight: 700;">Vārdi</h3>
+        <h3 id="lyricsHeaderTitle" style="font-size: 0.95rem; font-weight: 700;">051. Pie Dzintara jūras</h3>
       </div>
 
       <div class="lyrics-full-container">
-        <div id="lyricsText" class="lyrics-text"></div>
-        <textarea id="lyricsEditor" class="lyrics-editor" placeholder="Ielīmē dziesmu vārdus..."></textarea>
+        <div id="lyricsText" class="lyrics-text" style="display: block;">Teksts vēl nav pievienots.</div>
+        <textarea id="lyricsEditor" class="lyrics-editor" placeholder="Ielīmē dziesmu vārdus..." style="display: none;"></textarea>
       </div>
 
-      <button id="saveBtnLyrics" class="save-btn" onclick="saveSongData()">Saglabāt izmaiņas 💾</button>
+      <button id="saveBtnLyrics" class="save-btn" onclick="saveSongData()" style="display: none;">Saglabāt izmaiņas 💾</button>
 
       <hr class="divider">
 
@@ -645,8 +621,8 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     let isEditMode = false;
     const PUBLIC_SITE_URL = "https://raimondskancans-jpg.github.io/digdzgr/";
 
-    // === START_DYNAMIC_DATA ===
-    const defaultSongsList = [
+    // === EMBEDDED_START ===
+    let defaultSongsList = [
   {
     "id": "001",
     "title": "Vēl tu rozes plūc"
@@ -933,7 +909,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
   }
 ];
 
-    const defaultSongsData = {
+    let defaultSongsData = {
   "001": {
     "lyrics": "Vēl tu rozes plūc nenotvīkdama,        Es-dur\nVēl tu matos spraud tās bez nolūka.\n\n​       Vēl tu uzsmaidi visai pasaulei,\n      Vēl tu nezini sava skaistuma.\n\n​Paies laiciņš īss,un tu nosarksi,\nBirzes maliņā ziedus meklējot.\n\n​       Un tu plūksi tos vienam vienīgam,\n      Un tu smaidīsi vienam vienīgam.\n\n​Karsti slavēs viņš tavu skaistumu,\nBet es staigāšu kā pa rudeni.\n\n\n",
     "history": "Autori\n​Mūzikas autors: Emīls Dārziņš\n​Vārdu autors: Rūdolfs Blaumanis\n\n​Izcelsme\nKompozīcija tapusi 1901. gadā Rīgā kā klasiska latviešu vokālās kamermūzikas pērle. Sākotnēji tā sacerēta balsij ar klavieru pavadījumu, notis pirmo reizi izdotas 1903. gadā (izdevējs \"Blosfeld\"). 20. gadsimta otrajā pusē tā piedzīvoja plašu popularitāti arī populārās mūzikas apdarēs.\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nVokālā kamermūzika, mīlas lirika, lēnā dziesma, solodziesma, šlāgeris, galda dziesma, klasika.\n​Tonalitāte\nEs-dur ( Es major) (Galda dziesmas zvaigzne abc)\nTempu raksturojums:\nLēns, plūstošs, izteikti melodisks un romantisks temps.\n​Žanrs un pielietojums:\nSākotnēji akadēmiskā vokālā mūzika / solodziesma, taču vieglās uztveres un melodiskuma dēļ tautā kļuvusi par iecienītu šlāgeri un lēno galda dziesmu.\n\n​Populārākie izpildītāji\n​Rihards Millers un Egils Siliņš (akadēmiskais/operas izpildījums)\n​Ilmārs Dzenis (populārās mūzikas / šlāgera variants)\n​Uldis Leiškalns\n​Jānis Zābers un citi tenori/baritoni\n\n​Paplašināta informācija, vēsture\nDziesma ir viens no spilgtākajiem 20. gadsimta sākuma latviešu mīlas lirikas paraugiem. Teksts balstīts Rūdolfa Blaumaņa dzejolī, kas stāsta par jaunības bezrūpību, meitenes plaukstošo skaistumu un pirmās mīlestības atnākšanu. Emīls Dārziņš spēja radīt izteikti smalku un aizkustinošu melodiju, padarot šo darbu par vienu no retajiem viņa mantojuma paraugiem, kas saglabājies līdz mūsdienām un pārdzīvojis paaudžu maiņas.\n\n​Informācijas avoti: Latvijas Mūzikas informācijas centrs (lmic.lv), Latvijas Nacionālā bibliotēka (dom.lndb.lv).\n",
@@ -1432,7 +1408,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     "kr": "https://youtu.be/0aGdYX5tLq0?si=fBTp4HWefcQRzbbf"
   }
 };
-    // === END_DYNAMIC_DATA ===
+    // === EMBEDDED_END ===
 
     let savedSongsList = [];
     let songsData = {};
@@ -1466,29 +1442,17 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       let storedList = localStorage.getItem('mySongBookList');
       let storedData = localStorage.getItem('mySongBookData');
 
-      let baseList = JSON.parse(JSON.stringify(defaultSongsList));
-      let baseData = JSON.parse(JSON.stringify(defaultSongsData));
-
       if (storedList && storedData) {
         try {
           savedSongsList = JSON.parse(storedList);
           songsData = JSON.parse(storedData);
-
-          baseList.forEach(defaultSong => {
-            let exists = savedSongsList.find(s => s.id === defaultSong.id);
-            if (!exists) { savedSongsList.push(defaultSong); }
-          });
-
-          Object.keys(baseData).forEach(id => {
-            if (!songsData[id]) { songsData[id] = baseData[id]; }
-          });
         } catch(e) {
-          savedSongsList = baseList;
-          songsData = baseData;
+          savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
+          songsData = JSON.parse(JSON.stringify(defaultSongsData));
         }
       } else {
-        savedSongsList = baseList;
-        songsData = baseData;
+        savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
+        songsData = JSON.parse(JSON.stringify(defaultSongsData));
       }
       saveAllToLocalStorage();
     }
@@ -1575,7 +1539,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
     function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-    // === ANDROID PILNĪBĀ ATJAUNINĀTĀ EKSPORTĒŠANAS FUNKCIJA ===
+    // === DROŠĀ EKSPORTĒŠANA AR FIZISKU KODA ATJAUNINĀŠANU ===
     function exportDataFileNow() {
       saveAllToLocalStorage();
       
@@ -1587,9 +1551,9 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       const freshListStr = JSON.stringify(savedSongsList, null, 2);
       const freshDataStr = JSON.stringify(songsData, null, 2);
 
-      const replacementBlock = `// === START_DYNAMIC_DATA ===\n    const defaultSongsList = ${freshListStr};\n\n    const defaultSongsData = ${freshDataStr};\n    // === END_DYNAMIC_DATA ===`;
+      const replacementBlock = `// === EMBEDDED_START ===\n    let defaultSongsList = ${freshListStr};\n\n    let defaultSongsData = ${freshDataStr};\n    // === EMBEDDED_END ===`;
 
-      const markerRegex = /\/\/\s*=== START_DYNAMIC_DATA ===[\s\S]*?\/\/\s*=== END_DYNAMIC_DATA ===/;
+      const markerRegex = /\/\/\s*=== EMBEDDED_START ===[\s\S]*?\/\/\s*=== EMBEDDED_END ===/;
       if (markerRegex.test(html)) {
         html = html.replace(markerRegex, replacementBlock);
       }
@@ -1610,7 +1574,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
         URL.revokeObjectURL(url);
       }, 1000);
 
-      alert("💾 Fails ar visām jaunajām dziesmām un izmaiņām veiksmīgi saglabāts tavā Android ierīcē!");
+      alert("💾 Fails ar visām jaunajām dziesmām un izmaiņām veiksmīgi saglabāts tavā ierīcē!");
     }
 
     const seasonalFolkDatabase = {
@@ -1937,6 +1901,9 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       renderSongList();
       document.getElementById('shareBoxText').innerText = "...";
       document.getElementById('shareActionBtn').style.display = 'none';
+      
+      // Apstiprinām, ka lapa vienmēr atveras ar pirmo ekrānu
+      showPage(1);
     };
   </script>
 
