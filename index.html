@@ -37,7 +37,6 @@
       flex-direction: column;
     }
 
-    /* 1. EKRĀNS */
     #page1 {
       display: flex;
       justify-content: space-between;
@@ -104,7 +103,6 @@
 
     .touch-btn { width: 100%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.25); color: #ffffff; padding: 16px 16px; border-radius: 18px; font-size: 0.95rem; font-weight: 800; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px; flex-shrink: 0; }
 
-    /* 2. EKRĀNS */
     #page2 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); text-align: center; color: #222222; justify-content: space-between; overflow-y: auto; display: none; flex-direction: column; }
     .notes-icon { font-size: 2rem; margin-bottom: 2px; }
     .main-title { font-size: 1.4rem; font-weight: 900; color: #111111; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
@@ -125,7 +123,6 @@
     .gemini-card-btn { background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-bottom: 6px; cursor: pointer; }
     .red-btn { background: #d90429; color: #ffffff; border: none; width: 100%; padding: 12px; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; }
 
-    /* 3. EKRĀNS */
     #page3 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
     .page3-title { font-size: 1.3rem; font-weight: 800; color: #111111; }
@@ -146,7 +143,6 @@
     .song-number { color: #d90429; font-weight: 800; width: 42px; flex-shrink: 0; }
     .song-title { color: #222222; font-weight: 600; }
 
-    /* 4. EKRĀNS */
     #page4 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .nav-words { color: #d90429; font-weight: 800; font-size: 0.88rem; cursor: pointer; background: #fff0f3; padding: 5px 10px; border-radius: 8px; }
     .song-header-title { font-size: 1.2rem; font-weight: 800; color: #111; margin: 6px 0; }
@@ -170,7 +166,6 @@
     .song-history-text { line-height: 1.5; font-weight: 500; white-space: pre-line; font-size: 0.9rem; color: #334155; flex: 1; overflow-y: auto; }
     .song-history-editor { width: 100%; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; display: none; resize: none; margin-top: 4px; font-family: inherit; }
 
-    /* 5. EKRĀNS */
     #page5 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .lyrics-full-container { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; flex: 1; overflow-y: auto; margin: 6px 0; }
     .lyrics-text { font-size: 0.98rem; line-height: 1.55; color: #1e293b; white-space: pre-wrap; font-weight: 500; }
@@ -199,13 +194,11 @@
 
   <div class="page-container">
 
-    <!-- Avatar Zoom Modal -->
     <div id="avatarModal" class="avatar-modal" onclick="closeAvatarModal()">
       <span class="close-btn">&times;</span>
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <!-- Raimonda Drošības Arhīvs (Atslēdziņa 🔑) -->
     <div id="historyModal" class="history-modal">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
@@ -220,7 +213,6 @@
       <span class="close-btn" onclick="closeHistoryModal()">&times;</span>
     </div>
 
-    <!-- TV Instrukcijas Modal -->
     <div id="tvModal" class="tv-modal">
       <div class="tv-modal-content">
         <h3>📺 Pārraidīšana uz TV</h3>
@@ -432,7 +424,7 @@
     let isEditMode = false;
     const PUBLIC_SITE_URL = "https://raimondskancans-jpg.github.io/digdzgr/";
 
-    // === Bāzes dati (automātiski atjaunināsies, ja lejupielādēsi failu) ===
+    // === PAMATDATI (Automātiski atjaunināsies, kad saglabāsi datus) ===
     const defaultSongsList = [
       { id: '001', title: 'Vēl tu rozes plūc' },
       { id: '002', title: 'Gaujas laivinieks' },
@@ -557,17 +549,12 @@
 
           baseList.forEach(defaultSong => {
             let exists = savedSongsList.find(s => s.id === defaultSong.id);
-            if (!exists) {
-              savedSongsList.push(defaultSong);
-            }
+            if (!exists) { savedSongsList.push(defaultSong); }
           });
 
           Object.keys(baseData).forEach(id => {
-            if (!songsData[id]) {
-              songsData[id] = baseData[id];
-            }
+            if (!songsData[id]) { songsData[id] = baseData[id]; }
           });
-
         } catch(e) {
           savedSongsList = baseList;
           songsData = baseData;
@@ -603,10 +590,7 @@
       };
 
       const cancelHold = () => {
-        if (timer) {
-          clearTimeout(timer);
-          timer = null;
-        }
+        if (timer) { clearTimeout(timer); timer = null; }
       };
 
       elem.addEventListener('mousedown', startHold);
@@ -664,7 +648,7 @@
 
     function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-    // === KRITISKĀ FUNKCIJA: Pilna HTML faila ģenerēšana un iesaiņošana ar jaunajiem datiem ===
+    // === AUTOMĀTISKĀ KODA PĀRAKSTĪŠANA EXPORTAM ===
     function exportDataFileNow() {
       let fullHtml = document.documentElement.outerHTML;
       const freshListDataStr = `const defaultSongsList = ${JSON.stringify(savedSongsList, null, 2)};`;
@@ -685,7 +669,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert("💾 Pilnais HTML fails ar visām tavām dziesmām un izmaiņām ir veiksmīgi saglabāts un lejupielādēts!");
+      alert("💾 Fails lejupielādēts! Tagad augšupielādē šo jauno failu uz GitHub, un Spotify saites paliks saglabātas arī tur!");
     }
 
     const seasonalFolkDatabase = {
@@ -942,8 +926,6 @@
       if (ytVal) detailsSummary += `YouTube: ${ytVal}\n`;
       if (spVal) detailsSummary += `Spotify: ${spVal}\n`;
       if (krVal) detailsSummary += `Karaoke: ${krVal}\n`;
-      if (historyVal) detailsSummary += `Piezīmes/Akordi: ${historyVal.substring(0, 80)}...\n`;
-      if (lyricsVal) detailsSummary += `Vārdu garums: ${lyricsVal.length} rakstzīmes.`;
 
       logUserAction(`Labota dziesma: #${currentSongId} ${newTitle}`, detailsSummary);
 
@@ -954,7 +936,7 @@
 
       renderSongList();
       lockEditingView();
-      alert("✅ Izmaiņas droši saglabātas un reģistrētas arhīvā!");
+      alert("✅ Izmaiņas saglabātas! Lai tās nonāktu uz GitHub, tagad uzspied uz atslēdziņas (🔑) un lejupielādē jauno HTML kodu.");
     }
 
     function playOrSearch(platformType) {
