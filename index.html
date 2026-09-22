@@ -198,13 +198,37 @@
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <div id="historyModal" class="history-modal">
+    <div id="historyModal" class="history-modal" style="display: flex;">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
         <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub &amp; AI: <br>
           <code style="background:#f1f5f9; padding:2px 4px; border-radius:4px; font-weight:bold; word-break:break-all;">raimondskancans_dziesmugramata_data_2026</code>
         </p>
-        <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
+        <div id="historyLogDisplay" class="history-list">
+            <div class="history-item-card" onclick="toggleHistoryDetails(0)">
+              <div class="history-item-time">⏱️ 22.09.2026. 22:01:34</div>
+              <div class="history-item-desc">📝 Labota dziesma: #053 Bēdu manu lielo bēdu</div>
+              <div id="histDetails_0" class="history-item-details" style="display: block;"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #053 Bēdu manu lielo bēdu
+YouTube: https://www.facebook.com/share/v/1DNGL4HxAC/
+</div>
+            </div>
+          
+            <div class="history-item-card" onclick="toggleHistoryDetails(1)">
+              <div class="history-item-time">⏱️ 22.09.2026. 13:18:49</div>
+              <div class="history-item-desc">📝 Labota dziesma: #007 Sazatiku puisīti</div>
+              <div id="histDetails_1" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #007 Sazatiku puisīti
+Spotify: https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=27HYv70qSwyQQ0NIHwK8Zg&amp;utm_source=copy-link
+</div>
+            </div>
+          
+            <div class="history-item-card" onclick="toggleHistoryDetails(2)">
+              <div class="history-item-time">⏱️ 22.09.2026. 12:39:47</div>
+              <div class="history-item-desc">📝 Labota dziesma: #006 Ķemermiestiņā</div>
+              <div id="histDetails_2" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #006 Ķemermiestiņā
+Spotify: https://open.spotify.com/track/6rRS9d35NXSVObdHmEGPx0?si=7W-nykofT364xqJ01BEqjg&amp;utm_source=copy-link
+</div>
+            </div>
+          </div>
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt pilnu HTML kodu</button>
         <button style="background:#64748b; color:white; border:none; width:100%; padding:10px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:4px;" onclick="clearHistoryLog()">🗑️ Notīrīt vēsturi</button>
         <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:6px;">Aizvērt</button>
