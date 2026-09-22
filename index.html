@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="lv"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -197,29 +198,13 @@
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <div id="historyModal" class="history-modal" style="display: flex;">
+    <div id="historyModal" class="history-modal">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
         <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub &amp; AI: <br>
           <code style="background:#f1f5f9; padding:2px 4px; border-radius:4px; font-weight:bold; word-break:break-all;">raimondskancans_dziesmugramata_data_2026</code>
         </p>
-        <div id="historyLogDisplay" class="history-list">
-            <div class="history-item-card" onclick="toggleHistoryDetails(0)">
-              <div class="history-item-time">⏱️ 22.09.2026. 13:18:49</div>
-              <div class="history-item-desc">📝 Labota dziesma: #007 Sazatiku puisīti</div>
-              <div id="histDetails_0" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #007 Sazatiku puisīti
-Spotify: https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=27HYv70qSwyQQ0NIHwK8Zg&amp;utm_source=copy-link
-</div>
-            </div>
-          
-            <div class="history-item-card" onclick="toggleHistoryDetails(1)">
-              <div class="history-item-time">⏱️ 22.09.2026. 12:39:47</div>
-              <div class="history-item-desc">📝 Labota dziesma: #006 Ķemermiestiņā</div>
-              <div id="histDetails_1" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #006 Ķemermiestiņā
-Spotify: https://open.spotify.com/track/6rRS9d35NXSVObdHmEGPx0?si=7W-nykofT364xqJ01BEqjg&amp;utm_source=copy-link
-</div>
-            </div>
-          </div>
+        <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt pilnu HTML kodu</button>
         <button style="background:#64748b; color:white; border:none; width:100%; padding:10px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:4px;" onclick="clearHistoryLog()">🗑️ Notīrīt vēsturi</button>
         <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:6px;">Aizvērt</button>
@@ -636,7 +621,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     let isEditMode = false;
     const PUBLIC_SITE_URL = "https://raimondskancans-jpg.github.io/digdzgr/";
 
-    // === PAMATDATI (Automātiski atjaunināsies, kad lejupielādēsi kodu) ===
+    // === START_DYNAMIC_DATA ===
     const defaultSongsList = [
   {
     "id": "001",
@@ -925,12 +910,505 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 ];
 
     const defaultSongsData = {
-      '001': {
-        lyrics: "Vēl tu rozes plūc nenotvīkdama,\nVēl tu matos spraud tās bez nolūka.\n\nVēl tu uzsmaidi visai pasaulei,\nVēl tu nezini sava skaistuma.\n\nPaies laiciņš īss, un tu nosarksi,\nBirzes maliņā ziedus meklējot.\n\nUn tu plūksi tos vienam vienīgam,\nUn tu smaidīsi vienam vienīgam.\n\nKarsti slavēs viņš tavu skaistumu,\nBet es staigāšu kā pa rudeni.",
-        history: "Tonalitāte: Es-dur\nAutori: Mūzika: Emīls Dārziņš | Vārdi: Rūdolfs Blaumanis",
-        yt: "", sp: "", kr: ""
-      }
-    };
+  "001": {
+    "lyrics": "Vēl tu rozes plūc nenotvīkdama,        Es-dur\nVēl tu matos spraud tās bez nolūka.\n\n​       Vēl tu uzsmaidi visai pasaulei,\n      Vēl tu nezini sava skaistuma.\n\n​Paies laiciņš īss,un tu nosarksi,\nBirzes maliņā ziedus meklējot.\n\n​       Un tu plūksi tos vienam vienīgam,\n      Un tu smaidīsi vienam vienīgam.\n\n​Karsti slavēs viņš tavu skaistumu,\nBet es staigāšu kā pa rudeni.\n\n\n",
+    "history": "Autori\n​Mūzikas autors: Emīls Dārziņš\n​Vārdu autors: Rūdolfs Blaumanis\n\n​Izcelsme\nKompozīcija tapusi 1901. gadā Rīgā kā klasiska latviešu vokālās kamermūzikas pērle. Sākotnēji tā sacerēta balsij ar klavieru pavadījumu, notis pirmo reizi izdotas 1903. gadā (izdevējs \"Blosfeld\"). 20. gadsimta otrajā pusē tā piedzīvoja plašu popularitāti arī populārās mūzikas apdarēs.\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nVokālā kamermūzika, mīlas lirika, lēnā dziesma, solodziesma, šlāgeris, galda dziesma, klasika.\n​Tonalitāte\nEs-dur ( Es major) (Galda dziesmas zvaigzne abc)\nTempu raksturojums:\nLēns, plūstošs, izteikti melodisks un romantisks temps.\n​Žanrs un pielietojums:\nSākotnēji akadēmiskā vokālā mūzika / solodziesma, taču vieglās uztveres un melodiskuma dēļ tautā kļuvusi par iecienītu šlāgeri un lēno galda dziesmu.\n\n​Populārākie izpildītāji\n​Rihards Millers un Egils Siliņš (akadēmiskais/operas izpildījums)\n​Ilmārs Dzenis (populārās mūzikas / šlāgera variants)\n​Uldis Leiškalns\n​Jānis Zābers un citi tenori/baritoni\n\n​Paplašināta informācija, vēsture\nDziesma ir viens no spilgtākajiem 20. gadsimta sākuma latviešu mīlas lirikas paraugiem. Teksts balstīts Rūdolfa Blaumaņa dzejolī, kas stāsta par jaunības bezrūpību, meitenes plaukstošo skaistumu un pirmās mīlestības atnākšanu. Emīls Dārziņš spēja radīt izteikti smalku un aizkustinošu melodiju, padarot šo darbu par vienu no retajiem viņa mantojuma paraugiem, kas saglabājies līdz mūsdienām un pārdzīvojis paaudžu maiņas.\n\n​Informācijas avoti: Latvijas Mūzikas informācijas centrs (lmic.lv), Latvijas Nacionālā bibliotēka (dom.lndb.lv).\n",
+    "yt": "https://youtu.be/olIxSExJVEA?si=85DNugt1xZ6p32DD",
+    "sp": "https://open.spotify.com/track/0F9XXKNGnlc1lpytOQ0cdU?si=lAECH62ZR8qDFEgpPhinxw&utm_source=copy-link",
+    "kr": "https://youtu.be/S2IDpNGjGtM?si=MQEZO-LX2fZxzV6P"
+  },
+  "002": {
+    "lyrics": "Sniedz roku, daiļā meitiņa,                 \nNāc sēdies laiviņā.                                 C-dur\nStalts laivinieks meiču aicina\nUn roku pretī sniedz.\n\nPiedz.:\nTās acis, tās acis, es aizmirst nespēju,\nPar zilajām acīm, es mūžam domāšu.\n\nPret strumi puisēns laivu griež,\nTam ilgu pilna sirds,\nKā spožas zvaigznes debesīs,\nTā meičai acis mirdz.\n\nPie krūts tam glaužas meitene\nUn ķīlai skūpstu sniedz,\nTai acīs sāpju asaras,\nKas mīlu nenoliedz.\n\nPlūst Gaujas viļņi steidzīgi,\nTiem gadi līdzi steidz,\nSirms kļuvis Gaujas laivinieks,\nTas sērot nenobeidz.\n",
+    "history": "Autori\n​Mūzikas autors: Alfrēds Vinters\n​Vārdu autors: Alfrēds Vinters\n\n​Izcelsme\nDziesma tapusi 1930. gadu otrajā pusē Latvijā. Tās autors Alfrēds Vinters to sarakstīja kopā ar savu slaveno ansambli \"Brāļi Vinteri\", radot vienu no visu laiku populārākajām latviešu vieglās mūzikas un ziņģu kompozīcijām.\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nZiņģe, šlāgeris, valsis, galda dziesma, Gauja, retro, latviešu klasika.\n​Tonalitāte\nTempu raksturojums: G-dur (Sol mažors), mērens, plūstošs 3/4 valša ritms.\n​Žanrs un pielietojums:\nŠlāgeris / tautā iemīļota galda dziesma, izteikts deju valsis par dabas skaistumu un mīlestību.\n\n​Populārākie izpildītāji\n​Brāļi Vinteri (oriģinālais izpildījums 1930. gados)\n​Žoržs Siksna\n​Lauku Muzikanti\n​Ilgvars un Dainis / dažādi šlāgermūzikas ansambļi\n\n​Paplašināta informācija, vēsture\n\"Gaujas laivinieks\" ir viena no spilgtākajām Alfrēda Vintera vizītkartēm, kas pauž romantisku noskaņu par laivošanu pa Gauju, saulrietiem un jaunas meitenes mīlestības meklējumiem. Dziesma kļuva par milzīgu hitu jau starpkaru Latvijā, pārcieta padomju laiku aizliegumus un ierobežojumus, saglabājoties tautas atmiņā kā viena no iecienītākajām dziedamajām dziesmām pie dabas un svētkos.\n\n​Informācijas avoti: Latvijas Mūzikas informācijas centrs (lmic.lv), Latvijas Nacionālā bibliotēka (dom.lndb.lv).\n\n\n\n\n\n \n\n\n\n                                   \n\n\n\n\n\n\n\n\n   ",
+    "yt": "https://youtu.be/72pNz0B3W0Q?si=DHrvNbso20wuZi6c",
+    "sp": "https://open.spotify.com/track/7FjjyOPtcjW9YyAfRpxK6W?si=-QsNy9odRreQI_R9OdfOiw&utm_source=copy-link",
+    "kr": "https://youtu.be/8nyswI0j-iI?si=yHANM4wvrIPzdDqK"
+  },
+  "003": {
+    "lyrics": "Kā lai šonakt vienaldzīgi klusē,\nKā lai tādā brīdī projām iet,                  C-dur\nJa visapkārt Vecpiebalgas pusē\nAtkal baltas ūdensrozes zied.\n\n​        Panāc pretī, ūdensroze mana, —\n        Pamalē jau atvasaru jūt!\n        Cik gan ilga tāda ziedēšana,\n        Cik tad ilgi var tik skaista būt.\n\n​Tāpēc, lūdzu, piedod, Vecpiebalga,\nKa es nāku tavas rozes zagt.\nJa tās šonakt zied tik ļoti valgas,\nKas to zin, vai ziedēs citu nakt.\n\n​        Tālas zvaigznes zilgu gaismu laista,\n        Man līdz rozēm laikam nenokļūt,\n        Kā gan var tik velnišķīgi skaista\n        Un tik bezdievīgi salta būt?",
+    "history": "Autori\n​Mūzikas autors:\nEduards Rozenštrauhs (sacerēta 1968. gadā)\n​Vārdu autors:\nLaimonis Vāczemnieks\n\n​Izcelsme\nDziesma tapusi 1968. gadā un ātri vien kļuva par vienu no vispopulārākajām Eduarda Rozenštrauha ziņģēm. Ziemeļamerikā to ar nosaukumu \"Vecpiebalga\" populāru padarīja arī trimdas ansamblis \"Čikāgas piecīši\" (Alberts Legzdiņš).\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nEduards Rozenštrauhs, ziņģe, šlāgeris, valsis, galda dziesma, Vecpiebalga, ūdensrozes, Čikāgas piecīši.\n​Tonalitāte\nTempu raksturojums: C-dur (Do mažors), mērens un plūstošs valša ritms.\n​Žanrs un pielietojums:\nTautas iecienīta ziņģe / valsis, populāra galda dziesma un ballīšu repertuāra klasika.\n\n​Populārākie izpildītāji\n​Eduards Rozenštrauhs (autora izpildījumā)\n​Viktors Lapčenoks\n​Čikāgas piecīši\n​Miķelis Gruzītis\n\n​Paplašināta informācija, vēsture\nŠī dziesma ir viena no spilgtākajām Eduarda Rozenštrauha mantojuma pērlēm. Tās teksts, ko sarakstījis Laimonis Vāczemnieks, tēlaini apraksta iemīlēšanos un skaistās Vecpiebalgas ezera ūdensrozes. Tā guvusi milzīgu popularitāti gan Latvijā, gan trimdas latviešu vidū un tiek dziedāta paaudzē no paaudzes.\n\nPapildu\nSkani senā dziesma \"Ūdensrozes\" Váczemnieks L. Pie jautrā Vāczemnieka. R., 1979, 127. lpp.\nGalda dziesmas \"Vecpiebalga\" Zvaigzne ABC\n\n​Informācijas avoti: Latvijas Mūzikas informācijas centrs (lmic.lv), Latvijas Nacionālā bibliotēka (dom.lndb.lv).\n\n\n\n\n\n\n\n\n\n                                                         \n\n\n\n\n\n",
+    "yt": "https://youtu.be/G5W6VEvYAys?si=Rq19Mz5UegZ-ooFh",
+    "sp": "https://open.spotify.com/track/1SkFh0PvVItxkiktharJ46?si=a4ea8ftORUiSeRU7kd4LMA&utm_source=copy-link",
+    "kr": "https://youtu.be/JlZIcGow6Ng?si=xYITekvnI-JPs7ih"
+  },
+  "004": {
+    "lyrics": "Dažu skaistu ziedu\nGaujā kaisīju,                     A-dur        G-dur                     Lai tie manai mīļai\nNestu sveicienu.\n​        Pats uz Gaujas krasta\n        Dziesmu dziedāju,\n        Dziedāju par laimi\n        Un par līgavu.\n​Sen jau aizmirsusies\nMan šī dziesmiņa,\nSen jau mana mīļā\nCitam līgava.\n​        Bet, kad Gaujas līčos\n        Atkal ievas zied,\n        Tad uz veco vietu\n        Allaž mēdzu iet.\n​Un kā senāk ziedus\nGaujā kaisu es,\nNevaicādams, kurp lai\nViļņi viņus nes.",
+    "history": "Autori\n​Mūzikas autors:\nFrancis Abts (Franz Abt)\n​Vārdu autors:\nAndrievs Niedra (dzejolis \"Gaujas malā\", 1891)\n\n​Izcelsme\nDzejolis vispirms publicēts 1891. gadā laikrakstā \"Baltijas Vēstnesis\", un vēlāk tas savienots ar vācu komponista Franča Abta melodiju. Starpkaru periodā tā kļuva par vienu no populārākajām dziesmām skaņu platēs, un to iedziedāja Ādolfs Kaktiņš, Jānis Āre, Mariss Vētra u. c.\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nZiņģe, tautasdziesma, Gauja, ievas, romancedzīve, retro, romantika.\n​Tonalitāte\nTempu raksturojums: G-dur (Sol mažors), lēns, plūstošs 2/4 vai 4/4 taktsmēra temps.\n​Žanrs un pielietojums:\nLiriska ziņģe / tautā iemīļota galda dziesma.\n\n​Populārākie izpildītāji\n​Jānis Āre, Ādolfs Kaktiņš, Mariss Vētra (vēsturiskie skaņu plašu ieraksti)\n​Ilmārs Dzenis\n​Miķelis Gruzītis\n​Jānis Paukštello\n\n​Paplašināta informācija, vēsture\nŠī ir viena no pazīstamākajām latviešu ziedoņa un mīlas lirikas ziņģēm. Tās teksts stāsta par ziedu kaisīšanu Gaujas viļņos, aizgājušo jaunības mīlestību un nostalģiju, kad Gaujas līčos atkal uzzied ievas.\n\n​Informācijas avoti: Latvijas Nacionālā bibliotēka (dom.lndb.lv), Vikipēdija.\n",
+    "yt": "https://youtu.be/WUIRvYAms9U?si=smGunPS6-kMXwe2b",
+    "sp": "https://open.spotify.com/track/0k3Uo6c2X68knBwRTjtfyW?si=PMbp8JrxSXSXFj2_jpt2-w&utm_source=copy-link",
+    "kr": "https://youtu.be/O-1mMYPE-Kc?si=MwU0xw9bXFeBdXs1"
+  },
+  "005": {
+    "lyrics": "Vakar saņēmu es pergamento,\nKo rakstīja senjora man,                           G-dur\nLai braucot es šurp uz Sorento,\nTur dziedāšot dziesmiņu man.\n​        Makaroni, špināti, karbonādo,\n        Pus pudeles mozeles vīns,\n        Senjoras, ģitāres, skan serenādes,\n        Tur tālajā Itālijā.\n​Kad aizbraucu es uz Sorento,\nTur pretī man nāca kāds džents,\nEs vaicāju tam, kur senjora,\nKas vēstuli rakstīja man.\n​        Makaroni, špināti, karbonādo,\n        Pus pudeles mozeles vīns,\n        Senjoras, ģitāres, skan serenādes,\n        Tur tālajā Itālijā.\n​Tad vaicāja džents konkorento –\nVai esot es galīgi traks,\nKad braucot es šurp uz Sorento,\nPēc izskata galīgi švaks!\n​        Makaroni, špināti, karbonādo,\n        Pus pudeles mozeles vīns,\n        Senjoras, ģitāres, skan serenādes,\n        Tur tālajā Itālijā.\n\n",
+    "history": "Autori\n​Mūzikas autors:\nErnesto de Kurtiss (Ernesto De Curtis, oriģinālnosaukums \"Torna a Surriento\")\n​Vārdu autors:\nDžambatista de Kurtiss (Giambattista De Curtis); latviešu teksta autors — Valdis Artavs (vairākās nošu grāmatās minēts arī kā latviešu tautas teksta pielāgojums/nezināms autors)\n\n​Izcelsme\nDziesma tapusi 1902. gadā Itālijā (Sorrento pilsētā) kā pasaulslavena neapoliešu romance \"Torna a Surriento\". Latvijā tā guva milzīgu popularitāti 20. gadsimta starpkaru periodā un pēckara gados ar nosaukumu \"Vēstule no Sorento\" vai \"Atgriezies Sorento\", kļūstot par iecienītu retro šlāgeri un estrādes kompozīciju.\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nVēstule no Sorento, Torna a Surriento, Ernesto De Curtis, neapoliešu romance, itāļu dziesma, retro, šlāgeris.\n​Tonalitāte/Tempu raksturojums: \nG-dur (Sol mažors) / g-moll (bieži sākas minorā un pāriet mažorā), mērens, spilgts, tēlaini kaislīgs un emociāls 3/4 vai 6/8 ritms.\n​Žanrs un pielietojums:\nKlasiskā romance / retro šlāgeris, populāra koncertu un svētku repertuāra sastāvdaļa.\n\n​Populārākie izpildītāji\n​Jānis Zābers\n​Ingus Pētersons\n​Nauris Puntulis\n​Marlēna Keine / Dainis Skutelis\n​Starptautiski: Luciano Pavarotti, Andrea Bocelli, Frank Sinatra u. c.\n\n​Paplašināta informācija, vēsture\nŠī neapoliešu dziesma sākotnēji tika uzrakstīta par godu Itālijas premjerministram Džusepem Dzanardelli, apdziedot Sorrento piekrastes skaistumu un jūras burvību. Latviešu valodā dziesmai izveidojās sirsnīgs, romantisks teksts par tālu vēstuli no saulainās Sorento piekrastes, kas raisa ilgas pēc mīlestības un atgriešanās.\n\n​Informācijas avoti: \nLatvijas Nacionālā bibliotēka (dom.lndb.lv), Latvijas Mūzikas informācijas centrs (lmic.lv).\n\n",
+    "yt": "https://youtu.be/WpTPzMryjKU?si=EzUdef94H7ik3_f9",
+    "sp": "https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=YydKz_HURGyODYxZ5dtVsQ&utm_source=copy-link",
+    "kr": "https://youtu.be/SdpN0qJB7M8?si=1X2-kLKG88To5mDM"
+  },
+  "006": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "https://open.spotify.com/track/6rRS9d35NXSVObdHmEGPx0?si=7W-nykofT364xqJ01BEqjg&utm_source=copy-link",
+    "kr": ""
+  },
+  "007": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=27HYv70qSwyQQ0NIHwK8Zg&utm_source=copy-link",
+    "kr": ""
+  },
+  "008": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "009": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "010": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "011": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "012": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "013": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "014": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "015": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "016": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "017": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "018": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "019": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "020": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "021": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "022": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "023": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "024": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "025": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "026": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "027": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "028": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "029": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "030": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "031": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "032": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "033": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "034": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "035": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "036": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "037": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "038": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "039": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "040": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "041": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "042": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "043": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "044": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "045": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "046": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "047": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "048": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "049": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "050": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "051": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "052": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "053": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "054": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "055": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "056": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "057": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "058": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "059": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "060": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "061": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "062": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "063": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "064": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "065": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "066": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "067": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "068": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "069": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "070": {
+    "lyrics": "",
+    "history": "",
+    "yt": "",
+    "sp": "",
+    "kr": ""
+  },
+  "071": {
+    "lyrics": "Cielavas, vālodzes, dzeņi un dzilnas,\nSanāciet, sadziediet, sasadziediet.        C-dur                  \nTumšajā naktē un zaļajā zālē,\nDziesmu par deviņiemi novadiem.\n\nDundinām, dandinām, skandinām stīgas,\nRībinām, ripinām, stīgojam un\nTumšajā naktē un zaļajā zālē,\nDziesmu par deviņiemi novadiem.\n\nPiedz.: 2x\nSanāciet, sadziediet, sasadancojiet,\nŠai saulē, šai zemē, šai stundā,\nšai stundā, kam cerības vārds.",
+    "history": "Autori\n​Mūzikas autors: Raimonds Pauls\n​Vārdu autors: Jānis Peters\n\n​Izcelsme\nDziesma sarakstīta 1977. gadā īpaši XVII Vispārējiem latviešu Dziesmu svētkiem un ansamblim \"Modo\". Tā tapusi Maestro Raimonda Paula un dzejnieka Jāņa Petera ražīgajā sadarbības posmā, kļūstot par vienu no visu laiku populārākajām latviešu svētku un kopā būšanas dziesmām.\n\n​Mūzikas raksturojums\n​Tonalitāte / Tempu raksturojums: \nC-dur (Do mažors), enerģisks, pacilājošs un ritmisks 4/4 vai 2/4 taktsmēra temps.\n​Žanrs un pielietojums: \nPopmūzika / estrādes un svētku kopkoru dziesma, ideāli piemērota sadziedāšanās pasākumiem, deju vakariem un svinībām.\n​Atslēgvārdi meklētājam: \nSanāciet sadziediet sasadancojiet, Raimonds Pauls, Jānis Peters, Modo, Dziesmu svētki, estrāde, popmūzika, svētku dziesma, sadziedāšanās.\n\n​Populārākie izpildītāji\n​Ansamblis \"Modo\" (Viktors Lapčenoks, Nora Bumbiere u. c. — oriģinālais izpildījums)\n​Žoržs Siksna\n​Apvienotie kori un dažādi latviešu estrādes ansambļi\n\n​Paplašināta informācija, vēsture\nŠī dziesma tēlaini iemieso latviešu dziedāšanas un dancošanas tradīciju spēku. Ar savu dzirkstošo melodiju un vienojošo tekstu tā uzrunā ikvienu paaudzi, aicinot uz kopīgu prieku un svētku svinēšanu. Sākotnēji izskanējusi estrādes ansambļu izpildījumā, tā ātri pārauga par vispārtautas sadziedāšanās himnu.\n\n​Informācijas avoti: \nRaimonda Paula oficiālā mājaslapa (raimondspauls.lv), Latvijas Mūzikas informācijas centrs (lmic.lv), Vikipēdija.\n​",
+    "yt": "https://youtu.be/eYN5tsB5s68?si=S09c7n5hDS6G5-Yw",
+    "sp": "https://open.spotify.com/track/4yglyndMbrBywpVstzylfT?si=kaAsbnLMSumys3KlZNr5fw&utm_source=copy-link",
+    "kr": "https://youtu.be/0aGdYX5tLq0?si=fBTp4HWefcQRzbbf"
+  }
+};
+    // === END_DYNAMIC_DATA ===
 
     let savedSongsList = [];
     let songsData = {};
@@ -1073,17 +1551,26 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
     function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-    // === ANDROID OPTIMIZĒTA EKSPORTĒŠANAS FUNKCIJA ===
+    // === ANDROID PILNĪBĀ ATJAUNINĀTĀ EKSPORTĒŠANAS FUNKCIJA ===
     function exportDataFileNow() {
-      let fullHtml = document.documentElement.outerHTML;
-      const freshListDataStr = `const defaultSongsList = ${JSON.stringify(savedSongsList, null, 2)};`;
-      const freshSongsDataStr = `const defaultSongsData = ${JSON.stringify(songsData, null, 2)};`;
+      saveAllToLocalStorage();
       
-      fullHtml = fullHtml.replace(/const defaultSongsList\s*=\s*\[[\s\S]*?\]\s*;/, freshListDataStr);
-      fullHtml = fullHtml.replace(/const defaultSongsData\s*=\s*\{[\s\S]*?\};\s*const savedSongsList/, `${freshSongsDataStr}\n    const savedSongsList`);
+      let html = document.documentElement.outerHTML;
+      if (!html.toLowerCase().startsWith('<!doctype')) {
+        html = '<!DOCTYPE html>\n' + html;
+      }
 
-      // Izmantojam text/html ar application/octet-stream, lai Android droši saglabātu failu ierīcē
-      const blob = new Blob([fullHtml], { type: 'application/octet-stream;charset=utf-8' });
+      const freshListStr = JSON.stringify(savedSongsList, null, 2);
+      const freshDataStr = JSON.stringify(songsData, null, 2);
+
+      const replacementBlock = `// === START_DYNAMIC_DATA ===\n    const defaultSongsList = ${freshListStr};\n\n    const defaultSongsData = ${freshDataStr};\n    // === END_DYNAMIC_DATA ===`;
+
+      const markerRegex = /\/\/\s*=== START_DYNAMIC_DATA ===[\s\S]*?\/\/\s*=== END_DYNAMIC_DATA ===/;
+      if (markerRegex.test(html)) {
+        html = html.replace(markerRegex, replacementBlock);
+      }
+
+      const blob = new Blob([html], { type: 'application/octet-stream;charset=utf-8' });
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement('a');
@@ -1099,7 +1586,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
         URL.revokeObjectURL(url);
       }, 1000);
 
-      alert("💾 Fails saglabāts tavā Android ierīcē! Tagad vari to augšupielādēt uz GitHub.");
+      alert("💾 Fails ar visām jaunajām dziesmām un izmaiņām veiksmīgi saglabāts tavā Android ierīcē!");
     }
 
     const seasonalFolkDatabase = {
@@ -1366,7 +1853,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
       renderSongList();
       lockEditingView();
-      alert("✅ Izmaiņas saglabātas! Tagad vari doties uz atslēdziņu (🔑) un lejupielādēt atjaunināto failu uz sava telefona.");
+      alert("✅ Izmaiņas saglabātas!");
     }
 
     function playOrSearch(platformType) {
