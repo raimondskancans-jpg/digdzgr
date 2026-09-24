@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="lv"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -36,6 +35,7 @@
       flex-direction: column;
     }
 
+    /* 1. EKRĀNS */
     #page1 {
       display: flex;
       justify-content: space-between;
@@ -72,6 +72,7 @@
     .history-modal-content {
       background: #ffffff; width: 100%; max-width: 400px; max-height: 88vh; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #222; text-align: left; overflow: hidden;
     }
+    /* Uzlabota ritināšana reģistrēto darbību logam */
     .history-list { 
       flex: 1; 
       overflow-y: auto; 
@@ -102,6 +103,7 @@
 
     .touch-btn { width: 100%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.25); color: #ffffff; padding: 16px 16px; border-radius: 18px; font-size: 0.95rem; font-weight: 800; backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); cursor: pointer; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.8px; flex-shrink: 0; }
 
+    /* 2. EKRĀNS */
     #page2 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); text-align: center; color: #222222; justify-content: space-between; overflow-y: auto; display: none; flex-direction: column; }
     .notes-icon { font-size: 2rem; margin-bottom: 2px; }
     .main-title { font-size: 1.4rem; font-weight: 900; color: #111111; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
@@ -122,6 +124,7 @@
     .gemini-card-btn { background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-bottom: 6px; cursor: pointer; }
     .red-btn { background: #d90429; color: #ffffff; border: none; width: 100%; padding: 12px; border-radius: 14px; font-size: 0.92rem; font-weight: 800; cursor: pointer; margin-bottom: 6px; }
 
+    /* 3. EKRĀNS */
     #page3 { background: #fefcf8; border-radius: 24px; padding: 16px 14px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
     .page3-title { font-size: 1.3rem; font-weight: 800; color: #111111; }
@@ -142,6 +145,7 @@
     .song-number { color: #d90429; font-weight: 800; width: 42px; flex-shrink: 0; }
     .song-title { color: #222222; font-weight: 600; }
 
+    /* 4. EKRĀNS */
     #page4 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .nav-words { color: #d90429; font-weight: 800; font-size: 0.88rem; cursor: pointer; background: #fff0f3; padding: 5px 10px; border-radius: 8px; }
     .song-header-title { font-size: 1.2rem; font-weight: 800; color: #111; margin: 6px 0; }
@@ -165,6 +169,7 @@
     .song-history-text { line-height: 1.5; font-weight: 500; white-space: pre-line; font-size: 0.9rem; color: #334155; flex: 1; overflow-y: auto; }
     .song-history-editor { width: 100%; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.85rem; display: none; resize: none; margin-top: 4px; font-family: inherit; }
 
+    /* 5. EKRĀNS */
     #page5 { background: #fefcf8; border-radius: 24px; padding: 14px 12px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); color: #222222; }
     .lyrics-full-container { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; flex: 1; overflow-y: auto; margin: 6px 0; }
     .lyrics-text { font-size: 0.98rem; line-height: 1.55; color: #1e293b; white-space: pre-wrap; font-weight: 500; }
@@ -193,18 +198,54 @@
 
   <div class="page-container">
 
+    <!-- Avatar Zoom Modal -->
     <div id="avatarModal" class="avatar-modal" onclick="closeAvatarModal()">
       <span class="close-btn">×</span>
       <img id="zoomedAvatarImg" src="" alt="Profils Palielināts">
     </div>
 
-    <div id="historyModal" class="history-modal">
+    <!-- Raimonda Drošības Arhīvs (Atslēdziņa 🔑) -->
+    <div id="historyModal" class="history-modal" style="display: flex;">
       <div class="history-modal-content">
         <h3>🔑 Raimonda Drošības Arhīvs</h3>
         <p style="font-size:0.78rem; color:#666; margin-bottom: 6px;">Unikālā atslēga GitHub &amp; AI: <br>
           <code style="background:#f1f5f9; padding:2px 4px; border-radius:4px; font-weight:bold; word-break:break-all;">raimondskancans_dziesmugramata_data_2026</code>
         </p>
-        <div id="historyLogDisplay" class="history-list">Ielādē vēsturi...</div>
+        <div id="historyLogDisplay" class="history-list">
+            <div class="history-item-card" onclick="toggleHistoryDetails(0)">
+              <div class="history-item-time">⏱️ 23.09.2026. 21:16:16</div>
+              <div class="history-item-desc">📝 Labota dziesma: #007 Sazatiku puisīti</div>
+              <div id="histDetails_0" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #007 Sazatiku puisīti
+Spotify: https://open.spotify.com/track/7uox92I6JmMofjpR3ZiDRH?si=GeabQ-TASgKqACMFb-dCJA&amp;utm_source=copy-link
+Piezīmes/Akordi: TESTS 2026...
+</div>
+            </div>
+          
+            <div class="history-item-card" onclick="toggleHistoryDetails(1)">
+              <div class="history-item-time">⏱️ 22.09.2026. 22:01:34</div>
+              <div class="history-item-desc">📝 Labota dziesma: #053 Bēdu manu lielo bēdu</div>
+              <div id="histDetails_1" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #053 Bēdu manu lielo bēdu
+YouTube: https://www.facebook.com/share/v/1DNGL4HxAC/
+</div>
+            </div>
+          
+            <div class="history-item-card" onclick="toggleHistoryDetails(2)">
+              <div class="history-item-time">⏱️ 22.09.2026. 13:18:49</div>
+              <div class="history-item-desc">📝 Labota dziesma: #007 Sazatiku puisīti</div>
+              <div id="histDetails_2" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #007 Sazatiku puisīti
+Spotify: https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=27HYv70qSwyQQ0NIHwK8Zg&amp;utm_source=copy-link
+</div>
+            </div>
+          
+            <div class="history-item-card" onclick="toggleHistoryDetails(3)">
+              <div class="history-item-time">⏱️ 22.09.2026. 12:39:47</div>
+              <div class="history-item-desc">📝 Labota dziesma: #006 Ķemermiestiņā</div>
+              <div id="histDetails_3" class="history-item-details"><b>Detaļas / Izmaiņas:</b><br>Dziesma: #006 Ķemermiestiņā
+Spotify: https://open.spotify.com/track/6rRS9d35NXSVObdHmEGPx0?si=7W-nykofT364xqJ01BEqjg&amp;utm_source=copy-link
+</div>
+            </div>
+          </div>
+        <!-- Pārogrammētā poga pilna HTML koda lejupielādei -->
         <button class="red-btn" onclick="exportDataFileNow()">💾 Lejupielādēt pilnu HTML kodu</button>
         <button style="background:#64748b; color:white; border:none; width:100%; padding:10px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:4px;" onclick="clearHistoryLog()">🗑️ Notīrīt vēsturi</button>
         <button class="tv-close-btn" onclick="closeHistoryModal()" style="margin-top:6px;">Aizvērt</button>
@@ -212,6 +253,7 @@
       <span class="close-btn" onclick="closeHistoryModal()">×</span>
     </div>
 
+    <!-- TV Instrukcijas Modal -->
     <div id="tvModal" class="tv-modal">
       <div class="tv-modal-content">
         <h3>📺 Pārraidīšana uz TV</h3>
@@ -502,7 +544,7 @@ klasiskā romance / retro šlāgeris, populāra koncertu un svētku repertuāra 
 ​informācijas avoti: 
 latvijas nacionālā bibliotēka (dom.lndb.lv), latvijas mūzikas informācijas centrs (lmic.lv).
 
-" onclick="openSong('005', 'Vēstule no Sorento')"><span class="song-number">005</span><span class="song-title">Vēstule no Sorento</span></li><li class="song-item" data-id="006" data-title="ķemermiestiņā" data-history="" onclick="openSong('006', 'Ķemermiestiņā')"><span class="song-number">006</span><span class="song-title">Ķemermiestiņā</span></li><li class="song-item" data-id="007" data-title="sazatiku puisīti" data-history="" onclick="openSong('007', 'Sazatiku puisīti')"><span class="song-number">007</span><span class="song-title">Sazatiku puisīti</span></li><li class="song-item" data-id="008" data-title="es katru sestdien’s vakarau" data-history="" onclick="openSong('008', 'Es katru sestdien’s vakarau')"><span class="song-number">008</span><span class="song-title">Es katru sestdien’s vakarau</span></li><li class="song-item" data-id="009" data-title="še, kur līgo priežu meži" data-history="" onclick="openSong('009', 'Še, kur līgo priežu meži')"><span class="song-number">009</span><span class="song-title">Še, kur līgo priežu meži</span></li><li class="song-item" data-id="010" data-title="nezviedz, bērais kumeliņ" data-history="" onclick="openSong('010', 'Nezviedz, bērais kumeliņ')"><span class="song-number">010</span><span class="song-title">Nezviedz, bērais kumeliņ</span></li><li class="song-item" data-id="011" data-title="mazs bij tēva novadiņš" data-history="" onclick="openSong('011', 'Mazs bij tēva novadiņš')"><span class="song-number">011</span><span class="song-title">Mazs bij tēva novadiņš</span></li><li class="song-item" data-id="012" data-title="projām jāiet" data-history="" onclick="openSong('012', 'Projām jāiet')"><span class="song-number">012</span><span class="song-title">Projām jāiet</span></li><li class="song-item" data-id="013" data-title="atgriezies" data-history="" onclick="openSong('013', 'Atgriezies')"><span class="song-number">013</span><span class="song-title">Atgriezies</span></li><li class="song-item" data-id="014" data-title="dzīvīte" data-history="" onclick="openSong('014', 'Dzīvīte')"><span class="song-number">014</span><span class="song-title">Dzīvīte</span></li><li class="song-item" data-id="015" data-title="mīļā meitiņ, atver logu" data-history="" onclick="openSong('015', 'Mīļā meitiņ, atver logu')"><span class="song-number">015</span><span class="song-title">Mīļā meitiņ, atver logu</span></li><li class="song-item" data-id="016" data-title="es uzkāpu kalniņā" data-history="" onclick="openSong('016', 'Es uzkāpu kalniņā')"><span class="song-number">016</span><span class="song-title">Es uzkāpu kalniņā</span></li><li class="song-item" data-id="017" data-title="lakstīgalas naktī" data-history="" onclick="openSong('017', 'Lakstīgalas naktī')"><span class="song-number">017</span><span class="song-title">Lakstīgalas naktī</span></li><li class="song-item" data-id="018" data-title="kam ziedi, mežābele" data-history="" onclick="openSong('018', 'Kam ziedi, mežābele')"><span class="song-number">018</span><span class="song-title">Kam ziedi, mežābele</span></li><li class="song-item" data-id="019" data-title="uz kalna stāv vientulis ozols" data-history="" onclick="openSong('019', 'Uz kalna stāv vientulis ozols')"><span class="song-number">019</span><span class="song-title">Uz kalna stāv vientulis ozols</span></li><li class="song-item" data-id="020" data-title="es zinu, visi mani nievā" data-history="" onclick="openSong('020', 'Es zinu, visi mani nievā')"><span class="song-number">020</span><span class="song-title">Es zinu, visi mani nievā</span></li><li class="song-item" data-id="021" data-title="nodzisa vakara blāzma" data-history="" onclick="openSong('021', 'Nodzisa vakara blāzma')"><span class="song-number">021</span><span class="song-title">Nodzisa vakara blāzma</span></li><li class="song-item" data-id="022" data-title="dziesma par sevi" data-history="" onclick="openSong('022', 'Dziesma par sevi')"><span class="song-number">022</span><span class="song-title">Dziesma par sevi</span></li><li class="song-item" data-id="023" data-title="es zinu, ka vienreiz man dārziņš būs" data-history="" onclick="openSong('023', 'Es zinu, ka vienreiz man dārziņš būs')"><span class="song-number">023</span><span class="song-title">Es zinu, ka vienreiz man dārziņš būs</span></li><li class="song-item" data-id="024" data-title="debess tumša, mākoņaina" data-history="" onclick="openSong('024', 'Debess tumša, mākoņaina')"><span class="song-number">024</span><span class="song-title">Debess tumša, mākoņaina</span></li><li class="song-item" data-id="025" data-title="vēstule no tāluma" data-history="" onclick="openSong('025', 'Vēstule no tāluma')"><span class="song-number">025</span><span class="song-title">Vēstule no tāluma</span></li><li class="song-item" data-id="026" data-title="kā var aizmirst" data-history="" onclick="openSong('026', 'Kā var aizmirst')"><span class="song-number">026</span><span class="song-title">Kā var aizmirst</span></li><li class="song-item" data-id="027" data-title="sen tas bij" data-history="" onclick="openSong('027', 'Sen tas bij')"><span class="song-number">027</span><span class="song-title">Sen tas bij</span></li><li class="song-item" data-id="028" data-title="tumšajā naktī" data-history="" onclick="openSong('028', 'Tumšajā naktī')"><span class="song-number">028</span><span class="song-title">Tumšajā naktī</span></li><li class="song-item" data-id="029" data-title="ak vai, cik žēl" data-history="" onclick="openSong('029', 'Ak vai, cik žēl')"><span class="song-number">029</span><span class="song-title">Ak vai, cik žēl</span></li><li class="song-item" data-id="030" data-title="ugunskurs" data-history="" onclick="openSong('030', 'Ugunskurs')"><span class="song-number">030</span><span class="song-title">Ugunskurs</span></li><li class="song-item" data-id="031" data-title="čigāniete" data-history="" onclick="openSong('031', 'Čigāniete')"><span class="song-number">031</span><span class="song-title">Čigāniete</span></li><li class="song-item" data-id="032" data-title="atceries, meitenīt" data-history="" onclick="openSong('032', 'Atceries, meitenīt')"><span class="song-number">032</span><span class="song-title">Atceries, meitenīt</span></li><li class="song-item" data-id="033" data-title="virši zili, virši sārti" data-history="" onclick="openSong('033', 'Virši zili, virši sārti')"><span class="song-number">033</span><span class="song-title">Virši zili, virši sārti</span></li><li class="song-item" data-id="034" data-title="zilniece" data-history="" onclick="openSong('034', 'Zilniece')"><span class="song-number">034</span><span class="song-title">Zilniece</span></li><li class="song-item" data-id="035" data-title="tōli dzeivoj muna meilō" data-history="" onclick="openSong('035', 'Tōli dzeivoj muna meilō')"><span class="song-number">035</span><span class="song-title">Tōli dzeivoj muna meilō</span></li><li class="song-item" data-id="036" data-title="draugs, nejautā" data-history="" onclick="openSong('036', 'Draugs, nejautā')"><span class="song-number">036</span><span class="song-title">Draugs, nejautā</span></li><li class="song-item" data-id="037" data-title="jaunība" data-history="" onclick="openSong('037', 'Jaunība')"><span class="song-number">037</span><span class="song-title">Jaunība</span></li><li class="song-item" data-id="038" data-title="es nenācu šai vietā" data-history="" onclick="openSong('038', 'Es nenācu šai vietā')"><span class="song-number">038</span><span class="song-title">Es nenācu šai vietā</span></li><li class="song-item" data-id="039" data-title="carpe dem" data-history="" onclick="openSong('039', 'Carpe dem')"><span class="song-number">039</span><span class="song-title">Carpe dem</span></li><li class="song-item" data-id="040" data-title="meža būdiņa" data-history="" onclick="openSong('040', 'Meža būdiņa')"><span class="song-number">040</span><span class="song-title">Meža būdiņa</span></li><li class="song-item" data-id="041" data-title="vaidava" data-history="" onclick="openSong('041', 'Vaidava')"><span class="song-number">041</span><span class="song-title">Vaidava</span></li><li class="song-item" data-id="042" data-title="krizantēmas" data-history="" onclick="openSong('042', 'Krizantēmas')"><span class="song-number">042</span><span class="song-title">Krizantēmas</span></li><li class="song-item" data-id="043" data-title="lēna vēsmiņa" data-history="" onclick="openSong('043', 'Lēna vēsmiņa')"><span class="song-number">043</span><span class="song-title">Lēna vēsmiņa</span></li><li class="song-item" data-id="044" data-title="lai iedzeram" data-history="" onclick="openSong('044', 'Lai iedzeram')"><span class="song-number">044</span><span class="song-title">Lai iedzeram</span></li><li class="song-item" data-id="045" data-title="dzert un dziedāt" data-history="" onclick="openSong('045', 'Dzert un dziedāt')"><span class="song-number">045</span><span class="song-title">Dzert un dziedāt</span></li><li class="song-item" data-id="046" data-title="alus ezeriņš" data-history="" onclick="openSong('046', 'Alus ezeriņš')"><span class="song-number">046</span><span class="song-title">Alus ezeriņš</span></li><li class="song-item" data-id="047" data-title="māmiņ, mīļo māmiņ" data-history="" onclick="openSong('047', 'Māmiņ, mīļo māmiņ')"><span class="song-number">047</span><span class="song-title">Māmiņ, mīļo māmiņ</span></li><li class="song-item" data-id="048" data-title="es dzērājs vīriņš" data-history="" onclick="openSong('048', 'Es dzērājs vīriņš')"><span class="song-number">048</span><span class="song-title">Es dzērājs vīriņš</span></li><li class="song-item" data-id="049" data-title="čiepiņa" data-history="" onclick="openSong('049', 'Čiepiņa')"><span class="song-number">049</span><span class="song-title">Čiepiņa</span></li><li class="song-item" data-id="050" data-title="ziedi, ziedi, rudzu vārpa" data-history="" onclick="openSong('050', 'Ziedi, ziedi, rudzu vārpa')"><span class="song-number">050</span><span class="song-title">Ziedi, ziedi, rudzu vārpa</span></li><li class="song-item" data-id="051" data-title="pie dzintara jūras" data-history="" onclick="openSong('051', 'Pie Dzintara jūras')"><span class="song-number">051</span><span class="song-title">Pie Dzintara jūras</span></li><li class="song-item" data-id="052" data-title="es dziļi glāzē ieskatījos" data-history="" onclick="openSong('052', 'Es dziļi glāzē ieskatījos')"><span class="song-number">052</span><span class="song-title">Es dziļi glāzē ieskatījos</span></li><li class="song-item" data-id="053" data-title="bēdu manu lielo bēdu" data-history="" onclick="openSong('053', 'Bēdu manu lielo bēdu')"><span class="song-number">053</span><span class="song-title">Bēdu manu lielo bēdu</span></li><li class="song-item" data-id="054" data-title="šalc zaļais mežs" data-history="" onclick="openSong('054', 'Šalc zaļais mežs')"><span class="song-number">054</span><span class="song-title">Šalc zaļais mežs</span></li><li class="song-item" data-id="055" data-title="maziņš biju mīlulītis" data-history="" onclick="openSong('055', 'Maziņš biju mīlulītis')"><span class="song-number">055</span><span class="song-title">Maziņš biju mīlulītis</span></li><li class="song-item" data-id="056" data-title="div’ dzelteni kumeliņi" data-history="" onclick="openSong('056', 'Div’ dzelteni kumeliņi')"><span class="song-number">056</span><span class="song-title">Div’ dzelteni kumeliņi</span></li><li class="song-item" data-id="057" data-title="iedzer, vecais, granapipku" data-history="" onclick="openSong('057', 'Iedzer, vecais, granapipku')"><span class="song-number">057</span><span class="song-title">Iedzer, vecais, granapipku</span></li><li class="song-item" data-id="058" data-title="puiši, puiši, kas tie puiši" data-history="" onclick="openSong('058', 'Puiši, puiši, kas tie puiši')"><span class="song-number">058</span><span class="song-title">Puiši, puiši, kas tie puiši</span></li><li class="song-item" data-id="059" data-title="cīrul’s augstu gaisā" data-history="" onclick="openSong('059', 'Cīrul’s augstu gaisā')"><span class="song-number">059</span><span class="song-title">Cīrul’s augstu gaisā</span></li><li class="song-item" data-id="060" data-title="mazā kaija" data-history="" onclick="openSong('060', 'Mazā kaija')"><span class="song-number">060</span><span class="song-title">Mazā kaija</span></li><li class="song-item" data-id="061" data-title="mātei meita" data-history="" onclick="openSong('061', 'Mātei meita')"><span class="song-number">061</span><span class="song-title">Mātei meita</span></li><li class="song-item" data-id="062" data-title="es savai līgavai" data-history="" onclick="openSong('062', 'Es savai līgavai')"><span class="song-number">062</span><span class="song-title">Es savai līgavai</span></li><li class="song-item" data-id="063" data-title="reiz bija puķīte" data-history="" onclick="openSong('063', 'Reiz bija puķīte')"><span class="song-number">063</span><span class="song-title">Reiz bija puķīte</span></li><li class="song-item" data-id="064" data-title="to tik zina es un viņš" data-history="" onclick="openSong('064', 'To tik zina es un viņš')"><span class="song-number">064</span><span class="song-title">To tik zina es un viņš</span></li><li class="song-item" data-id="065" data-title="ak, pavasar'" data-history="" onclick="openSong('065', 'Ak, pavasar\'')"><span class="song-number">065</span><span class="song-title">Ak, pavasar'</span></li><li class="song-item" data-id="066" data-title="pidriķis" data-history="" onclick="openSong('066', 'Pidriķis')"><span class="song-number">066</span><span class="song-title">Pidriķis</span></li><li class="song-item" data-id="067" data-title="lai meiča atsaucas" data-history="" onclick="openSong('067', 'Lai meiča atsaucas')"><span class="song-number">067</span><span class="song-title">Lai meiča atsaucas</span></li><li class="song-item" data-id="068" data-title="ciemiņami cūka zuda" data-history="" onclick="openSong('068', 'Ciemiņami cūka zuda')"><span class="song-number">068</span><span class="song-title">Ciemiņami cūka zuda</span></li><li class="song-item" data-id="069" data-title="mēnešu jubilejas dziesma" data-history="" onclick="openSong('069', 'Mēnešu jubilejas dziesma')"><span class="song-number">069</span><span class="song-title">Mēnešu jubilejas dziesma</span></li><li class="song-item" data-id="070" data-title="tumša, tumša tā eglīte" data-history="" onclick="openSong('070', 'Tumša, tumša tā eglīte')"><span class="song-number">070</span><span class="song-title">Tumša, tumša tā eglīte</span></li><li class="song-item" data-id="071" data-title="sanāciet, sadziediet, sasadancojiet" data-history="autori
+" onclick="openSong('005', 'Vēstule no Sorento')"><span class="song-number">005</span><span class="song-title">Vēstule no Sorento</span></li><li class="song-item" data-id="006" data-title="ķemermiestiņā" data-history="" onclick="openSong('006', 'Ķemermiestiņā')"><span class="song-number">006</span><span class="song-title">Ķemermiestiņā</span></li><li class="song-item" data-id="007" data-title="sazatiku puisīti" data-history="tests 2026" onclick="openSong('007', 'Sazatiku puisīti')"><span class="song-number">007</span><span class="song-title">Sazatiku puisīti</span></li><li class="song-item" data-id="008" data-title="es katru sestdien’s vakarau" data-history="" onclick="openSong('008', 'Es katru sestdien’s vakarau')"><span class="song-number">008</span><span class="song-title">Es katru sestdien’s vakarau</span></li><li class="song-item" data-id="009" data-title="še, kur līgo priežu meži" data-history="" onclick="openSong('009', 'Še, kur līgo priežu meži')"><span class="song-number">009</span><span class="song-title">Še, kur līgo priežu meži</span></li><li class="song-item" data-id="010" data-title="nezviedz, bērais kumeliņ" data-history="" onclick="openSong('010', 'Nezviedz, bērais kumeliņ')"><span class="song-number">010</span><span class="song-title">Nezviedz, bērais kumeliņ</span></li><li class="song-item" data-id="011" data-title="mazs bij tēva novadiņš" data-history="" onclick="openSong('011', 'Mazs bij tēva novadiņš')"><span class="song-number">011</span><span class="song-title">Mazs bij tēva novadiņš</span></li><li class="song-item" data-id="012" data-title="projām jāiet" data-history="" onclick="openSong('012', 'Projām jāiet')"><span class="song-number">012</span><span class="song-title">Projām jāiet</span></li><li class="song-item" data-id="013" data-title="atgriezies" data-history="" onclick="openSong('013', 'Atgriezies')"><span class="song-number">013</span><span class="song-title">Atgriezies</span></li><li class="song-item" data-id="014" data-title="dzīvīte" data-history="" onclick="openSong('014', 'Dzīvīte')"><span class="song-number">014</span><span class="song-title">Dzīvīte</span></li><li class="song-item" data-id="015" data-title="mīļā meitiņ, atver logu" data-history="" onclick="openSong('015', 'Mīļā meitiņ, atver logu')"><span class="song-number">015</span><span class="song-title">Mīļā meitiņ, atver logu</span></li><li class="song-item" data-id="016" data-title="es uzkāpu kalniņā" data-history="" onclick="openSong('016', 'Es uzkāpu kalniņā')"><span class="song-number">016</span><span class="song-title">Es uzkāpu kalniņā</span></li><li class="song-item" data-id="017" data-title="lakstīgalas naktī" data-history="" onclick="openSong('017', 'Lakstīgalas naktī')"><span class="song-number">017</span><span class="song-title">Lakstīgalas naktī</span></li><li class="song-item" data-id="018" data-title="kam ziedi, mežābele" data-history="" onclick="openSong('018', 'Kam ziedi, mežābele')"><span class="song-number">018</span><span class="song-title">Kam ziedi, mežābele</span></li><li class="song-item" data-id="019" data-title="uz kalna stāv vientulis ozols" data-history="" onclick="openSong('019', 'Uz kalna stāv vientulis ozols')"><span class="song-number">019</span><span class="song-title">Uz kalna stāv vientulis ozols</span></li><li class="song-item" data-id="020" data-title="es zinu, visi mani nievā" data-history="" onclick="openSong('020', 'Es zinu, visi mani nievā')"><span class="song-number">020</span><span class="song-title">Es zinu, visi mani nievā</span></li><li class="song-item" data-id="021" data-title="nodzisa vakara blāzma" data-history="" onclick="openSong('021', 'Nodzisa vakara blāzma')"><span class="song-number">021</span><span class="song-title">Nodzisa vakara blāzma</span></li><li class="song-item" data-id="022" data-title="dziesma par sevi" data-history="" onclick="openSong('022', 'Dziesma par sevi')"><span class="song-number">022</span><span class="song-title">Dziesma par sevi</span></li><li class="song-item" data-id="023" data-title="es zinu, ka vienreiz man dārziņš būs" data-history="" onclick="openSong('023', 'Es zinu, ka vienreiz man dārziņš būs')"><span class="song-number">023</span><span class="song-title">Es zinu, ka vienreiz man dārziņš būs</span></li><li class="song-item" data-id="024" data-title="debess tumša, mākoņaina" data-history="" onclick="openSong('024', 'Debess tumša, mākoņaina')"><span class="song-number">024</span><span class="song-title">Debess tumša, mākoņaina</span></li><li class="song-item" data-id="025" data-title="vēstule no tāluma" data-history="" onclick="openSong('025', 'Vēstule no tāluma')"><span class="song-number">025</span><span class="song-title">Vēstule no tāluma</span></li><li class="song-item" data-id="026" data-title="kā var aizmirst" data-history="" onclick="openSong('026', 'Kā var aizmirst')"><span class="song-number">026</span><span class="song-title">Kā var aizmirst</span></li><li class="song-item" data-id="027" data-title="sen tas bij" data-history="" onclick="openSong('027', 'Sen tas bij')"><span class="song-number">027</span><span class="song-title">Sen tas bij</span></li><li class="song-item" data-id="028" data-title="tumšajā naktī" data-history="" onclick="openSong('028', 'Tumšajā naktī')"><span class="song-number">028</span><span class="song-title">Tumšajā naktī</span></li><li class="song-item" data-id="029" data-title="ak vai, cik žēl" data-history="" onclick="openSong('029', 'Ak vai, cik žēl')"><span class="song-number">029</span><span class="song-title">Ak vai, cik žēl</span></li><li class="song-item" data-id="030" data-title="ugunskurs" data-history="" onclick="openSong('030', 'Ugunskurs')"><span class="song-number">030</span><span class="song-title">Ugunskurs</span></li><li class="song-item" data-id="031" data-title="čigāniete" data-history="" onclick="openSong('031', 'Čigāniete')"><span class="song-number">031</span><span class="song-title">Čigāniete</span></li><li class="song-item" data-id="032" data-title="atceries, meitenīt" data-history="" onclick="openSong('032', 'Atceries, meitenīt')"><span class="song-number">032</span><span class="song-title">Atceries, meitenīt</span></li><li class="song-item" data-id="033" data-title="virši zili, virši sārti" data-history="" onclick="openSong('033', 'Virši zili, virši sārti')"><span class="song-number">033</span><span class="song-title">Virši zili, virši sārti</span></li><li class="song-item" data-id="034" data-title="zilniece" data-history="" onclick="openSong('034', 'Zilniece')"><span class="song-number">034</span><span class="song-title">Zilniece</span></li><li class="song-item" data-id="035" data-title="tōli dzeivoj muna meilō" data-history="" onclick="openSong('035', 'Tōli dzeivoj muna meilō')"><span class="song-number">035</span><span class="song-title">Tōli dzeivoj muna meilō</span></li><li class="song-item" data-id="036" data-title="draugs, nejautā" data-history="" onclick="openSong('036', 'Draugs, nejautā')"><span class="song-number">036</span><span class="song-title">Draugs, nejautā</span></li><li class="song-item" data-id="037" data-title="jaunība" data-history="" onclick="openSong('037', 'Jaunība')"><span class="song-number">037</span><span class="song-title">Jaunība</span></li><li class="song-item" data-id="038" data-title="es nenācu šai vietā" data-history="" onclick="openSong('038', 'Es nenācu šai vietā')"><span class="song-number">038</span><span class="song-title">Es nenācu šai vietā</span></li><li class="song-item" data-id="039" data-title="carpe dem" data-history="" onclick="openSong('039', 'Carpe dem')"><span class="song-number">039</span><span class="song-title">Carpe dem</span></li><li class="song-item" data-id="040" data-title="meža būdiņa" data-history="" onclick="openSong('040', 'Meža būdiņa')"><span class="song-number">040</span><span class="song-title">Meža būdiņa</span></li><li class="song-item" data-id="041" data-title="vaidava" data-history="" onclick="openSong('041', 'Vaidava')"><span class="song-number">041</span><span class="song-title">Vaidava</span></li><li class="song-item" data-id="042" data-title="krizantēmas" data-history="" onclick="openSong('042', 'Krizantēmas')"><span class="song-number">042</span><span class="song-title">Krizantēmas</span></li><li class="song-item" data-id="043" data-title="lēna vēsmiņa" data-history="" onclick="openSong('043', 'Lēna vēsmiņa')"><span class="song-number">043</span><span class="song-title">Lēna vēsmiņa</span></li><li class="song-item" data-id="044" data-title="lai iedzeram" data-history="" onclick="openSong('044', 'Lai iedzeram')"><span class="song-number">044</span><span class="song-title">Lai iedzeram</span></li><li class="song-item" data-id="045" data-title="dzert un dziedāt" data-history="" onclick="openSong('045', 'Dzert un dziedāt')"><span class="song-number">045</span><span class="song-title">Dzert un dziedāt</span></li><li class="song-item" data-id="046" data-title="alus ezeriņš" data-history="" onclick="openSong('046', 'Alus ezeriņš')"><span class="song-number">046</span><span class="song-title">Alus ezeriņš</span></li><li class="song-item" data-id="047" data-title="māmiņ, mīļo māmiņ" data-history="" onclick="openSong('047', 'Māmiņ, mīļo māmiņ')"><span class="song-number">047</span><span class="song-title">Māmiņ, mīļo māmiņ</span></li><li class="song-item" data-id="048" data-title="es dzērājs vīriņš" data-history="" onclick="openSong('048', 'Es dzērājs vīriņš')"><span class="song-number">048</span><span class="song-title">Es dzērājs vīriņš</span></li><li class="song-item" data-id="049" data-title="čiepiņa" data-history="" onclick="openSong('049', 'Čiepiņa')"><span class="song-number">049</span><span class="song-title">Čiepiņa</span></li><li class="song-item" data-id="050" data-title="ziedi, ziedi, rudzu vārpa" data-history="" onclick="openSong('050', 'Ziedi, ziedi, rudzu vārpa')"><span class="song-number">050</span><span class="song-title">Ziedi, ziedi, rudzu vārpa</span></li><li class="song-item" data-id="051" data-title="pie dzintara jūras" data-history="" onclick="openSong('051', 'Pie Dzintara jūras')"><span class="song-number">051</span><span class="song-title">Pie Dzintara jūras</span></li><li class="song-item" data-id="052" data-title="es dziļi glāzē ieskatījos" data-history="" onclick="openSong('052', 'Es dziļi glāzē ieskatījos')"><span class="song-number">052</span><span class="song-title">Es dziļi glāzē ieskatījos</span></li><li class="song-item" data-id="053" data-title="bēdu manu lielo bēdu" data-history="" onclick="openSong('053', 'Bēdu manu lielo bēdu')"><span class="song-number">053</span><span class="song-title">Bēdu manu lielo bēdu</span></li><li class="song-item" data-id="054" data-title="šalc zaļais mežs" data-history="" onclick="openSong('054', 'Šalc zaļais mežs')"><span class="song-number">054</span><span class="song-title">Šalc zaļais mežs</span></li><li class="song-item" data-id="055" data-title="maziņš biju mīlulītis" data-history="" onclick="openSong('055', 'Maziņš biju mīlulītis')"><span class="song-number">055</span><span class="song-title">Maziņš biju mīlulītis</span></li><li class="song-item" data-id="056" data-title="div’ dzelteni kumeliņi" data-history="" onclick="openSong('056', 'Div’ dzelteni kumeliņi')"><span class="song-number">056</span><span class="song-title">Div’ dzelteni kumeliņi</span></li><li class="song-item" data-id="057" data-title="iedzer, vecais, granapipku" data-history="" onclick="openSong('057', 'Iedzer, vecais, granapipku')"><span class="song-number">057</span><span class="song-title">Iedzer, vecais, granapipku</span></li><li class="song-item" data-id="058" data-title="puiši, puiši, kas tie puiši" data-history="" onclick="openSong('058', 'Puiši, puiši, kas tie puiši')"><span class="song-number">058</span><span class="song-title">Puiši, puiši, kas tie puiši</span></li><li class="song-item" data-id="059" data-title="cīrul’s augstu gaisā" data-history="" onclick="openSong('059', 'Cīrul’s augstu gaisā')"><span class="song-number">059</span><span class="song-title">Cīrul’s augstu gaisā</span></li><li class="song-item" data-id="060" data-title="mazā kaija" data-history="" onclick="openSong('060', 'Mazā kaija')"><span class="song-number">060</span><span class="song-title">Mazā kaija</span></li><li class="song-item" data-id="061" data-title="mātei meita" data-history="" onclick="openSong('061', 'Mātei meita')"><span class="song-number">061</span><span class="song-title">Mātei meita</span></li><li class="song-item" data-id="062" data-title="es savai līgavai" data-history="" onclick="openSong('062', 'Es savai līgavai')"><span class="song-number">062</span><span class="song-title">Es savai līgavai</span></li><li class="song-item" data-id="063" data-title="reiz bija puķīte" data-history="" onclick="openSong('063', 'Reiz bija puķīte')"><span class="song-number">063</span><span class="song-title">Reiz bija puķīte</span></li><li class="song-item" data-id="064" data-title="to tik zina es un viņš" data-history="" onclick="openSong('064', 'To tik zina es un viņš')"><span class="song-number">064</span><span class="song-title">To tik zina es un viņš</span></li><li class="song-item" data-id="065" data-title="ak, pavasar'" data-history="" onclick="openSong('065', 'Ak, pavasar\'')"><span class="song-number">065</span><span class="song-title">Ak, pavasar'</span></li><li class="song-item" data-id="066" data-title="pidriķis" data-history="" onclick="openSong('066', 'Pidriķis')"><span class="song-number">066</span><span class="song-title">Pidriķis</span></li><li class="song-item" data-id="067" data-title="lai meiča atsaucas" data-history="" onclick="openSong('067', 'Lai meiča atsaucas')"><span class="song-number">067</span><span class="song-title">Lai meiča atsaucas</span></li><li class="song-item" data-id="068" data-title="ciemiņami cūka zuda" data-history="" onclick="openSong('068', 'Ciemiņami cūka zuda')"><span class="song-number">068</span><span class="song-title">Ciemiņami cūka zuda</span></li><li class="song-item" data-id="069" data-title="mēnešu jubilejas dziesma" data-history="" onclick="openSong('069', 'Mēnešu jubilejas dziesma')"><span class="song-number">069</span><span class="song-title">Mēnešu jubilejas dziesma</span></li><li class="song-item" data-id="070" data-title="tumša, tumša tā eglīte" data-history="" onclick="openSong('070', 'Tumša, tumša tā eglīte')"><span class="song-number">070</span><span class="song-title">Tumša, tumša tā eglīte</span></li><li class="song-item" data-id="071" data-title="sanāciet, sadziediet, sasadancojiet" data-history="autori
 ​mūzikas autors: raimonds pauls
 ​vārdu autors: jānis peters
 
@@ -551,7 +593,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
         </div>
       </div>
 
-      <h2 id="currentSongTitle" class="song-header-title" style="display: block;">051. Pie Dzintara jūras</h2>
+      <h2 id="currentSongTitle" class="song-header-title" style="display: block;">007. Sazatiku puisīti</h2>
 
       <div id="editTitleBox" class="edit-title-box" style="display: none;">
         <input type="text" id="editNumInput" class="edit-input edit-num" placeholder="001">
@@ -575,7 +617,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
       <div class="song-info-combined-box">
         <div class="song-info-header">📜 Izcelsme, piezīmes &amp; akordi:</div>
-        <div id="songHistoryDisplay" class="song-history-text" style="display: block;">Nav pievienotas norādes vai akordi.</div>
+        <div id="songHistoryDisplay" class="song-history-text" style="display: block;">TESTS 2026</div>
         <textarea id="songHistoryEditor" class="song-history-editor" placeholder="Ielīmē akordus un vēsturi..." style="display: none;"></textarea>
       </div>
 
@@ -594,7 +636,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     <div id="page5" class="screen" style="display: none;">
       <div class="top-bar">
         <span class="nav-words" onclick="showPage(4)">⬅ Atpakaļ</span>
-        <h3 id="lyricsHeaderTitle" style="font-size: 0.95rem; font-weight: 700;">051. Pie Dzintara jūras</h3>
+        <h3 id="lyricsHeaderTitle" style="font-size: 0.95rem; font-weight: 700;">007. Sazatiku puisīti</h3>
       </div>
 
       <div class="lyrics-full-container">
@@ -621,8 +663,8 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     let isEditMode = false;
     const PUBLIC_SITE_URL = "https://raimondskancans-jpg.github.io/digdzgr/";
 
-    // === EMBEDDED_START ===
-    let defaultSongsList = [
+    /* EMBEDDEDSTART */
+let defaultSongsList = [
   {
     "id": "001",
     "title": "Vēl tu rozes plūc"
@@ -908,8 +950,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     "title": "Sanāciet, sadziediet, sasadancojiet"
   }
 ];
-
-    let defaultSongsData = {
+let defaultSongsData = {
   "001": {
     "lyrics": "Vēl tu rozes plūc nenotvīkdama,        Es-dur\nVēl tu matos spraud tās bez nolūka.\n\n​       Vēl tu uzsmaidi visai pasaulei,\n      Vēl tu nezini sava skaistuma.\n\n​Paies laiciņš īss,un tu nosarksi,\nBirzes maliņā ziedus meklējot.\n\n​       Un tu plūksi tos vienam vienīgam,\n      Un tu smaidīsi vienam vienīgam.\n\n​Karsti slavēs viņš tavu skaistumu,\nBet es staigāšu kā pa rudeni.\n\n\n",
     "history": "Autori\n​Mūzikas autors: Emīls Dārziņš\n​Vārdu autors: Rūdolfs Blaumanis\n\n​Izcelsme\nKompozīcija tapusi 1901. gadā Rīgā kā klasiska latviešu vokālās kamermūzikas pērle. Sākotnēji tā sacerēta balsij ar klavieru pavadījumu, notis pirmo reizi izdotas 1903. gadā (izdevējs \"Blosfeld\"). 20. gadsimta otrajā pusē tā piedzīvoja plašu popularitāti arī populārās mūzikas apdarēs.\n\n​Mūzikas raksturojums\n​Atslēgvārdi meklētājam:\nVokālā kamermūzika, mīlas lirika, lēnā dziesma, solodziesma, šlāgeris, galda dziesma, klasika.\n​Tonalitāte\nEs-dur ( Es major) (Galda dziesmas zvaigzne abc)\nTempu raksturojums:\nLēns, plūstošs, izteikti melodisks un romantisks temps.\n​Žanrs un pielietojums:\nSākotnēji akadēmiskā vokālā mūzika / solodziesma, taču vieglās uztveres un melodiskuma dēļ tautā kļuvusi par iecienītu šlāgeri un lēno galda dziesmu.\n\n​Populārākie izpildītāji\n​Rihards Millers un Egils Siliņš (akadēmiskais/operas izpildījums)\n​Ilmārs Dzenis (populārās mūzikas / šlāgera variants)\n​Uldis Leiškalns\n​Jānis Zābers un citi tenori/baritoni\n\n​Paplašināta informācija, vēsture\nDziesma ir viens no spilgtākajiem 20. gadsimta sākuma latviešu mīlas lirikas paraugiem. Teksts balstīts Rūdolfa Blaumaņa dzejolī, kas stāsta par jaunības bezrūpību, meitenes plaukstošo skaistumu un pirmās mīlestības atnākšanu. Emīls Dārziņš spēja radīt izteikti smalku un aizkustinošu melodiju, padarot šo darbu par vienu no retajiem viņa mantojuma paraugiem, kas saglabājies līdz mūsdienām un pārdzīvojis paaudžu maiņas.\n\n​Informācijas avoti: Latvijas Mūzikas informācijas centrs (lmic.lv), Latvijas Nacionālā bibliotēka (dom.lndb.lv).\n",
@@ -954,9 +995,9 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
   },
   "007": {
     "lyrics": "",
-    "history": "",
+    "history": "TESTS 2026",
     "yt": "",
-    "sp": "https://open.spotify.com/track/26cr3N9YEtfUtQlDaOsuh6?si=27HYv70qSwyQQ0NIHwK8Zg&utm_source=copy-link",
+    "sp": "https://open.spotify.com/track/7uox92I6JmMofjpR3ZiDRH?si=GeabQ-TASgKqACMFb-dCJA&utm_source=copy-link",
     "kr": ""
   },
   "008": {
@@ -1408,7 +1449,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     "kr": "https://youtu.be/0aGdYX5tLq0?si=fBTp4HWefcQRzbbf"
   }
 };
-    // === EMBEDDED_END ===
+/* EMBEDDEDEND */
 
     let savedSongsList = [];
     let songsData = {};
@@ -1442,17 +1483,34 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       let storedList = localStorage.getItem('mySongBookList');
       let storedData = localStorage.getItem('mySongBookData');
 
+      let baseList = JSON.parse(JSON.stringify(defaultSongsList));
+      let baseData = JSON.parse(JSON.stringify(defaultSongsData));
+
       if (storedList && storedData) {
         try {
           savedSongsList = JSON.parse(storedList);
           songsData = JSON.parse(storedData);
+
+          baseList.forEach(defaultSong => {
+            let exists = savedSongsList.find(s => s.id === defaultSong.id);
+            if (!exists) {
+              savedSongsList.push(defaultSong);
+            }
+          });
+
+          Object.keys(baseData).forEach(id => {
+            if (!songsData[id]) {
+              songsData[id] = baseData[id];
+            }
+          });
+
         } catch(e) {
-          savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
-          songsData = JSON.parse(JSON.stringify(defaultSongsData));
+          savedSongsList = baseList;
+          songsData = baseData;
         }
       } else {
-        savedSongsList = JSON.parse(JSON.stringify(defaultSongsList));
-        songsData = JSON.parse(JSON.stringify(defaultSongsData));
+        savedSongsList = baseList;
+        songsData = baseData;
       }
       saveAllToLocalStorage();
     }
@@ -1481,7 +1539,10 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       };
 
       const cancelHold = () => {
-        if (timer) { clearTimeout(timer); timer = null; }
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
       };
 
       elem.addEventListener('mousedown', startHold);
@@ -1539,42 +1600,74 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
     function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-    // === DROŠĀ EKSPORTĒŠANA AR FIZISKU KODA ATJAUNINĀŠANU ===
     function exportDataFileNow() {
-      saveAllToLocalStorage();
-      
-      let html = document.documentElement.outerHTML;
-      if (!html.toLowerCase().startsWith('<!doctype')) {
-        html = '<!DOCTYPE html>\n' + html;
+      try {
+        saveAllToLocalStorage();
+
+        const html = document.documentElement.outerHTML;
+
+        const freshListStr = JSON.stringify(savedSongsList, null, 2);
+        const freshDataStr = JSON.stringify(songsData, null, 2);
+
+        const startMarker = '/* EMBEDDEDSTART */';
+        const endMarker = '/* EMBEDDEDEND */';
+
+        const startIndex = html.indexOf(startMarker);
+        const endIndex = html.indexOf(endMarker);
+
+        if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+          alert(
+            'Kļūda: HTML failā nav atrasti EMBEDDEDSTART un EMBEDDEDEND marķieri.'
+          );
+          return;
+        }
+
+        const replacementBlock =
+`${startMarker}
+let defaultSongsList = ${freshListStr};
+let defaultSongsData = ${freshDataStr};
+${endMarker}`;
+
+        const endPosition = endIndex + endMarker.length;
+
+        const exportedHtml =
+          html.slice(0, startIndex) +
+          replacementBlock +
+          html.slice(endPosition);
+
+        const blob = new Blob(
+          [exportedHtml],
+          { type: 'text/html;charset=utf-8' }
+        );
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = 'index.html';
+        link.style.display = 'none';
+
+        document.body.appendChild(link);
+        link.click();
+
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 1000);
+
+        alert(
+          `Eksports pabeigts!\n` +
+          `Dziesmu sarakstā: ${savedSongsList.length}\n` +
+          `Datu ieraksti: ${Object.keys(songsData).length}\n\n` +
+          `Lejupielādētais fails ir index.html.`
+        );
+
+      } catch (error) {
+        console.error('HTML eksporta kļūda:', error);
+        alert(
+          'Eksportēšana neizdevās. Atver pārlūka konsoli, lai redzētu kļūdu.'
+        );
       }
-
-      const freshListStr = JSON.stringify(savedSongsList, null, 2);
-      const freshDataStr = JSON.stringify(songsData, null, 2);
-
-      const replacementBlock = `// === EMBEDDED_START ===\n    let defaultSongsList = ${freshListStr};\n\n    let defaultSongsData = ${freshDataStr};\n    // === EMBEDDED_END ===`;
-
-      const markerRegex = /\/\/\s*=== EMBEDDED_START ===[\s\S]*?\/\/\s*=== EMBEDDED_END ===/;
-      if (markerRegex.test(html)) {
-        html = html.replace(markerRegex, replacementBlock);
-      }
-
-      const blob = new Blob([html], { type: 'application/octet-stream;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = "raimonds-dziesmu-gramata.html";
-      a.style.display = 'none';
-
-      document.body.appendChild(a);
-      a.click();
-      
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 1000);
-
-      alert("💾 Fails ar visām jaunajām dziesmām un izmaiņām veiksmīgi saglabāts tavā ierīcē!");
     }
 
     const seasonalFolkDatabase = {
@@ -1831,6 +1924,8 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       if (ytVal) detailsSummary += `YouTube: ${ytVal}\n`;
       if (spVal) detailsSummary += `Spotify: ${spVal}\n`;
       if (krVal) detailsSummary += `Karaoke: ${krVal}\n`;
+      if (historyVal) detailsSummary += `Piezīmes/Akordi: ${historyVal.substring(0, 80)}...\n`;
+      if (lyricsVal) detailsSummary += `Vārdu garums: ${lyricsVal.length} rakstzīmes.`;
 
       logUserAction(`Labota dziesma: #${currentSongId} ${newTitle}`, detailsSummary);
 
@@ -1841,7 +1936,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
       renderSongList();
       lockEditingView();
-      alert("✅ Izmaiņas saglabātas!");
+      alert("✅ Izmaiņas droši saglabātas un reģistrētas arhīvā!");
     }
 
     function playOrSearch(platformType) {
@@ -1901,9 +1996,6 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
       renderSongList();
       document.getElementById('shareBoxText').innerText = "...";
       document.getElementById('shareActionBtn').style.display = 'none';
-      
-      // Apstiprinām, ka lapa vienmēr atveras ar pirmo ekrānu
-      showPage(1);
     };
   </script>
 
