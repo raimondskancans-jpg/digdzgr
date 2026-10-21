@@ -21,7 +21,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const firebaseConfig={apiKey:"AIzaSyA5AxDnAkh3E7uTxscoQj0AC9lLKO-nRs",authDomain:"digitala-dziesmu-gramata.firebaseapp.com",databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",projectId:"digitala-dziesmu-gramata",storageBucket:"digitala-dziesmu-gramata.firebasestorage.app",messagingSenderId:"312876098365",appId:"1:312876098365:web:1c0dba179b3996c7409b54"};
+const firebaseConfig={apiKey:"AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs",authDomain:"digitala-dziesmu-gramata.firebaseapp.com",databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",projectId:"digitala-dziesmu-gramata",storageBucket:"digitala-dziesmu-gramata.firebasestorage.app",messagingSenderId:"312876098365",appId:"1:312876098365:web:1c0dba179b3996c7409b54"};
 const $=id=>document.getElementById(id);const statusBox=$('status');let db,roomRef,uid,isHost=false,roomId=new URLSearchParams(location.search).get('room');
 function status(msg,kind=''){statusBox.textContent=msg;statusBox.className='status '+kind}
 function show(id){$(id).classList.remove('hidden')}function hide(id){$(id).classList.add('hidden')}
