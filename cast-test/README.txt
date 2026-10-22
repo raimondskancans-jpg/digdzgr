@@ -1,1 +1,0 @@
-Kopdziedāšanas TV testa faili.
