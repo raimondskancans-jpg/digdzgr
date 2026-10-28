@@ -7,10 +7,12 @@
 <main><div id="state">Savienojamies…</div><section id="join" class="hidden"><input id="roomInput" placeholder="Ievadi telpas kodu" autocomplete="off"><button id="joinBtn">Pievienoties</button></section><h2 id="title">Gaidām dziesmu…</h2><div id="lyrics">Kad vadītājs izvēlēsies dziesmu, tās vārdi parādīsies šeit.</div></main>
 <footer>Dalībnieka režīms · Dziesmu izvēli vada kopdziedāšanas vadītājs</footer>
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";import{getDatabase,ref,onValue}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import{getAuth,signInAnonymously}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import{getDatabase,ref,onValue}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 const firebaseConfig={apiKey:"AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs",authDomain:"digitala-dziesmu-gramata.firebaseapp.com",databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",projectId:"digitala-dziesmu-gramata",appId:"1:312876098365:web:1c0dba179b3996c7409b54"};
 const $=id=>document.getElementById(id);
-try{const app=initializeApp(firebaseConfig),db=getDatabase(app),params=new URLSearchParams(location.search);let room=params.get("room"),unsubscribe=null;
+try{const app=initializeApp(firebaseConfig);await signInAnonymously(getAuth(app));const db=getDatabase(app),params=new URLSearchParams(location.search);let room=params.get("room"),unsubscribe=null;
 function listen(code){if(unsubscribe){unsubscribe();unsubscribe=null}if(!code){$("state").textContent="Lai pievienotos, vajadzīga kopīgās telpas saite vai kods.";$("join").classList.remove("hidden");return}
 $("join").classList.add("hidden");$("state").textContent="Pieslēdzamies kopīgajai dziesmu telpai…";
 unsubscribe=onValue(ref(db,"rooms/"+code),snap=>{const d=snap.val();if(!d){$("state").textContent="Šī telpa nav atrasta. Pārbaudi saiti vai kodu.";return}const active=!!(d.lyrics&&d.lyrics.trim()&&d.lyrics!=="Gaidām dziesmu no telefona…");$("state").textContent=active?"Savienots — gaidām nākamo dziesmu no vadītāja":"Pieslēgts — gaidām dziesmu no vadītāja";$("title").textContent=active?(d.title||"Dziesma"):"Gaidām dziesmu…";$("lyrics").textContent=active?d.lyrics:"Kad vadītājs izvēlēsies dziesmu, tās vārdi parādīsies šeit."},err=>{$("state").textContent="Neizdevās pieslēgties: "+err.message})}
