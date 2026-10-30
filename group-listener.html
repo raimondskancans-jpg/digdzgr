@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="lv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mana dziesmu grāmata — dalībnieks</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#292929;font-family:Arial,sans-serif}header{padding:22px 18px 16px;text-align:center;border-bottom:1px solid #eee}.note{font-size:25px;color:#8a7654;letter-spacing:5px}h1{font-size:22px;margin:8px 0 4px}main{max-width:720px;margin:0 auto;padding:20px 18px}#state{padding:12px 14px;border-radius:12px;background:#f5f2ec;color:#64543e;font-size:14px;margin-bottom:18px}#title{font-size:24px;text-align:center;margin:16px 0 20px}#lyrics{font-size:19px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}footer{text-align:center;color:#888;font-size:12px;padding:24px}#join{display:flex;gap:8px;margin-top:12px}.hidden{display:none}input,button{font:inherit}input{min-width:0;flex:1;border:1px solid #ccc;border-radius:10px;padding:12px}button{border:0;border-radius:10px;background:#6c5b42;color:white;padding:12px 16px}
+</style></head><body>
+<header><div class="note">♫ ♪ ♫</div><h1>Mana dziesmu grāmata</h1><div>Kopdziedāšana</div></header>
+<main><div id="state">Savienojamies…</div><section id="join" class="hidden"><input id="roomInput" placeholder="Ievadi telpas kodu" autocomplete="off"><button id="joinBtn">Pievienoties</button></section><h2 id="title">Gaidām dziesmu…</h2><div id="lyrics">Kad vadītājs izvēlēsies dziesmu, tās vārdi parādīsies šeit.</div></main>
+<footer>Dalībnieka režīms · Dziesmu izvēli vada kopdziedāšanas vadītājs</footer>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";import{getAuth,signInAnonymously}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";import{getDatabase,ref,onValue}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+const firebaseConfig={apiKey:"AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs",authDomain:"digitala-dziesmu-gramata.firebaseapp.com",databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",projectId:"digitala-dziesmu-gramata",appId:"1:312876098365:web:1c0dba179b3996c7409b54"};
+const $=id=>document.getElementById(id);
+try{const app=initializeApp(firebaseConfig);await signInAnonymously(getAuth(app));const db=getDatabase(app),params=new URLSearchParams(location.search);let room=params.get("room"),unsubscribe=null;
+function listen(code){if(unsubscribe){unsubscribe();unsubscribe=null}if(!code){$("state").textContent="Lai pievienotos, vajadzīga kopīgās telpas saite vai kods.";$("join").classList.remove("hidden");return}
+$("join").classList.add("hidden");$("state").textContent="Pieslēdzamies kopīgajai dziesmu telpai…";
+unsubscribe=onValue(ref(db,"groupRooms/"+code),snap=>{const d=snap.val();if(!d){$("state").textContent="Šī telpa nav atrasta. Pārbaudi saiti vai kodu.";return}const active=!!(d.lyrics&&d.lyrics.trim()&&d.lyrics!=="Gaidām dziesmu no telefona…");$("state").textContent=active?"Savienots — gaidām nākamo dziesmu no vadītāja":"Pieslēgts — gaidām dziesmu no vadītāja";$("title").textContent=active?(d.title||"Dziesma"):"Gaidām dziesmu…";$("lyrics").textContent=active?d.lyrics:"Kad vadītājs izvēlēsies dziesmu, tās vārdi parādīsies šeit."},err=>{$("state").textContent="Neizdevās pieslēgties: "+err.message})}
+listen(room);$("joinBtn").addEventListener("click",()=>{const code=$("roomInput").value.trim();if(code){const u=new URL(location.href);u.searchParams.set("room",code);history.replaceState(null,"",u);room=code;listen(code)}});
+}catch(e){$("state").textContent="Savienojuma kļūda: "+e.message}
+</script></body></html>
