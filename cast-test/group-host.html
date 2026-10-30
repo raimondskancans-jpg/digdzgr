@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kopdziedāšanas vadība</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+header{padding:14px;background:#7f1d1d;color:white;text-align:center;font-weight:bold}
+#panel{padding:14px;background:white;box-shadow:0 2px 8px #0002}
+#status{font-size:14px;line-height:1.5;margin-bottom:10px}
+#qr{width:210px;height:210px;margin:12px auto;padding:5px;background:white}
+#roomLink{font-size:12px;overflow-wrap:anywhere;background:#f1f5f9;padding:9px;border-radius:8px}
+button{width:100%;padding:12px;border:0;border-radius:10px;background:#991b1b;color:white;font-weight:bold;font-size:15px;margin-top:8px}
+#book{width:100%;height:calc(100dvh - 370px);min-height:420px;border:0;background:white}
+.small{font-size:12px;color:#64748b}
+</style>
+</head>
+<body>
+<header>🎵 KOPDZIEDĀŠANAS VADĪBA</header>
+
+<section id="panel">
+  <div id="status">Veidojam kopīgo dziesmu telpu…</div>
+  <div id="qr"></div>
+  <div id="roomLink"></div>
+  <button id="copyBtn" disabled>Saglabāt / kopēt dalībnieku saiti</button>
+  <button id="endBtn" disabled style="background:#475569">Beigt kopīgo dziedāšanu</button>
+  <p class="small">Izvēlies dziesmas zemāk atvērtajā dziesmu grāmatā. Dalībnieku ekrāni atjaunosies automātiski.</p>
+</section>
+
+<iframe id="book" src="../index.html" title="Mana dziesmu grāmata"></iframe>
+
+<script type="module">
+import {initializeApp}
+  from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {getAuth,signInAnonymously}
+  from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import {
+  getDatabase,ref,push,set,update,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+
+const config={
+  apiKey:"AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs",
+  authDomain:"digitala-dziesmu-gramata.firebaseapp.com",
+  databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"digitala-dziesmu-gramata",
+  appId:"1:312876098365:web:1c0dba179b3996c7409b54"
+};
+
+const $=id=>document.getElementById(id);
+const status=$("status");
+const iframe=$("book");
+
+let db=null;
+let roomRef=null;
+let roomCode="";
+let listenerUrl="";
+let lastSong="";
+
+function showError(error){
+  status.textContent="Savienojuma kļūda: "+(error.message||error);
+}
+
+try{
+  const app=initializeApp(config,"songbook-group-host");
+  await signInAnonymously(getAuth(app));
+  db=getDatabase(app);
+
+  roomRef=push(ref(db,"rooms"));
+  roomCode=roomRef.key;
+
+  await set(roomRef,{
+    title:"Kopīgā dziesmu telpa",
+    lyrics:"",
+    updatedAt:serverTimestamp(),
+    mode:"group"
+  });
+
+  listenerUrl=new URL(
+    "group-listener.html",
+    location.href
+  );
+  listenerUrl.searchParams.set("room",roomCode);
+  listenerUrl=listenerUrl.href;
+
+  $("qr").innerHTML="";
+  new QRCode($("qr"),{
+    text:listenerUrl,
+    width:200,
+    height:200,
+    correctLevel:QRCode.CorrectLevel.M
+  });
+
+  $("roomLink").textContent=listenerUrl;
+  $("copyBtn").disabled=false;
+  $("endBtn").disabled=false;
+  status.textContent="Kopīgā telpa izveidota. Dalībnieki var skenēt QR kodu.";
+
+}catch(error){
+  showError(error);
+}
+
+$("copyBtn").addEventListener("click",async()=>{
+  try{
+    await navigator.clipboard.writeText(listenerUrl);
+    status.textContent="Dalībnieku saite nokopēta.";
+  }catch(error){
+    status.textContent="Neizdevās kopēt. Vari izmantot saiti zem QR koda.";
+  }
+});
+
+// Nolasa dziesmu no tajā pašā vietnē atvērtās dziesmu grāmatas.
+// index.html nav jāmaina.
+async function readSongFromBook(){
+  try{
+    const w=iframe.contentWindow;
+    const d=iframe.contentDocument;
+    if(!w||!d||!roomRef)return;
+
+    const title=
+      d.getElementById("lyricsHeaderTitle")?.innerText?.trim()||
+      d.getElementById("currentSongTitle")?.innerText?.trim()||
+      "";
+
+    const lyrics=
+      d.getElementById("lyricsText")?.innerText||"";
+
+    if(!title)return;
+
+    const signature=title+"\n"+lyrics;
+    if(signature===lastSong)return;
+
+    lastSong=signature;
+
+    await update(roomRef,{
+      title,
+      lyrics:lyrics.trim()||"Teksts vēl nav pievienots.",
+      updatedAt:serverTimestamp(),
+      mode:"group"
+    });
+
+    status.textContent="Dalībniekiem nosūtīta dziesma: "+title;
+
+  }catch(error){
+    // Ielādes laikā vai pārejot starp ekrāniem
+    // īslaicīga kļūda nav jāuzrāda kā fatāla.
+    console.warn("Dziesmas nolasīšana:",error);
+  }
+}
+
+iframe.addEventListener("load",()=>{
+  setInterval(readSongFromBook,800);
+});
+
+$("endBtn").addEventListener("click",async()=>{
+  if(!roomRef)return;
+  if(!confirm("Vai tiešām beigt kopīgo dziedāšanu?"))return;
+
+  try{
+    await update(roomRef,{
+      title:"Kopīgā dziedāšana beigusies",
+      lyrics:"",
+      closed:true,
+      updatedAt:serverTimestamp()
+    });
+    status.textContent="Kopīgā dziedāšana ir beigusies.";
+    $("endBtn").disabled=true;
+  }catch(error){
+    showError(error);
+  }
+});
+</script>
+</body>
+</html>
