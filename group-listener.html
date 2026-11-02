@@ -13,7 +13,39 @@ const $=id=>document.getElementById(id);
 try{const app=initializeApp(firebaseConfig);await signInAnonymously(getAuth(app));const db=getDatabase(app),params=new URLSearchParams(location.search);let room=params.get("room"),unsubscribe=null;
 function listen(code){if(unsubscribe){unsubscribe();unsubscribe=null}if(!code){$("state").textContent="Lai pievienotos, vajadzīga kopīgās telpas saite vai kods.";$("join").classList.remove("hidden");return}
 $("join").classList.add("hidden");$("state").textContent="Pieslēdzamies kopīgajai dziesmu telpai…";
-unsubscribe=onValue(ref(db,"groupRooms/"+code),snap=>{const d=snap.val();if(!d){$("state").textContent="Šī telpa nav atrasta. Pārbaudi saiti vai kodu.";return}const active=!!(d.lyrics&&d.lyrics.trim()&&d.lyrics!=="Gaidām dziesmu no telefona…");$("state").textContent=active?"Savienots — gaidām nākamo dziesmu no vadītāja":"Pieslēgts — gaidām dziesmu no vadītāja";$("title").textContent=active?(d.title||"Dziesma"):"Gaidām dziesmu…";$("lyrics").textContent=active?d.lyrics:"Kad vadītājs izvēlēsies dziesmu, tās vārdi parādīsies šeit."},err=>{$("state").textContent="Neizdevās pieslēgties: "+err.message})}
+unsubscribe=onValue(ref(db,"groupRooms/"+code),snap=>{
+  const d=snap.val();
+  if(!d){
+    $("state").textContent="Šī telpa nav atrasta. Pārbaudi saiti vai kodu.";
+    $("title").textContent="Telpa nav atrasta";
+    $("lyrics").textContent="";
+    return;
+  }
+
+  // onValue uzreiz atdod arī jau saglabāto telpas stāvokli,
+  // ne tikai turpmākās izmaiņas. songId apliecina, ka vadītājs
+  // jau ir izvēlējies dziesmu, arī tad, ja tai vēl nav vārdu.
+  const hasCurrentSong=d.active!==false&&(
+    (typeof d.songId==="string"&&d.songId.trim()!=="")||
+    (typeof d.lyrics==="string"&&d.lyrics.trim()!==""&&d.title!=="Gaidām vadītāja izvēlēto dziesmu")
+  );
+
+  if(hasCurrentSong){
+    $("state").textContent="Pašlaik tiek rādīta vadītāja izvēlētā dziesma";
+    $("title").textContent=d.title||"Dziesma";
+    $("lyrics").textContent=(typeof d.lyrics==="string"&&d.lyrics.trim())
+      ?d.lyrics
+      :"Šai dziesmai vārdi vēl nav pievienoti.";
+  }else{
+    $("state").textContent="Pieslēgts — gaidām vadītāja izvēlēto dziesmu";
+    $("title").textContent="Gaidām dziesmu…";
+    $("lyrics").textContent="Kad vadītājs izvēlēsies dziesmu, tās vārdi parādīsies šeit.";
+  }
+},err=>{
+  $("state").textContent="Neizdevās pieslēgties: "+err.message;
+  $("title").textContent="Savienojuma kļūda";
+  $("lyrics").textContent="";
+})}
 listen(room);$("joinBtn").addEventListener("click",()=>{const code=$("roomInput").value.trim();if(code){const u=new URL(location.href);u.searchParams.set("room",code);history.replaceState(null,"",u);room=code;listen(code)}});
 }catch(e){$("state").textContent="Savienojuma kļūda: "+e.message}
 </script></body></html>
