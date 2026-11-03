@@ -4026,6 +4026,9 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     let groupFirebaseModules = null;
     let groupActiveCode = null;
     let groupHostSessionActive = false;
+    // Rakstīšanas rinda novērš situāciju, kad ātras dziesmu maiņas
+    // Firebase sasniedz nepareizā secībā.
+    let groupPublishQueue = Promise.resolve();
 
     async function ensureGroupFirebase() {
       if (!groupFirebasePromise) {
@@ -4062,6 +4065,7 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
     function getGroupSongPayload() {
       const song = songsData[currentSongId] || {};
       return {
+        active: true,
         songId: String(currentSongId || ''),
         title: document.getElementById('currentSongTitle')?.innerText || 'Dziesma',
         lyrics: typeof song.lyrics === 'string' ? song.lyrics : '',
@@ -4071,8 +4075,26 @@ raimonda paula oficiālā mājaslapa (raimondspauls.lv), latvijas mūzikas infor
 
     async function publishGroupCurrentSong() {
       if (!groupHostSessionActive || !groupActiveCode) return;
+
+      // Saglabājam tieši tās dziesmas datus, kas izvēlēta šī izsaukuma brīdī.
+      const roomCode = groupActiveCode;
+      const payload = getGroupSongPayload();
       const db = await ensureGroupFirebase();
-      await db.update(db.ref(groupFirebaseDb, 'groupRooms/' + groupActiveCode), getGroupSongPayload());
+      const roomRef = db.ref(groupFirebaseDb, 'groupRooms/' + roomCode);
+
+      // Pilns ieraksts un secīga izpilde nodrošina, ka dalībniekiem
+      // vienmēr nonāk jaunākā izvēlētā dziesma, nevis novecojis pieprasījums.
+      const write = groupPublishQueue.catch(() => {}).then(async () => {
+        if (!groupHostSessionActive || groupActiveCode !== roomCode) return;
+        await db.update(roomRef, payload);
+      });
+      groupPublishQueue = write;
+      await write;
+
+      if (groupHostSessionActive && groupActiveCode === roomCode) {
+        const status = document.getElementById('groupHostStatus');
+        if (status) status.textContent = 'Sinhronizēts: ' + payload.title;
+      }
     }
 
     async function startGroupSingalong() {
