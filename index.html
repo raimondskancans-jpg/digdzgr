@@ -5266,8 +5266,10 @@ deja iekļauta ii deju svētku programmā 1950. gadā, kā arī vēlākos lielaj
           console.error('TV dziesmas atjaunošana neizdevās:', e);
         });
       }
-      if (groupHostSessionActive) {
-        publishGroupCurrentSong().catch(e => {
+      // Kopdziedāšanas Sender funkcija atrodas atsevišķā ES modulī,
+      // tāpēc to izsaucam caur window, nevis piekļūstam moduļa lokālajiem mainīgajiem.
+      if (typeof window.publishGroupCurrentSong === 'function') {
+        window.publishGroupCurrentSong().catch(e => {
           console.error('Kopdziedāšanas dziesmas atjaunošana neizdevās:', e);
           const status = document.getElementById('groupHostStatus');
           if (status) status.textContent = 'Sinhronizācijas kļūda: ' + (e.message || e);
@@ -5969,6 +5971,9 @@ deja iekļauta ii deju svētku programmā 1950. gadā, kā arī vēlākos lielaj
     }
 
     // Inline onclick atribūtiem funkcijas jābūt pieejamām uz window.
+    // Eksportējam Sender sinhronizācijas funkciju, lai openSong()
+    // galvenajā (ne-moduļa) skriptā varētu nosūtīt katru izvēlēto dziesmu.
+    window.publishGroupCurrentSong = publishGroupCurrentSong;
     window.startGroupSingalong = startGroupSingalong;
     window.openGroupHostModal = openGroupHostModal;
     window.closeGroupHostModal = closeGroupHostModal;
