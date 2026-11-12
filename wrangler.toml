@@ -7,3 +7,4 @@ binding = "TOKENS"
 id = "ca26785a21ed4fc6a8639db51b0dbf99"
 
 workers_dev = true
+keep_vars = true
