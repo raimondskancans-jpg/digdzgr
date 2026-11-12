@@ -1,10 +1,11 @@
+
 name = "noisy-wind-0932"
 main = "worker.js"
 compatibility_date = "2026-11-11"
 
+workers_dev = true
+keep_vars = true
+
 [[kv_namespaces]]
 binding = "TOKENS"
 id = "ca26785a21ed4fc6a8639db51b0dbf99"
-
-workers_dev = true
-keep_vars = true
