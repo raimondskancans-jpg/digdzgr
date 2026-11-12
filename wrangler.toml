@@ -1,5 +1,5 @@
 name = "noisy-wind-0932"
-main = "worker/worker.js"
+main = "worker.js"
 compatibility_date = "2026-11-11"
 
 [[kv_namespaces]]
