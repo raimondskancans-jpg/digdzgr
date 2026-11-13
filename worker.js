@@ -91,7 +91,7 @@ async function googleCallback(url, env) {
   const t = await tokenRequest('https://oauth2.googleapis.com/token', { code: url.searchParams.get('code'), client_id: env.GOOGLE_CLIENT_ID, client_secret: env.GOOGLE_CLIENT_SECRET, redirect_uri: env.GOOGLE_REDIRECT_URI, grant_type: 'authorization_code' });
   const r = await fetch('https://openidconnect.googleapis.com/v1/userinfo', { headers: { Authorization: 'Bearer ' + t.access_token } });
   const user = await r.json();
-  if (!r.ok || !user.email || !user.email_verified || user.email.toLowerCase() !== env.ADMIN_EMAIL.toLowerCase()) fail('Google konts neatbilst norādītajai administratora e-pasta adresei.', 403);
+  if (!r.ok || !user.email || !user.email_verified || user.email.trim().toLowerCase() !== env.ADMIN_EMAIL.trim().toLowerCase()) fail('Google konts neatbilst norādītajai administratora e-pasta adresei.', 403);
   t.expires_at = Date.now() + (t.expires_in || 3600) * 1000;
   await env.TOKENS.put('google:tokens', JSON.stringify(t));
   const session = await signSession({ email: user.email, exp: Math.floor(Date.now() / 1000) + SESSION_TTL }, env.SESSION_SECRET);
