@@ -184,38 +184,51 @@
       padding:9px 13px; font-weight:800; cursor:pointer; flex-shrink:0;
     }
     .tv-stage-lyrics {
-      flex:1 1 auto; min-height:0; overflow:auto; white-space:pre-wrap; text-align:left;
+      flex:1; overflow:auto; white-space:pre-wrap; text-align:left;
       font-family:inherit; font-size:clamp(1.05rem,2.5vw,2.2rem); line-height:1.55;
       font-weight:500; padding:14px 5vw 36px; box-sizing:border-box;
-      tab-size:4; -moz-tab-size:4; scroll-behavior:auto !important;
+      tab-size:4; -moz-tab-size:4; padding-right:96px;
     }
     .tv-scroll-controls {
-      position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:3;
-      display:flex; flex-direction:column; flex-wrap:nowrap; justify-content:center; align-items:center; gap:8px;
-      width:60px; box-sizing:border-box; margin:0; padding:8px 6px;
-      border:1px solid rgba(255,255,255,.2); border-radius:16px;
-      background:rgba(28,28,28,.92); backdrop-filter:blur(8px);
+      position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:2;
+      display:flex; flex-direction:column; align-items:center; gap:9px;
+      padding:10px 7px; border:1px solid rgba(255,255,255,.2); border-radius:18px;
+      background:rgba(28,28,28,.88); backdrop-filter:blur(8px);
     }
+    .tv-font-controls {
+      position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:2;
+      display:flex; flex-direction:column; align-items:center; gap:9px;
+      padding:10px 7px; border:1px solid rgba(255,255,255,.2); border-radius:18px;
+      background:rgba(28,28,28,.88); backdrop-filter:blur(8px);
+    }
+    .tv-font-controls button,.tv-phone-controls button {
+      width:48px;height:45px;border:1px solid rgba(255,255,255,.22);border-radius:12px;
+      background:rgba(255,255,255,.1);color:#fff;font-size:1.05rem;font-weight:800;cursor:pointer;
+    }
+    .tv-font-controls span {color:#ddd;font-size:.62rem;font-weight:700}
+    .tv-phone-controls {
+      display:none;position:fixed;z-index:9999;left:50%;bottom:12px;transform:translateX(-50%);
+      align-items:center;justify-content:center;gap:6px;padding:8px;
+      background:rgba(20,20,20,.96);border:1px solid #777;border-radius:16px;
+      box-shadow:0 4px 18px #0006;max-width:calc(100vw - 16px);
+    }
+    .tv-phone-controls button {width:42px;height:42px;font-size:20px;flex-shrink:0}
+    .tv-phone-controls button[aria-pressed="true"] {background:#8f1726;border-color:#ffd166}
+    .tv-phone-controls .phone-label {color:#fff;font-size:10px;font-weight:700;white-space:nowrap}
+    .tv-phone-controls .phone-divider {width:1px;height:30px;background:#777;margin:0 2px}
+    .tv-phone-controls .font-btn {font-size:15px}
+    .tv-stage-lyrics {text-align:center;padding-left:96px;padding-right:96px;}
+    .tv-scroll-controls button:active,.tv-font-controls button:active {transform:none;}
     .tv-scroll-controls button {
-      box-sizing:border-box; flex:0 0 44px; width:44px; min-width:44px; max-width:44px;
-      height:44px; min-height:44px; max-height:44px; padding:0; margin:0;
-      border:1px solid rgba(255,255,255,.22); border-radius:12px;
-      background:rgba(255,255,255,.1); color:#fff; font-size:1.4rem; line-height:1; cursor:pointer;
+      width:48px; height:45px; border:1px solid rgba(255,255,255,.22); border-radius:12px;
+      background:rgba(255,255,255,.1); color:#fff; font-size:1.45rem; cursor:pointer;
       display:flex; align-items:center; justify-content:center; touch-action:manipulation;
-      transform:none !important; transition:background-color .12s ease,border-color .12s ease;
     }
-    .tv-scroll-controls button[aria-pressed="true"] { background:#a61b2b; border-color:#ffd166; box-shadow:inset 0 0 0 1px rgba(255,209,102,.35); }
-    .tv-scroll-controls button:active,
-    .tv-scroll-controls button:focus-visible { transform:none !important; outline:2px solid #ffd166; outline-offset:1px; }
-    .tv-scroll-controls .tv-control-divider { width:28px; height:1px; flex:0 0 1px; background:rgba(255,255,255,.25); margin:1px 0; }
-    .tv-scroll-controls .tv-control-status { color:#ddd; font-size:.58rem; font-weight:700; letter-spacing:.04em; writing-mode:vertical-rl; }
-    .tv-stage-lyrics { padding-right:88px; }
-    @media (max-width:600px) {
-      .tv-stage { padding:10px 10px; }
-      .tv-stage-lyrics { padding:12px 78px 28px 8px; }
-      .tv-scroll-controls { right:7px; width:56px; gap:7px; padding:7px 5px; }
-      .tv-scroll-controls button { flex-basis:42px; width:42px; min-width:42px; max-width:42px; height:42px; min-height:42px; max-height:42px; }
-    }
+    .tv-scroll-controls button[aria-pressed="true"] { background:#a61b2b; border-color:#ffd166; box-shadow:0 0 0 2px rgba(255,209,102,.25); }
+    .tv-scroll-controls button:active { transform:scale(.94); }
+    .tv-scroll-controls .tv-control-divider { width:28px; height:1px; background:rgba(255,255,255,.25); margin:1px 0; }
+    .tv-scroll-controls .tv-control-status { color:#ddd; font-size:.62rem; font-weight:700; letter-spacing:.04em; }
+    @media (max-width:600px) { .tv-stage { padding:12px 10px; } .tv-stage-lyrics { padding-left:78px; padding-right:78px; } .tv-scroll-controls { right:7px; gap:7px; padding:8px 5px; } .tv-scroll-controls button { width:42px; height:42px; } }
     .tv-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);
     }
@@ -395,15 +408,20 @@
 
     <!-- TV EKRĀNA REŽĪMS -->
     <div id="tvStage" class="tv-stage" aria-label="TV ekrāna režīms" style="display: none;">
+      <div class="tv-font-controls" id="tvFontControls" aria-label="TV burtu lielums">
+        <button type="button" id="tvFontPlus" aria-label="Palielināt burtus">A+</button>
+        <span>BURTI</span>
+        <button type="button" id="tvFontMinus" aria-label="Samazināt burtus">A−</button>
+      </div>
       <div class="tv-stage-header">
         <button class="tv-stage-close" onclick="closeTvStage()">✕ Aizvērt</button>
         <div id="tvStageTitle" class="tv-stage-title">085. Alutiņi, vecais brāli</div>
         <div style="width:90px;"></div>
       </div>
       <div class="tv-scroll-controls" id="tvScrollControls" aria-label="TV teksta ritināšana">
-        <button type="button" data-tv-speed="0.40" aria-label="Zaķis — ātri, ātrums 0,40" title="Zaķis — ātri · 0,40" aria-pressed="true">🐇</button>
-        <button type="button" data-tv-speed="0.10" aria-label="Bruņurupucis — lēni, ātrums 0,10" title="Bruņurupucis — lēni · 0,10" aria-pressed="false">🐢</button>
-        <button type="button" data-tv-speed="0.05" aria-label="Gliemezis — ļoti lēni, ātrums 0,05" title="Gliemezis — ļoti lēni · 0,05" aria-pressed="false">🐌</button>
+        <button type="button" data-tv-speed="0.4" aria-label="Zaķis — 0,40" title="Zaķis 0,40" aria-pressed="false">🐇</button>
+        <button type="button" data-tv-speed="0.1" aria-label="Bruņurupucis — 0,10" title="Bruņurupucis 0,10" aria-pressed="false">🐢</button>
+        <button type="button" data-tv-speed="0.05" aria-label="Gliemezis — 0,05" title="Gliemezis 0,05" aria-pressed="false">🐌</button>
         <div class="tv-control-divider"></div>
         <button type="button" id="tvScrollPause" aria-label="Apturēt ritināšanu" title="Pauze">Ⅱ</button>
         <button type="button" id="tvScrollStart" aria-label="Atgriezties dziesmas sākumā" title="Sākums">↟</button>
@@ -5154,10 +5172,12 @@ pēc video apraksta dziesmas komponējis neredzīgais komponists imants ozols, d
           if (tvLyricsAreSent) {
             await dbMod.update(roomRef, { title: 'Mana dziesmu grāmata', lyrics: '', updatedAt: dbMod.serverTimestamp() });
             tvLyricsAreSent = false;
+            if (window.setTvRemoteActive) window.setTvRemoteActive(false);
             buttons.forEach(b => { b.title = 'Pārraidīt uz TV'; b.setAttribute('aria-label', 'Pārraidīt uz TV'); });
           } else {
             await dbMod.update(roomRef, { title: title, lyrics: lyrics || 'Teksts vēl nav pievienots.', updatedAt: dbMod.serverTimestamp() });
             tvLyricsAreSent = true;
+            if (window.setTvRemoteActive) window.setTvRemoteActive(true);
             buttons.forEach(b => { b.title = 'Noņemt no TV'; b.setAttribute('aria-label', 'Noņemt no TV'); });
           }
         } catch (e) {
@@ -6072,150 +6092,115 @@ pēc video apraksta dziesmas komponējis neredzīgais komponists imants ozols, d
 
 </script>
 
-<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1793917806385" name="I0_1793917806385" src="https://digitala-dziesmu-gramata.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs&amp;appName=songbook-group-host&amp;v=11.6.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.lv.m0GIev7pGSg.O%2Fd%3D1%2Frs%3DAHpOoo8fcN3BgkFFDTc1x5QjE61_p0zSag%2Fm%3D__features__#id=I0_1793917806385&amp;_gfid=I0_1793917806385&amp;parent=https%3A%2F%2Fraimondskancans-jpg.github.io&amp;pfname=&amp;rpctoken=15049893" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1794212068964" name="I0_1794212068964" src="https://digitala-dziesmu-gramata.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs&amp;appName=songbook-group-host&amp;v=11.6.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.lv.m0GIev7pGSg.O%2Fd%3D1%2Frs%3DAHpOoo8fcN3BgkFFDTc1x5QjE61_p0zSag%2Fm%3D__features__#id=I0_1794212068964&amp;_gfid=I0_1794212068964&amp;parent=https%3A%2F%2Fraimondskancans-jpg.github.io&amp;pfname=&amp;rpctoken=69040684" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe><script>
-// MASTER-144 TV ritināšanas vadība.
-// Notikumi tiek uztverti dokumenta līmenī, lai pogas darbotos arī Android skārienvadībā.
+<iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1793917806385" name="I0_1793917806385" src="https://digitala-dziesmu-gramata.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs&amp;appName=songbook-group-host&amp;v=11.6.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.lv.m0GIev7pGSg.O%2Fd%3D1%2Frs%3DAHpOoo8fcN3BgkFFDTc1x5QjE61_p0zSag%2Fm%3D__features__#id=I0_1793917806385&amp;_gfid=I0_1793917806385&amp;parent=https%3A%2F%2Fraimondskancans-jpg.github.io&amp;pfname=&amp;rpctoken=15049893" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" tabindex="-1" vspace="0" width="100%" aria-hidden="true" id="I0_1794212068964" name="I0_1794212068964" src="https://digitala-dziesmu-gramata.firebaseapp.com/__/auth/iframe?apiKey=AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs&amp;appName=songbook-group-host&amp;v=11.6.0&amp;eid=p&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.lv.m0GIev7pGSg.O%2Fd%3D1%2Frs%3DAHpOoo8fcN3BgkFFDTc1x5QjE61_p0zSag%2Fm%3D__features__#id=I0_1794212068964&amp;_gfid=I0_1794212068964&amp;parent=https%3A%2F%2Fraimondskancans-jpg.github.io&amp;pfname=&amp;rpctoken=69040684" style="position: absolute; top: -100px; width: 1px; height: 1px;"></iframe><div class="tv-phone-controls" id="tvPhoneControls" aria-label="TV vadība no telefona">
+  <button type="button" class="font-btn" id="phoneFontMinus" aria-label="Samazināt TV burtus">A−</button>
+  <button type="button" class="font-btn" id="phoneFontPlus" aria-label="Palielināt TV burtus">A+</button>
+  <span class="phone-divider"></span>
+  <button type="button" data-phone-speed="0.4" aria-label="Zaķis 0,40" aria-pressed="false">🐇</button>
+  <button type="button" data-phone-speed="0.1" aria-label="Bruņurupucis 0,10" aria-pressed="false">🐢</button>
+  <button type="button" data-phone-speed="0.05" aria-label="Gliemezis 0,05" aria-pressed="false">🐌</button>
+  <button type="button" id="phoneScrollPause" aria-label="Apturēt ritināšanu">Ⅱ</button>
+</div>
+<script>
+// Vienota TV vadība: telefons un TV koplieto ātrumu, pauzi un burtu lielumu.
 (function () {
-  const speeds = {
-    "0.40": "ZAĶIS — ĀTRI · 0,40",
-    "0.10": "BRUŅURUPUCIS — LĒNI · 0,10",
-    "0.05": "GLIEMEZIS — ĻOTI LĒNI · 0,05"
-  };
-  let speed = 0.40;
-  let running = false;
-  let rafId = 0;
-  let lastTime = 0;
-  let fractional = 0;
-
-  const stage = () => document.getElementById("tvStage");
-  const lyrics = () => document.getElementById("tvStageLyrics");
-  const controls = () => document.getElementById("tvScrollControls");
+  const speeds = [0.4, 0.1, 0.05];
+  const labels = {'0.4':'ZAĶIS','0.1':'BRUŅURUPUCIS','0.05':'GLIEMEZIS'};
+  let speed = 0.1, running = false, fontSize = 56;
+  let frame = 0, previousTime = 0, writeQueue = Promise.resolve();
+  let remoteActive = false, applyingRemote = false;
+  const $ = id => document.getElementById(id);
+  const lyrics = () => $('tvStageLyrics');
+  const stageOpen = () => $('tvStage')?.style.display === 'flex';
 
   function paint() {
-    const root = controls();
-    if (!root) return;
-    root.querySelectorAll("[data-tv-speed]").forEach(btn => {
-      btn.setAttribute("aria-pressed",
-        String(Number(btn.dataset.tvSpeed) === speed));
+    const el = lyrics();
+    if (el) el.style.fontSize = fontSize + 'px';
+    document.querySelectorAll('[data-tv-speed],[data-phone-speed]').forEach(b => {
+      const v = Number(b.dataset.tvSpeed ?? b.dataset.phoneSpeed);
+      b.setAttribute('aria-pressed', String(v === speed));
     });
-    const pause = document.getElementById("tvScrollPause");
-    if (pause) {
-      pause.textContent = running ? "Ⅱ" : "▶";
-      pause.title = running ? "Pauze" : "Turpināt";
-      pause.setAttribute("aria-label",
-        running ? "Apturēt ritināšanu" : "Turpināt ritināšanu");
-    }
-    const status = document.getElementById("tvScrollStatus");
-    if (status) status.textContent = running ? (speeds[speed.toFixed(2)] || "") : "PAUZE";
+    const status = $('tvScrollStatus');
+    if (status) status.textContent = running ? labels[String(speed)] : 'PAUZE';
+    const pause = $('tvScrollPause');
+    if (pause) { pause.textContent = running ? 'Ⅱ' : '▶'; pause.setAttribute('aria-label', running ? 'Apturēt ritināšanu' : 'Turpināt ritināšanu'); }
+    const phonePause = $('phoneScrollPause');
+    if (phonePause) { phonePause.textContent = running ? 'Ⅱ' : '▶'; phonePause.setAttribute('aria-label', running ? 'Apturēt ritināšanu' : 'Turpināt ritināšanu'); }
   }
-
-  function stop() {
-    running = false;
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = 0;
-    lastTime = 0;
-    paint();
+  function stopLoop() {
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0; previousTime = 0;
   }
-
-  function tick(now) {
-    if (!running) { rafId = 0; return; }
+  function tick(t) {
+    if (!running) { stopLoop(); return; }
     const el = lyrics();
-    const tv = stage();
-    if (!el || !tv || getComputedStyle(tv).display === "none") {
-      stop();
-      return;
+    if (!el || !stageOpen()) { stopLoop(); return; }
+    if (previousTime) {
+      const dt = Math.min(60, t - previousTime);
+      const max = Math.max(0, el.scrollHeight - el.clientHeight);
+      // Ātrumi ir lietotāja noteiktie koeficienti: 0,40 / 0,10 / 0,05.
+      // Reizinātājs nodrošina redzamu, bet proporcionāli ļoti lēnu kustību.
+      if (el.scrollTop < max - 1) el.scrollTop = Math.min(max, el.scrollTop + speed * 60 * dt / 1000);
+      else { running = false; paint(); stopLoop(); publish('phone'); return; }
     }
-    if (lastTime) {
-      const dt = Math.min(50, Math.max(0, now - lastTime));
-      const maxScroll = Math.max(0, el.scrollHeight - el.clientHeight);
-      if (maxScroll > 0 && el.scrollTop < maxScroll - 0.5) {
-        // Koeficients ir px/kadrs pie 60 Hz; daļējie pikseļi tiek uzkrāti.
-        fractional += speed * dt * 60 / 1000;
-        const whole = Math.floor(fractional);
-        if (whole > 0) {
-          el.scrollTop = Math.min(maxScroll, el.scrollTop + whole);
-          fractional -= whole;
-        }
-      } else if (maxScroll > 0) {
-        stop();
-        return;
-      }
-    }
-    lastTime = now;
-    rafId = requestAnimationFrame(tick);
+    previousTime = t;
+    frame = requestAnimationFrame(tick);
   }
-
-  function start() {
-    const el = lyrics();
-    const tv = stage();
-    if (!el || !tv || getComputedStyle(tv).display === "none") return;
-    const maxScroll = Math.max(0, el.scrollHeight - el.clientHeight);
-    if (maxScroll <= 0) return;
-    if (el.scrollTop >= maxScroll - 1) {
-      el.scrollTop = 0;
-      fractional = 0;
-    }
-    if (running) return;
-    running = true;
-    lastTime = 0;
+  function startLoop() { if (running && !frame) { previousTime = 0; frame = requestAnimationFrame(tick); } }
+  function publish(source) {
+    if (!window.tvSenderMode || !window.tvRoomCode || !window.ensureTvFirebase || applyingRemote) return;
+    writeQueue = writeQueue.catch(()=>{}).then(async()=>{
+      const dbMod = await window.ensureTvFirebase();
+      const db = window.getTvFirebaseDb?.();
+      if (!db) return;
+      await dbMod.update(dbMod.ref(db,'rooms/'+window.tvRoomCode),{
+        scrollControl:{speed,running,fontSize,source,updatedAt:dbMod.serverTimestamp()}
+      });
+    }).catch(e=>console.warn('TV vadības stāvokļa nosūtīšana neizdevās:',e));
+  }
+  function applyRemote(c) {
+    if (!c || c.source === 'phone') return;
+    applyingRemote = true;
+    if (speeds.includes(Number(c.speed))) speed = Number(c.speed);
+    if (typeof c.running === 'boolean') running = c.running;
+    if (Number.isFinite(Number(c.fontSize))) fontSize = Math.max(28,Math.min(96,Number(c.fontSize)));
     paint();
-    if (!rafId) rafId = requestAnimationFrame(tick);
+    stopLoop(); if (running && stageOpen()) startLoop();
+    applyingRemote = false;
   }
-
-  function setSpeed(value) {
-    const parsed = Number(value);
-    if (![0.40, 0.10, 0.05].includes(parsed)) return;
-    speed = parsed;
-    fractional = 0;
-    paint();
-    // Ātruma pogas vienmēr aktivizē ritināšanu, arī pēc pauzes.
-    start();
+  function change(patch) {
+    if (patch.speed !== undefined && speeds.includes(Number(patch.speed))) speed = Number(patch.speed);
+    if (patch.running !== undefined) running = !!patch.running;
+    if (patch.fontSize !== undefined) fontSize = Math.max(28,Math.min(96,Number(patch.fontSize)));
+    paint(); stopLoop(); if (running && stageOpen()) startLoop();
+    publish('phone');
   }
-
-  function resetToTop() {
-    const el = lyrics();
-    if (el) el.scrollTop = 0;
-    fractional = 0;
-    paint();
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('[data-tv-speed],[data-phone-speed]');
+    if(b){change({speed:Number(b.dataset.tvSpeed ?? b.dataset.phoneSpeed)});return;}
+    if(e.target.closest('#tvScrollPause')||e.target.closest('#phoneScrollPause')){change({running:!running});return;}
+    if(e.target.closest('#tvFontPlus')||e.target.closest('#phoneFontPlus')){change({fontSize:fontSize+4});return;}
+    if(e.target.closest('#tvFontMinus')||e.target.closest('#phoneFontMinus')){change({fontSize:fontSize-4});return;}
+    if(e.target.closest('#tvScrollStart')){const el=lyrics();if(el)el.scrollTo({top:0,behavior:'smooth'});}
+  });
+  window.setTvRemoteActive = function(active) {
+    remoteActive = !!active;
+    const panel=$('tvPhoneControls');
+    if(panel) panel.style.display=remoteActive?'flex':'none';
+    if(remoteActive) { paint(); publish('phone'); }
+  };
+  if(window.tvSenderMode && window.tvRoomCode && window.ensureTvFirebase) {
+    window.ensureTvFirebase().then(dbMod=>{
+      const db=window.getTvFirebaseDb?.();
+      if(!db)return;
+      dbMod.onValue(dbMod.ref(db,'rooms/'+window.tvRoomCode+'/scrollControl'),snap=>applyRemote(snap.val()));
+    }).catch(e=>console.warn('TV vadības klausītāju neizdevās pieslēgt:',e));
   }
-
-  // Vienīgais klikšķu apstrādātājs — uztver arī pogas, kas jau ir lapā.
-  document.addEventListener("click", function (event) {
-    const button = event.target && event.target.closest
-      ? event.target.closest("#tvScrollControls button")
-      : null;
-    if (!button) return;
-    event.preventDefault();
-    event.stopPropagation();
-    if (button.hasAttribute("data-tv-speed")) {
-      setSpeed(button.getAttribute("data-tv-speed"));
-    } else if (button.id === "tvScrollPause") {
-      if (running) stop(); else start();
-    } else if (button.id === "tvScrollStart") {
-      stop();
-      resetToTop();
-    }
-  }, true);
-
-  // Atverot TV teksta logu, sākuma stāvoklis ir pauze.
-  const originalCast = window.triggerCast;
-  if (typeof originalCast === "function") {
-    window.triggerCast = async function () {
-      const result = await originalCast.apply(this, arguments);
-      stop();
-      resetToTop();
-      return result;
-    };
-  }
-  const originalClose = window.closeTvStage;
-  if (typeof originalClose === "function") {
-    window.closeTvStage = function () {
-      stop();
-      return originalClose.apply(this, arguments);
-    };
-  }
-  window.addEventListener("pagehide", stop);
+  const oldOpen=window.triggerCast;
+  if(typeof oldOpen==='function') window.triggerCast=async function(){const r=await oldOpen.apply(this,arguments);if(stageOpen()){running=false;paint();}return r;};
+  const oldClose=window.closeTvStage;
+  if(typeof oldClose==='function') window.closeTvStage=function(){running=false;stopLoop();return oldClose.apply(this,arguments);};
+  window.addEventListener('pagehide',stopLoop);
   paint();
-})();
-</script>
+})();</script>
 </body></html>
