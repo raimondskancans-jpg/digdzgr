@@ -1,1 +1,272 @@
-<!doctype html><html lang="lv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dziesmu grāmata — TV</title><style>*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#000;color:#fff;font-family:Arial,sans-serif}main{min-height:100vh;padding:3vh 5vw;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:1vh}h1{font-size:clamp(22px,3.5vw,48px);margin:0 0 1vh;max-width:100%;overflow-wrap:anywhere}#lyrics{font-size:clamp(18px,3vw,44px);line-height:1.35;white-space:pre-wrap;width:100%;max-height:76vh;overflow-y:auto;overflow-x:hidden;overflow-wrap:anywhere;scrollbar-width:thin}#setup{max-width:560px}#qr{width:min(38vh,280px);height:min(38vh,280px);background:white;padding:10px;display:block;margin:16px auto}#status{color:#aaa;font-size:14px}</style></head><body><main><h1 id="title">Mana dziesmu grāmata</h1><div id="lyrics">Sagatavo TV savienojumu…</div><section id="setup"><p>Noskenē QR kodu ar telefona kameru.</p><img id="qr" alt="Savienojuma QR kods" hidden><p id="setupmsg">Veido savienojumu…</p><small id="room"></small></section><p id="status">TV savienojas…</p></main><script type="module">import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";import{getAuth,signInAnonymously}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";import{getDatabase,ref,push,set,onValue,serverTimestamp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";const firebaseConfig={apiKey:"AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs",authDomain:"digitala-dziesmu-gramata.firebaseapp.com",databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",projectId:"digitala-dziesmu-gramata",appId:"1:312876098365:web:1c0dba179b3996c7409b54"};const $=x=>document.getElementById(x);function fitLyrics(){const el=$("lyrics");if(!el||!el.textContent.trim())return;let size=Math.min(window.innerWidth*0.032,44);size=Math.max(size,18);el.style.fontSize=size+"px";for(let i=0;i<30&&size>18&&(el.scrollHeight>el.clientHeight+2||el.scrollWidth>el.clientWidth+2);i++){size-=1;el.style.fontSize=size+"px"}}window.addEventListener("resize",fitLyrics);try{const app=initializeApp(firebaseConfig);await signInAnonymously(getAuth(app));const db=getDatabase(app),rr=push(ref(db,"rooms"));await set(rr,{title:"Mana dziesmu grāmata",lyrics:"Gaidām dziesmu no telefona…",updatedAt:serverTimestamp()});const room=rr.key;const u=new URL("songbook-controller.html",location.href);u.searchParams.set("room",room);$("qr").src="https://api.qrserver.com/v1/create-qr-code/?size=420x420&data="+encodeURIComponent(u.href);$("qr").hidden=false;$("setupmsg").textContent="Atver telefona kameru un noskenē QR kodu.";$("room").textContent="TV telpas kods: "+room;onValue(ref(db,"rooms/"+room),s=>{const d=s.val();if(!d)return;const active=!!(d.lyrics&&d.lyrics.trim()&&d.lyrics!=="Gaidām dziesmu no telefona…");$("title").textContent=d.title||"Mana dziesmu grāmata";$("lyrics").textContent=d.lyrics||"Gaidām dziesmu no telefona…";requestAnimationFrame(fitLyrics);$("setup").style.display=active?"none":"block";$("status").textContent=active?"Savienots — teksts atjaunojas automātiski":"Gaidām dziesmu no telefona…"});}catch(e){$("setupmsg").textContent="Savienojuma kļūda: "+(e.message||e);$("status").textContent="Pārbaudi interneta savienojumu un Firebase."}</script></body></html>
+<!doctype html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dziesmu grāmata — TV</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#000;color:#fff;font-family:Arial,sans-serif;overflow:hidden}
+main{position:relative;width:100%;height:100vh;height:100dvh;min-height:100%;padding:3vh 5vw;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:1vh;overflow:hidden}
+main.waiting #lyrics{display:none}
+main.waiting #setup{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2vh;width:100%;max-width:560px}
+main.waiting #setup p{margin:0}
+main.waiting #qr{width:min(34vh,260px);height:min(34vh,260px);max-width:72vw;max-height:34vh;object-fit:contain;margin:1vh auto;padding:8px}
+main.waiting #setupmsg{max-width:100%;overflow-wrap:anywhere}
+h1{font-size:clamp(22px,3.5vw,48px);margin:0 0 1vh;max-width:100%;overflow-wrap:anywhere}
+#lyrics{font-size:44px;line-height:1.32;white-space:pre-wrap;width:100%;height:76vh;max-height:76vh;overflow-y:auto;overflow-x:hidden;overflow-wrap:anywhere;scrollbar-width:thin;scroll-behavior:auto;padding:0 76px 8vh;text-align:center}
+#setup{max-width:560px}
+#qr{width:min(38vh,280px);height:min(38vh,280px);background:white;padding:10px;display:block;margin:16px auto}
+#status{position:absolute;left:12px;bottom:8px;color:#777;font-size:12px}
+.tv-controls{position:fixed;top:50%;transform:translateY(-50%);z-index:10;display:none;flex-direction:column;pointer-events:auto;touch-action:manipulation;align-items:center;gap:9px;padding:10px 7px;border:1px solid rgba(255,255,255,.22);border-radius:18px;background:rgba(28,28,28,.92);backdrop-filter:blur(8px)}
+#fontControls{left:12px}
+#scrollControls{right:12px}
+.tv-controls button{width:52px;height:48px;border:1px solid rgba(255,255,255,.24);border-radius:12px;background:rgba(255,255,255,.10);color:#fff;font-size:21px;font-weight:800;cursor:pointer}
+.tv-controls button:active{background:rgba(255,255,255,.28)}
+.tv-controls button[aria-pressed="true"]{background:#8f1726;border-color:#ffd166}
+.tv-controls span{color:#ddd;font-size:10px;font-weight:700;letter-spacing:.04em}
+#scrollStatus{max-width:62px;text-align:center;line-height:1.2}
+@media(max-width:700px){
+  main{padding:2vh 2vw}
+  #lyrics{font-size:30px;padding-left:62px;padding-right:62px}
+  .tv-controls{padding:7px 5px;gap:6px}
+  .tv-controls button{width:44px;height:43px;font-size:18px}
+  #fontControls{left:5px}
+  #scrollControls{right:5px}
+}
+</style>
+</head>
+<body>
+<main id="screen" class="waiting">
+  <h1 id="title">Mana dziesmu grāmata</h1>
+  <div id="lyrics">Sagatavo TV savienojumu…</div>
+
+  <section id="setup">
+    <p>Noskenē QR kodu ar telefona kameru.</p>
+    <img id="qr" alt="Savienojuma QR kods" hidden>
+    <p id="setupmsg">Veido savienojumu…</p>
+    <small id="room"></small>
+  </section>
+
+  <div class="tv-controls" id="fontControls" aria-label="TV burtu lielums">
+    <button type="button" id="fontPlus" aria-label="Palielināt burtus" title="Palielināt burtus">A+</button>
+    <span>BURTI</span>
+    <button type="button" id="fontMinus" aria-label="Samazināt burtus" title="Samazināt burtus">A−</button>
+  </div>
+
+  <div class="tv-controls" id="scrollControls" aria-label="TV teksta ritināšana">
+    <button type="button" data-speed="0.4" aria-label="Zaķis — 0,40" title="Zaķis 0,40" aria-pressed="false">🐇</button>
+    <button type="button" data-speed="0.1" aria-label="Bruņurupucis — 0,10" title="Bruņurupucis 0,10" aria-pressed="true">🐢</button>
+    <button type="button" data-speed="0.05" aria-label="Gliemezis — 0,05" title="Gliemezis 0,05" aria-pressed="false">🐌</button>
+    <span id="scrollStatus">PAUZE</span>
+    <button type="button" id="pause" aria-label="Turpināt ritināšanu" title="Turpināt ritināšanu">▶</button>
+  </div>
+
+  <p id="status">TV savienojas…</p>
+</main>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import {getDatabase,ref,push,set,update,onValue,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyA5AxDnEhA3kYFuTxscoQj0AC9lLKO-nRs",
+  authDomain:"digitala-dziesmu-gramata.firebaseapp.com",
+  databaseURL:"https://digitala-dziesmu-gramata-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"digitala-dziesmu-gramata",
+  appId:"1:312876098365:web:1c0dba179b3996c7409b54"
+};
+const $ = id => document.getElementById(id);
+const speedLabels = {"0.4":"ZAĶIS","0.1":"BRUŅURUPUCIS","0.05":"GLIEMEZIS"};
+const validSpeeds = [0.4,0.1,0.05];
+const clientId = (crypto.randomUUID ? crypto.randomUUID() : "tv-"+Date.now()+"-"+Math.random().toString(36).slice(2));
+
+let db = null;
+let room = "";
+let active = false;
+let speed = 0.1;
+let running = false;
+let fontSize = 56;
+let frame = 0;
+let previousTime = 0;
+let pixelRemainder = 0;
+let applyingRemote = false;
+let lastLyrics = "";
+let writeQueue = Promise.resolve();
+
+function lyricsElement(){return $("lyrics");}
+
+function updateControls(){
+  document.querySelectorAll("[data-speed]").forEach(button=>{
+    button.setAttribute("aria-pressed",String(Number(button.dataset.speed)===speed));
+  });
+  const pause=$("pause");
+  pause.textContent=running?"Ⅱ":"▶";
+  pause.setAttribute("aria-label",running?"Apturēt ritināšanu":"Turpināt ritināšanu");
+  pause.title=running?"Pauze":"Turpināt";
+  $("scrollStatus").textContent=running?speedLabels[String(speed)]:"PAUZE";
+  $("lyrics").style.fontSize=fontSize+"px";
+}
+
+function showControls(show){
+  $("fontControls").style.display=show?"flex":"none";
+  $("scrollControls").style.display=show?"flex":"none";
+}
+
+function stopLoop(){
+  if(frame) cancelAnimationFrame(frame);
+  frame=0;
+  previousTime=0;
+}
+
+function startLoop(){
+  if(!active||!running||frame) return;
+  previousTime=0;
+  frame=requestAnimationFrame(tick);
+}
+
+function tick(timestamp){
+  if(!active||!running){stopLoop();return;}
+  const el=lyricsElement();
+  if(!el){stopLoop();return;}
+  if(previousTime){
+    const dt=Math.min(60,timestamp-previousTime);
+    const max=Math.max(0,el.scrollHeight-el.clientHeight);
+    if(el.scrollTop<max-1){
+      const movement=speed*60*dt/1000+pixelRemainder;
+      const wholePixels=Math.floor(movement);
+      pixelRemainder=movement-wholePixels;
+      if(wholePixels>0) el.scrollTop=Math.min(max,el.scrollTop+wholePixels);
+    }else{
+      running=false;
+      pixelRemainder=0;
+      updateControls();
+      stopLoop();
+      publishControl("tv");
+      return;
+    }
+  }
+  previousTime=timestamp;
+  frame=requestAnimationFrame(tick);
+}
+
+function applyControl(control){
+  if(!control) return;
+  if(control.source==="tv" && control.sourceId===clientId) return;
+  applyingRemote=true;
+  const nextSpeed=Number(control.speed);
+  if(validSpeeds.includes(nextSpeed) && nextSpeed!==speed){
+    speed=nextSpeed;
+    pixelRemainder=0;
+  }
+  if(typeof control.running==="boolean") running=control.running;
+  const nextFont=Number(control.fontSize);
+  if(Number.isFinite(nextFont)) fontSize=Math.max(28,Math.min(96,nextFont));
+  updateControls();
+  stopLoop();
+  if(running) startLoop();
+  applyingRemote=false;
+}
+
+function publishControl(source){
+  if(!db||!room||applyingRemote) return;
+  const payload={
+    scrollControl:{
+      speed,
+      running,
+      fontSize,
+      source,
+      sourceId:source==="tv"?clientId:"phone",
+      updatedAt:serverTimestamp()
+    }
+  };
+  writeQueue=writeQueue.catch(()=>{}).then(()=>update(ref(db,"rooms/"+room),payload))
+    .catch(error=>console.warn("TV vadības stāvokli neizdevās nosūtīt:",error));
+}
+
+function changeControl(patch){
+  if(patch.speed!==undefined){
+    const next=Number(patch.speed);
+    if(validSpeeds.includes(next)&&next!==speed){speed=next;pixelRemainder=0;}
+  }
+  if(patch.running!==undefined) running=!!patch.running;
+  if(patch.fontSize!==undefined) fontSize=Math.max(28,Math.min(96,Number(patch.fontSize)));
+  updateControls();
+  stopLoop();
+  if(running) startLoop();
+  publishControl("tv");
+}
+
+document.addEventListener("click",event=>{
+  const speedButton=event.target.closest("[data-speed]");
+  if(speedButton){changeControl({speed:Number(speedButton.dataset.speed)});return;}
+  if(event.target.closest("#pause")){changeControl({running:!running});return;}
+  if(event.target.closest("#fontPlus")){changeControl({fontSize:fontSize+4});return;}
+  if(event.target.closest("#fontMinus")){changeControl({fontSize:fontSize-4});return;}
+});
+
+try{
+  const app=initializeApp(firebaseConfig,"songbook-tv-receiver");
+  await signInAnonymously(getAuth(app));
+  db=getDatabase(app);
+
+  const roomRef=push(ref(db,"rooms"));
+  await set(roomRef,{
+    title:"Mana dziesmu grāmata",
+    lyrics:"Gaidām dziesmu no telefona…",
+    scrollControl:{speed,running,fontSize,source:"tv",sourceId:clientId,updatedAt:serverTimestamp()},
+    updatedAt:serverTimestamp()
+  });
+  room=roomRef.key;
+
+  const controllerUrl=new URL("songbook-controller.html",location.href);
+  controllerUrl.searchParams.set("room",room);
+  $("qr").src="https://api.qrserver.com/v1/create-qr-code/?size=420x420&data="+encodeURIComponent(controllerUrl.href);
+  $("qr").hidden=false;
+  $("setupmsg").textContent="Atver telefona kameru un noskenē QR kodu.";
+  $("room").textContent="TV telpas kods: "+room;
+
+  onValue(ref(db,"rooms/"+room),snapshot=>{
+    const data=snapshot.val();
+    if(!data) return;
+    const nextTitle=data.title||"Mana dziesmu grāmata";
+    const nextLyrics=data.lyrics||"Gaidām dziesmu no telefona…";
+    const nextActive=!!(nextLyrics.trim()&&nextLyrics!=="Gaidām dziesmu no telefona…"&&nextLyrics!=="Teksts vēl nav pievienots.");
+    $("title").textContent=nextTitle;
+    if(nextLyrics!==lastLyrics){
+      lastLyrics=nextLyrics;
+      $("lyrics").textContent=nextLyrics;
+      $("lyrics").scrollTop=0;
+      pixelRemainder=0;
+      if(nextActive){
+        running=false;
+        stopLoop();
+        pixelRemainder=0;
+        updateControls();
+      }
+    }
+    active=nextActive;
+    showControls(active);
+    updateControls();
+    $("setup").style.display=active?"none":"flex";
+    $("screen").classList.toggle("waiting",!active);
+    if(!active){
+      running=false;
+      stopLoop();
+      updateControls();
+    }
+    $("status").textContent=active?"Savienots — teksts atjaunojas automātiski":"Gaidām dziesmu no telefona…";
+  });
+
+  onValue(ref(db,"rooms/"+room+"/scrollControl"),snapshot=>{
+    applyControl(snapshot.val());
+  });
+
+}catch(error){
+  $("setupmsg").textContent="Savienojuma kļūda: "+(error.message||error);
+  $("status").textContent="Pārbaudi interneta savienojumu un Firebase.";
+}
+</script>
+</body>
+</html>
